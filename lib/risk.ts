@@ -1,6 +1,9 @@
+import { getComplianceConfig } from '@/lib/compliance-config';
+
 export type Corridor = 'CU-CU'|'CU-WORLD'|'WORLD-CU'|'CU-US'|'WORLD-WORLD';
 export type SanctionsState = 'CLEAR'|'PENDING'|'REVIEW'|'BLOCKED'|'ERROR';
 export type Decision = 'ALLOW_WITH_CONTROLS'|'REVIEW'|'HOLD'|'BLOCK';
+export type RiskBand = 'LOW'|'MEDIUM'|'HIGH'|'PROHIBITED';
 
 export type RiskInput = {
   originCountry: string;
@@ -23,12 +26,16 @@ export type RiskInput = {
 
 export type RiskResult = {
   corridor: Corridor;
-  riskBand: 'LOW'|'MEDIUM'|'HIGH'|'PROHIBITED';
+  riskBand: RiskBand;
   decision: Decision;
+  configuredAction: string;
+  humanReviewRequired: boolean;
   reasons: string[];
   evidenceRequirements: string[];
   remittanceEffect: 'LOWER_ANOMALY_WEIGHT_ONLY'|'NONE';
-  policyVersion: 'mycubacash-policy-v2';
+  policyVersion: string;
+  sanctionsPolicyVersion: string;
+  auditPolicyVersion: string;
 };
 
 export function corridorOf(originCountry: string, destinationCountry: string, usNexus=false): Corridor {
@@ -40,17 +47,50 @@ export function corridorOf(originCountry: string, destinationCountry: string, us
   return 'WORLD-WORLD';
 }
 
+function finalize(
+  corridor:Corridor,
+  riskBand:RiskBand,
+  decision:Decision,
+  reasons:string[],
+  evidenceRequirements:string[],
+  remittanceEffect:'LOWER_ANOMALY_WEIGHT_ONLY'|'NONE'
+):RiskResult{
+  const {policy,sanctions,audit}=getComplianceConfig();
+  const band=policy.decision_bands[riskBand];
+  return {
+    corridor,
+    riskBand,
+    decision,
+    configuredAction:band.action,
+    humanReviewRequired:!!band.human_review_required,
+    reasons,
+    evidenceRequirements:[...new Set(evidenceRequirements)],
+    remittanceEffect,
+    policyVersion:policy.version,
+    sanctionsPolicyVersion:sanctions.version,
+    auditPolicyVersion:audit.version
+  };
+}
+
 export function evaluateRisk(input: RiskInput): RiskResult {
+  const {sanctions}=getComplianceConfig();
   const corridor=corridorOf(input.originCountry,input.destinationCountry,!!input.usNexus);
-  const sanctions=input.sanctionsState??'PENDING';
+  const sanctionsState=input.sanctionsState??'PENDING';
   const reasons:string[]=[];
   const evidenceRequirements:string[]=[];
   const stable=!!input.stableFamilyRemittancePattern&&!!input.recurringRecipient;
 
-  if(sanctions==='BLOCKED') return {corridor,riskBand:'PROHIBITED',decision:'BLOCK',reasons:['SANCTIONS_BLOCK'],evidenceRequirements:['AUTHORITATIVE_SANCTIONS_EVIDENCE'],remittanceEffect:'NONE',policyVersion:'mycubacash-policy-v2'};
-  if(['PENDING','REVIEW','ERROR'].includes(sanctions)) return {corridor,riskBand:'HIGH',decision:'HOLD',reasons:[`SANCTIONS_${sanctions}`],evidenceRequirements:['CURRENT_AUTHORITATIVE_SANCTIONS_RESULT'],remittanceEffect:'NONE',policyVersion:'mycubacash-policy-v2'};
+  if(sanctionsState==='BLOCKED'){
+    return finalize(corridor,'PROHIBITED','BLOCK',['SANCTIONS_BLOCK'],['AUTHORITATIVE_SANCTIONS_EVIDENCE'],'NONE');
+  }
+  if(['PENDING','REVIEW','ERROR'].includes(sanctionsState)){
+    return finalize(corridor,'HIGH','HOLD',[`SANCTIONS_${sanctionsState}`],['CURRENT_AUTHORITATIVE_SANCTIONS_RESULT'],'NONE');
+  }
 
-  if(!input.sanctionsEvidenceCurrent){ reasons.push('SANCTIONS_EVIDENCE_NOT_CURRENT'); evidenceRequirements.push('CURRENT_AUTHORITATIVE_SANCTIONS_RESULT'); }
+  if(sanctions.sanctions_screening.source_policy.require_current_authoritative_source&&!input.sanctionsEvidenceCurrent){
+    reasons.push('SANCTIONS_EVIDENCE_NOT_CURRENT');
+    evidenceRequirements.push('CURRENT_AUTHORITATIVE_SANCTIONS_RESULT');
+  }
   if(!input.jurisdictionReviewCurrent){ reasons.push('JURISDICTION_REVIEW_REQUIRED'); evidenceRequirements.push('CURRENT_JURISDICTION_RULE_SOURCE'); }
   if(!input.kycKybVerified){ reasons.push('KYC_KYB_REQUIRED'); evidenceRequirements.push('IDENTITY_OR_BUSINESS_VERIFICATION'); }
   if(!input.beneficialOwnershipVerified){ reasons.push('BENEFICIAL_OWNERSHIP_REQUIRED'); evidenceRequirements.push('BENEFICIAL_OWNERSHIP_EVIDENCE'); }
@@ -59,7 +99,7 @@ export function evaluateRisk(input: RiskInput): RiskResult {
   if(input.structuringIndicator) reasons.push('STRUCTURING_INDICATOR');
   if(corridor==='CU-US'&&!input.productControlReviewComplete){ reasons.push('US_PRODUCT_CONTROL_REVIEW_REQUIRED'); evidenceRequirements.push('CURRENT_PRODUCT_AND_EXPORT_CONTROL_REVIEW'); }
 
-  if(reasons.length) return {corridor,riskBand:'HIGH',decision:'HOLD',reasons,evidenceRequirements:[...new Set(evidenceRequirements)],remittanceEffect:stable?'LOWER_ANOMALY_WEIGHT_ONLY':'NONE',policyVersion:'mycubacash-policy-v2'};
-  if(input.transactionAnomaly&&!stable) return {corridor,riskBand:'MEDIUM',decision:'REVIEW',reasons:['TRANSACTION_ANOMALY'],evidenceRequirements:['TRANSACTION_CONTEXT_REVIEW'],remittanceEffect:'NONE',policyVersion:'mycubacash-policy-v2'};
-  return {corridor,riskBand:stable?'LOW':'MEDIUM',decision:'ALLOW_WITH_CONTROLS',reasons:['CONTROLS_SATISFIED'],evidenceRequirements:[],remittanceEffect:stable?'LOWER_ANOMALY_WEIGHT_ONLY':'NONE',policyVersion:'mycubacash-policy-v2'};
+  if(reasons.length) return finalize(corridor,'HIGH','HOLD',reasons,evidenceRequirements,stable?'LOWER_ANOMALY_WEIGHT_ONLY':'NONE');
+  if(input.transactionAnomaly&&!stable) return finalize(corridor,'MEDIUM','REVIEW',['TRANSACTION_ANOMALY'],['TRANSACTION_CONTEXT_REVIEW'],'NONE');
+  return finalize(corridor,stable?'LOW':'MEDIUM','ALLOW_WITH_CONTROLS',['CONTROLS_SATISFIED'],[],stable?'LOWER_ANOMALY_WEIGHT_ONLY':'NONE');
 }

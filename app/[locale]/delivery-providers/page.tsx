@@ -1,5 +1,6 @@
 import { supabaseServer } from '@/lib/supabase/server';
 import { localeOf } from '@/lib/i18n';
+import { APP_COMMUNICATIONS, whatsappUrl } from '@/lib/communications';
 
 function formatTime(value:string|null){
   if(!value) return 'Flexible';
@@ -11,18 +12,28 @@ function formatTime(value:string|null){
 export default async function DeliveryProviders({params}:{params:Promise<{locale:string}>}){
   const {locale:raw}=await params;
   const locale=localeOf(raw);
-  const supabase=await supabaseServer();
-  const {data:providers,error}=await supabase
-    .from('delivery_provider_public_directory')
-    .select('public_provider_id,provider_kind,display_name,city,region,country_code,service_zones,service_area,work_days,work_start,work_end,transport_mode,verified')
-    .eq('verified',true)
-    .order('city',{ascending:true})
-    .order('display_name',{ascending:true});
+  const channels=APP_COMMUNICATIONS;
+  let providers:any[]=[];
+  let unavailable=false;
+  try{
+    const supabase=await supabaseServer();
+    const {data,error}=await supabase
+      .from('delivery_provider_public_directory')
+      .select('public_provider_id,provider_kind,display_name,city,region,country_code,service_zones,service_area,work_days,work_start,work_end,transport_mode,verified')
+      .eq('verified',true)
+      .order('city',{ascending:true})
+      .order('display_name',{ascending:true});
+    if(error) unavailable=true;
+    else providers=data??[];
+  }catch{
+    unavailable=true;
+  }
 
   return <main className="shell" dir={locale==='ar'?'rtl':'ltr'}>
     <nav className="nav">
       <a href={`/${locale}`} className="brandwrap"><div className="brand">mycubacash.com</div><small>Delivery Network</small></a>
       <div className="navlinks"><a href={`/${locale}/remittances`}>Remittances</a><a href={`/${locale}/marketplace`}>Marketplace</a><a href={`/${locale}/dashboard`}>Dashboard</a></div>
+      <a className="miniCta" href={whatsappUrl(channels.whatsappPrimary.e164)}>WhatsApp Business Sofia</a>
     </nav>
 
     <section className="hero">
@@ -30,6 +41,7 @@ export default async function DeliveryProviders({params}:{params:Promise<{locale
         <div className="eyebrow">VERIFIED PRIVATE-SECTOR DELIVERY NETWORK</div>
         <h1>Find a verified delivery provider by city, zone and schedule.</h1>
         <p className="heroLead">Every listed provider has a mycubacash identification number. Public profiles show operational coverage and working hours while keeping phone numbers, exact addresses and payment information private.</p>
+        <div className="actions"><a className="cta" href={whatsappUrl(channels.whatsappPrimary.e164)}>Apply as a Delivery Provider</a><a className="ghost" href={whatsappUrl(channels.whatsappPrimary.e164)}>Request Delivery with Sofia</a></div>
       </div>
       <aside className="commandPreview" aria-label="Delivery directory privacy">
         <div className="previewTop"><span className="liveDot"/> Public Directory <span className="previewTag">PRIVACY-SAFE</span></div>
@@ -43,9 +55,9 @@ export default async function DeliveryProviders({params}:{params:Promise<{locale
     </section>
 
     <section className="section">
-      <div className="sectionHead"><div><span className="eyebrow">DELIVERY PROVIDERS</span><h2>Verified network directory</h2></div><p>Contact and job coordination remain inside mycubacash and Sofia. The public directory intentionally does not expose provider phone numbers.</p></div>
-      {error?<p>Unable to load the delivery provider directory.</p>:
-      !providers?.length?<p>No verified public delivery providers are listed yet.</p>:
+      <div className="sectionHead"><div><span className="eyebrow">DELIVERY PROVIDERS</span><h2>Verified network directory</h2></div><p>Contact, onboarding and job coordination remain inside mycubacash and Sofia. The public directory intentionally does not expose provider phone numbers.</p></div>
+      {unavailable?<p>The delivery directory is temporarily unavailable. Contact Sofia on WhatsApp Business for assistance.</p>:
+      !providers.length?<div><p>No verified public delivery providers are listed yet.</p><div className="actions"><a className="cta" href={whatsappUrl(channels.whatsappPrimary.e164)}>Become the first verified provider in your area</a></div></div>:
       <div className="featureGrid">{providers.map((provider)=><article className="feature" key={provider.public_provider_id}>
         <div className="icon">D</div>
         <h3>{provider.display_name}</h3>

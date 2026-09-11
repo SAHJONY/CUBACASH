@@ -1,0 +1,20 @@
+version: mycubacash-audit-v1
+audit_logging:
+  decision_capture:
+    record_authorizing_human: true
+    record_authorizing_agent: true
+    record_decision_rationale: true
+    record_model_version: true
+    record_override_history: true
+    record_source_evidence: true
+    immutable_event_required: true
+  minimum_fields:
+    - decision_id
+    - policy_version
+    - model_version
+    - source_evidence_refs
+    - decision_band
+    - action
+    - reasons
+    - override_history
+    - authorized_reviewer_when_required

@@ -33,6 +33,9 @@ create table if not exists public.sofia_order_intakes (
 create index if not exists idx_sofia_order_intakes_created on public.sofia_order_intakes(created_at desc);
 create index if not exists idx_sofia_order_intakes_channel on public.sofia_order_intakes(channel,intake_status);
 create index if not exists idx_sofia_order_intakes_phone on public.sofia_order_intakes(sender_phone);
+create unique index if not exists idx_sofia_order_intakes_external_reference
+  on public.sofia_order_intakes(external_reference)
+  where external_reference is not null;
 
 alter table public.sofia_order_intakes enable row level security;
 

@@ -24,7 +24,7 @@ export default async function CommandCenter({params}:{params:Promise<{locale:str
       .limit(250),
     supabase
       .from('sofia_order_intakes')
-      .select('id,platform_transaction_reference,channel,sender_full_name,sender_phone,sender_country_code,beneficiary_full_name,beneficiary_phone,receiver_whatsapp_phone,receiver_telegram_handle,receiver_phone,receiver_confirmation_channel,receiver_confirmed_at,request_type,requested_amount,requested_currency,requested_fulfillment,payment_preference,payment_status,delivery_requested,selected_business_id,selected_delivery_provider_user_id,intake_status,auto_closed_at,closed_by,created_at')
+      .select('id,platform_transaction_reference,channel,sender_full_name,sender_phone,sender_country_code,beneficiary_full_name,beneficiary_phone,receiver_whatsapp_phone,receiver_phone,receiver_confirmation_channel,receiver_confirmed_at,request_type,requested_amount,requested_currency,requested_fulfillment,payment_preference,payment_status,delivery_requested,selected_business_id,selected_delivery_provider_user_id,intake_status,auto_closed_at,closed_by,created_at')
       .order('created_at',{ascending:false})
       .limit(250),
     supabase
@@ -41,16 +41,16 @@ export default async function CommandCenter({params}:{params:Promise<{locale:str
     </nav>
 
     <section className="section">
-      <div className="sectionHead"><div><span className="eyebrow">SOFIA · OWNER ONLY</span><h1>WhatsApp · Telegram · Phone Orders</h1></div><p>Sofia records sender and receiver contact channels, payment preference and fulfillment state. Every order receives a mycubacash transaction reference so the sender, receiver, business, delivery provider and application remain tied to one system-of-record transaction.</p></div>
+      <div className="sectionHead"><div><span className="eyebrow">SOFIA · OWNER ONLY</span><h1>WhatsApp · Phone Orders</h1></div><p>Sofia records sender and receiver contact channels, payment preference and fulfillment state. Every order receives a mycubacash transaction reference so the sender, receiver, business, delivery provider and application remain tied to one system-of-record transaction.</p></div>
       {intakeError?<p>Unable to load Sofia intake records.</p>:
       <div className="featureGrid">{(intakes??[]).map((item)=><article className="feature" key={item.id}>
-        <div className="icon">{item.channel==='WHATSAPP'?'W':item.channel==='TELEGRAM'?'T':'P'}</div>
+        <div className="icon">{item.channel==='WHATSAPP'?'W':'P'}</div>
         <h3>{item.sender_full_name}</h3>
         <p><strong>mycubacash ID:</strong> {item.platform_transaction_reference??'Pending assignment'}</p>
         <p><strong>Channel:</strong> {item.channel} · <strong>Sender phone:</strong> {item.sender_phone}</p>
         <p><strong>Request:</strong> {item.request_type}{item.requested_amount?` · ${item.requested_amount} ${item.requested_currency}`:''}</p>
         {item.beneficiary_full_name&&<p><strong>Beneficiary:</strong> {item.beneficiary_full_name}{item.beneficiary_phone?` · ${item.beneficiary_phone}`:''}</p>}
-        <p><strong>Receiver contacts:</strong> {[item.receiver_whatsapp_phone&&`WhatsApp ${item.receiver_whatsapp_phone}`,item.receiver_telegram_handle&&`Telegram ${item.receiver_telegram_handle}`,item.receiver_phone&&`Phone ${item.receiver_phone}`].filter(Boolean).join(' · ')||'Not bound'}</p>
+        <p><strong>Receiver contacts:</strong> {[item.receiver_whatsapp_phone&&`WhatsApp ${item.receiver_whatsapp_phone}`,item.receiver_phone&&`Phone ${item.receiver_phone}`].filter(Boolean).join(' · ')||'Not bound'}</p>
         <p><strong>Receiver confirmation:</strong> {item.receiver_confirmed_at?`${item.receiver_confirmation_channel} · ${new Date(item.receiver_confirmed_at).toLocaleString()}`:'PENDING'}</p>
         <p><strong>Receiver choice:</strong> {item.requested_fulfillment??'UNDECIDED'} · <strong>Delivery:</strong> {item.delivery_requested?'YES':'NO'}</p>
         <p><strong>Payment preference:</strong> {item.payment_preference??'UNDECIDED'} · <strong>Payment status:</strong> {item.payment_status}</p>

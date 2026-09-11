@@ -14,6 +14,13 @@ const business=[
   ['Business reconciliation','Match provider settlement, fees and delivered amount against the expected commercial payment.']
 ] as const;
 
+const crypto=[
+  ['USDC','Ethereum · Solana'],
+  ['USDT','Ethereum · Solana'],
+  ['BTC','Bitcoin'],
+  ['ETH','Ethereum']
+] as const;
+
 export default async function Remittances({params}:{params:Promise<{locale:string}>}){
   const {locale:raw}=await params;
   const locale=localeOf(raw);
@@ -31,16 +38,16 @@ export default async function Remittances({params}:{params:Promise<{locale:strin
         <div className="eyebrow">FAMILY + BUSINESS REMITTANCE OS</div>
         <h1>Send support. Pay businesses. Keep every transfer traceable.</h1>
         <p className="heroLead">mycubacash separates family remittances from private-business payments so each flow can use the right beneficiary, evidence, compliance and partner route.</p>
-        <p className="heroSub">The platform orchestrates the customer experience, records and controls. Actual funds movement is activated only through appropriately authorized providers for the applicable corridor.</p>
+        <p className="heroSub">Fiat and approved crypto can be offered as funding or settlement preferences where an appropriately authorized provider supports the corridor. mycubacash does not take custody of crypto; platform revenue remains USD-denominated.</p>
         <div className="actions"><a className="cta" href="#family">Family remittance</a><a className="ghost" href="#business">Business remittance</a></div>
       </div>
       <aside className="commandPreview" aria-label="Remittance overview">
         <div className="previewTop"><span className="liveDot"/> Remittance Control <span className="previewTag">FAIL-CLOSED</span></div>
         <div className="previewGrid">
           <div><span>Primary flows</span><strong>FAMILY + BUSINESS</strong></div>
+          <div><span>Funding options</span><strong>FIAT + APPROVED CRYPTO</strong></div>
           <div><span>Funds movement</span><strong>PARTNER-ROUTED</strong></div>
-          <div><span>Customer clearance</span><strong>NOT SELF-ASSERTED</strong></div>
-          <div><span>Audit trail</span><strong>PRESERVED</strong></div>
+          <div><span>Platform fees</span><strong>USD ONLY</strong></div>
         </div>
       </aside>
     </section>
@@ -55,7 +62,12 @@ export default async function Remittances({params}:{params:Promise<{locale:strin
       <div className="featureGrid">{business.map(([title,description],i)=><article className="feature" key={title}><div className="icon">B{String(i+1).padStart(2,'0')}</div><h3>{title}</h3><p>{description}</p><div className="featureMeta">BUSINESS FLOW</div></article>)}</div>
     </section>
 
-    <section className="policyBlock"><div><span className="eyebrow">CORE RULE</span><h2>Family and business are never silently mixed</h2></div><p>Each transfer is explicitly classified as FAMILY or BUSINESS before routing. Customer input cannot mark sanctions evidence, authorized review or compliance clearance as complete. Trusted evidence and authorized review determine whether an intent may advance to an authorized partner.</p></section>
-    <footer className="footer"><strong>mycubacash.com</strong><span>Family + Business Remittance Platform</span><span>v0.6</span></footer>
+    <section className="section" id="crypto">
+      <div className="sectionHead"><div><span className="eyebrow">APPROVED CRYPTO</span><h2>Partner-routed digital-asset options</h2></div><p>Only approved asset/network combinations are supported. Customer choice is a routing preference, not compliance clearance or authorization to transmit funds.</p></div>
+      <div className="featureGrid">{crypto.map(([asset,networks],i)=><article className="feature" key={asset}><div className="icon">C{String(i+1).padStart(2,'0')}</div><h3>{asset}</h3><p>{networks}</p><div className="featureMeta">AUTHORIZED PROVIDER REQUIRED</div></article>)}</div>
+    </section>
+
+    <section className="policyBlock"><div><span className="eyebrow">CORE RULE</span><h2>Funding preference never overrides compliance</h2></div><p>Family and business classification, sanctions state, identity/KYB, corridor controls, approved crypto asset/network policy and authorized-provider eligibility all remain separate gates. Crypto never bypasses them.</p></section>
+    <footer className="footer"><strong>mycubacash.com</strong><span>Family + Business Remittance · Fiat + Approved Crypto</span><span>v0.8</span></footer>
   </main>;
 }

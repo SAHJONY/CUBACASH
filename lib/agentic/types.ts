@@ -2,6 +2,7 @@ export type AgentDomain =
   | 'executive'
   | 'compliance'
   | 'remittance'
+  | 'cash'
   | 'marketplace'
   | 'rfq'
   | 'risk'

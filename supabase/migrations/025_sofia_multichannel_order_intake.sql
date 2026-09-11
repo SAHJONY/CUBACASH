@@ -1,11 +1,11 @@
 -- mycubacash.com Sofia multichannel order intake
--- Unifies WhatsApp, Telegram and phone-call order intake without granting Sofia
+-- Unifies WhatsApp and phone-call order intake without granting Sofia
 -- authority to verify payment, clear compliance, or move funds.
 
 create table if not exists public.sofia_order_intakes (
   id uuid primary key default gen_random_uuid(),
   external_reference text,
-  channel text not null check (channel in ('WHATSAPP','TELEGRAM','PHONE_CALL')),
+  channel text not null check (channel in ('WHATSAPP','PHONE_CALL')),
   conversation_reference text,
   sender_full_name text not null check (length(trim(sender_full_name)) >= 2),
   sender_phone text not null check (length(trim(sender_phone)) >= 7),
@@ -39,7 +39,6 @@ create unique index if not exists idx_sofia_order_intakes_external_reference
 
 alter table public.sofia_order_intakes enable row level security;
 
--- Private operational queue: only the platform owner can read it from the command center.
 create policy "sofia intake platform owner read"
 on public.sofia_order_intakes
 for select to authenticated
@@ -54,4 +53,4 @@ revoke all on public.sofia_order_intakes from anon, authenticated;
 grant select on public.sofia_order_intakes to authenticated;
 
 comment on table public.sofia_order_intakes is
-  'Private Sofia intake queue for WhatsApp, Telegram and phone-call requests. Payment preference is customer-stated only; Sofia cannot mark payment VERIFIED without trusted payment evidence/workflow.';
+  'Private Sofia intake queue for WhatsApp and phone-call requests. Payment preference is customer-stated only; Sofia cannot mark payment VERIFIED without trusted payment evidence/workflow.';

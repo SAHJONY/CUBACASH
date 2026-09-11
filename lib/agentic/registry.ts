@@ -3,10 +3,37 @@ import type { AgentDefinition, AgentDomain } from './types';
 export const AGENTS: readonly AgentDefinition[] = [
   {
     id: 'executive-orchestrator',
-    name: 'Executive Orchestrator',
+    name: 'Application Brain / Executive Orchestrator',
     domain: 'executive',
-    mission: 'Decompose goals, coordinate specialist agents, optimize for evidence-backed completion, and enforce release gates.',
-    capabilities: ['planning','delegation','conflict-resolution','priority-scoring','release-gating'],
+    mission: 'Act as the policy-gated application brain: decompose goals, coordinate specialist agents, optimize evidence-backed completion, and enforce release and approval gates.',
+    capabilities: ['planning','delegation','conflict-resolution','priority-scoring','release-gating','cross-domain-orchestration'],
+    allowedActionRisk: ['READ','LOW_WRITE','MATERIAL_WRITE'],
+    canDelegate: true
+  },
+  {
+    id: 'reliability-guardian',
+    name: 'Self-Healing Reliability Guardian',
+    domain: 'reliability',
+    mission: 'Detect operational degradation, classify incidents, automatically perform only reversible low-risk recovery, and escalate material changes.',
+    capabilities: ['health-signals','incident-correlation','idempotent-retry','adapter-quarantine','graceful-degradation','rollback-request','postmortem-evidence'],
+    allowedActionRisk: ['READ','LOW_WRITE','MATERIAL_WRITE'],
+    canDelegate: true
+  },
+  {
+    id: 'improvement-engine',
+    name: 'Self-Improvement Experiment Engine',
+    domain: 'improvement',
+    mission: 'Continuously identify measurable product and operations improvements, propose bounded experiments, enforce guardrails, and promote only evidence-backed winners.',
+    capabilities: ['kpi-analysis','experiment-design','guardrail-checks','winner-selection','rollback-recommendation','learning-memory'],
+    allowedActionRisk: ['READ','LOW_WRITE','MATERIAL_WRITE'],
+    canDelegate: true
+  },
+  {
+    id: 'growth-engine',
+    name: 'Autonomous Growth & Sales Engine',
+    domain: 'growth',
+    mission: 'Turn first-party marketplace, remittance and engagement signals into qualified growth opportunities, consent-aware nurturing and conversion workflows.',
+    capabilities: ['intent-scoring','lead-qualification','inbound-conversion','marketplace-match-selling','reactivation','referrals','partner-prospecting','sales-experimentation'],
     allowedActionRisk: ['READ','LOW_WRITE','MATERIAL_WRITE'],
     canDelegate: true
   },
@@ -32,8 +59,8 @@ export const AGENTS: readonly AgentDefinition[] = [
     id: 'cash-ledger-agent',
     name: 'Cash Ledger Guardian',
     domain: 'cash',
-    mission: 'Orchestrate direct-cash transaction records, dual confirmation, evidence, community trust and disputes without taking custody of funds.',
-    capabilities: ['cash-records','dual-confirmation','payment-requests','community-trust','dispute-routing','evidence-ledger'],
+    mission: 'Orchestrate direct-cash transaction records, all-party confirmation, evidence, community trust and disputes without taking custody of funds.',
+    capabilities: ['cash-records','all-party-confirmation','payment-requests','community-trust','dispute-routing','evidence-ledger'],
     allowedActionRisk: ['READ','LOW_WRITE','MATERIAL_WRITE'],
     canDelegate: true
   },

@@ -9,7 +9,10 @@ export type AgentDomain =
   | 'reconciliation'
   | 'support'
   | 'research'
-  | 'fraud';
+  | 'fraud'
+  | 'reliability'
+  | 'improvement'
+  | 'growth';
 
 export type ActionRisk = 'READ' | 'LOW_WRITE' | 'MATERIAL_WRITE' | 'REGULATED' | 'PROHIBITED';
 export type AgentDecision = 'EXECUTE' | 'REQUEST_APPROVAL' | 'HOLD' | 'BLOCK';

@@ -34,12 +34,18 @@ export async function POST(req:Request){
   const requestType=String(body.requestType??'FAMILY_REMITTANCE').trim().toUpperCase();
   const amount=body.requestedAmount==null?null:Number(body.requestedAmount);
   const currency=String(body.requestedCurrency??'USD').trim().toUpperCase();
+  const receiverWhatsApp=body.receiverWhatsAppPhone?String(body.receiverWhatsAppPhone).trim():null;
+  const receiverTelegram=body.receiverTelegramHandle?String(body.receiverTelegramHandle).trim().toLowerCase():null;
+  const receiverPhone=body.receiverPhone?String(body.receiverPhone).trim():null;
 
   if(!CHANNELS.includes(channel as typeof CHANNELS[number])||senderFullName.length<2||senderPhone.length<7||!/^[A-Z]{2}$/.test(senderCountryCode)){
     return json({error:'SENDER_INFORMATION_REQUIRED'},400);
   }
   if(!PAYMENT.includes(paymentPreference as typeof PAYMENT[number])||!FULFILLMENT.includes(requestedFulfillment as typeof FULFILLMENT[number])||!REQUESTS.includes(requestType as typeof REQUESTS[number])||!/^[A-Z]{3}$/.test(currency)||amount!==null&&(!Number.isFinite(amount)||amount<=0)){
     return json({error:'INVALID_INTAKE'},400);
+  }
+  if(!receiverWhatsApp&&!receiverTelegram&&!receiverPhone){
+    return json({error:'RECEIVER_CONTACT_REQUIRED',requiredOneOf:['receiverWhatsAppPhone','receiverTelegramHandle','receiverPhone']},400);
   }
 
   const externalReference=body.externalReference?String(body.externalReference).trim():null;
@@ -61,6 +67,9 @@ export async function POST(req:Request){
     beneficiary_phone:body.beneficiaryPhone?String(body.beneficiaryPhone).trim():null,
     beneficiary_address:body.beneficiaryAddress?String(body.beneficiaryAddress).trim():null,
     beneficiary_country_code:body.beneficiaryCountryCode?String(body.beneficiaryCountryCode).trim().toUpperCase():null,
+    receiver_whatsapp_phone:receiverWhatsApp,
+    receiver_telegram_handle:receiverTelegram,
+    receiver_phone:receiverPhone,
     request_type:requestType,
     requested_amount:amount,
     requested_currency:currency,
@@ -72,7 +81,7 @@ export async function POST(req:Request){
     intake_status:'READY_FOR_REVIEW'
   };
 
-  const {data,error}=await db.from('sofia_order_intakes').insert(payload).select('id,channel,intake_status,payment_preference,payment_status,created_at').single();
+  const {data,error}=await db.from('sofia_order_intakes').insert(payload).select('id,channel,intake_status,payment_preference,payment_status,receiver_whatsapp_phone,receiver_telegram_handle,receiver_phone,created_at').single();
   if(error){
     if((error as {code?:string}).code==='23505'&&externalReference){
       const {data:existing}=await db.from('sofia_order_intakes').select('id,intake_status').eq('external_reference',externalReference).single();
@@ -83,8 +92,9 @@ export async function POST(req:Request){
 
   return json({
     intake:data,
-    nextAction:'OWNER_REVIEW',
+    nextAction:'PROCESS_AND_AWAIT_RECEIVER_CONFIRMATION',
     paymentRule:'CUSTOMER_PREFERENCE_RECORDED_NOT_PAYMENT_VERIFICATION',
+    receiverRule:'BOUND_WHATSAPP_TELEGRAM_OR_PHONE_REQUIRED_FOR_FINAL_CONFIRMATION',
     permittedPaymentPreferences:['CASH','ZELLE','CASH_APP','OTHER','UNDECIDED']
   },201);
 }

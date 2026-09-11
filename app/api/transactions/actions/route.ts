@@ -21,12 +21,14 @@ export async function POST(req:Request){
     const paymentPreference=String(body.paymentPreference??'UNDECIDED').toUpperCase();
     const requestedFulfillment=String(body.requestedFulfillment??'CASH').toUpperCase();
     const deliveryRequested=Boolean(body.deliveryRequested);
+    const deliverySpeedPreference=String(body.deliverySpeedPreference??'FLEXIBLE').toUpperCase();
     const customerNotes=body.customerNotes?String(body.customerNotes).trim().slice(0,500):null;
     if(!['CASH','ZELLE','CASH_APP','OTHER','UNDECIDED'].includes(paymentPreference)) return json({error:'INVALID_PAYMENT_PREFERENCE'},400);
     if(!['CASH','PRODUCTS','SERVICES','SPLIT'].includes(requestedFulfillment)) return json({error:'INVALID_FULFILLMENT'},400);
+    if(!['EXPRESS_1_3H','SAME_DAY','FLEXIBLE'].includes(deliverySpeedPreference)) return json({error:'INVALID_DELIVERY_SPEED'},400);
     const {data,error}=await supabase.from('remittance_customer_preferences').upsert({
       remittance_intent_id:remittanceIntentId,owner_user_id:user.id,payment_preference:paymentPreference,
-      requested_fulfillment:requestedFulfillment,delivery_requested:deliveryRequested,customer_notes:customerNotes,updated_at:new Date().toISOString()
+      requested_fulfillment:requestedFulfillment,delivery_requested:deliveryRequested,delivery_speed_preference:deliveryRequested?deliverySpeedPreference:'FLEXIBLE',customer_notes:customerNotes,updated_at:new Date().toISOString()
     },{onConflict:'remittance_intent_id'}).select().single();
     if(error) return json({error:'PREFERENCE_SAVE_FAILED'},500);
     return json({preference:data});

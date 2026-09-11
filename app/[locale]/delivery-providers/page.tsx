@@ -9,6 +9,12 @@ function formatTime(value:string|null){
   return date.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
 }
 
+function money(value:number|null|undefined,currency:string){
+  if(value===null||value===undefined) return null;
+  try{return new Intl.NumberFormat('en-US',{style:'currency',currency,maximumFractionDigits:2}).format(Number(value));}
+  catch{return `${Number(value).toFixed(2)} ${currency}`;}
+}
+
 export default async function DeliveryProviders({params}:{params:Promise<{locale:string}>}){
   const {locale:raw}=await params;
   const locale=localeOf(raw);
@@ -19,9 +25,10 @@ export default async function DeliveryProviders({params}:{params:Promise<{locale
     const supabase=await supabaseServer();
     const {data,error}=await supabase
       .from('delivery_provider_public_directory')
-      .select('public_provider_id,provider_kind,display_name,city,region,country_code,service_zones,service_area,work_days,work_start,work_end,transport_mode,verified')
+      .select('public_provider_id,provider_kind,display_name,city,region,country_code,service_zones,service_area,work_days,work_start,work_end,transport_mode,verified,pricing_model,fee_currency,base_fee,per_km_fee,minimum_fee,maximum_fee,pricing_notes,pricing_updated_at')
       .eq('verified',true)
       .order('city',{ascending:true})
+      .order('base_fee',{ascending:true,nullsFirst:false})
       .order('display_name',{ascending:true});
     if(error) unavailable=true;
     else providers=data??[];
@@ -32,45 +39,62 @@ export default async function DeliveryProviders({params}:{params:Promise<{locale
   return <main className="shell" dir={locale==='ar'?'rtl':'ltr'}>
     <nav className="nav">
       <a href={`/${locale}`} className="brandwrap"><div className="brand">mycubacash.com</div><small>Delivery Network</small></a>
-      <div className="navlinks"><a href={`/${locale}/remittances`}>Remittances</a><a href={`/${locale}/marketplace`}>Marketplace</a><a href={`/${locale}/dashboard`}>Dashboard</a></div>
+      <div className="navlinks"><a href={`/${locale}/remittances`}>Remittances</a><a href={`/${locale}/marketplace`}>Marketplace</a><a href={`/${locale}/delivery-providers/manage`}>Post My Rates</a></div>
       <a className="miniCta" href={whatsappUrl(channels.whatsappPrimary.e164)}>WhatsApp Business Sofia</a>
     </nav>
 
     <section className="hero">
       <div className="heroCopy">
         <div className="eyebrow">VERIFIED PRIVATE-SECTOR DELIVERY NETWORK</div>
-        <h1>Find a verified delivery provider by city, zone and schedule.</h1>
-        <p className="heroLead">Every listed provider has a mycubacash identification number. Public profiles show operational coverage and working hours while keeping phone numbers, exact addresses and payment information private.</p>
-        <div className="actions"><a className="cta" href={whatsappUrl(channels.whatsappPrimary.e164)}>Apply as a Delivery Provider</a><a className="ghost" href={whatsappUrl(channels.whatsappPrimary.e164)}>Request Delivery with Sofia</a></div>
+        <h1>Compare verified delivery providers by coverage, schedule and posted price.</h1>
+        <p className="heroLead">Verified providers can publish their own delivery charges so customers can compare options before requesting service. Provider phone numbers, exact addresses and payment credentials remain private.</p>
+        <div className="actions"><a className="cta" href={`/${locale}/delivery-providers/manage`}>Post or Update My Delivery Rates</a><a className="ghost" href={whatsappUrl(channels.whatsappPrimary.e164)}>Request Delivery with Sofia</a></div>
       </div>
-      <aside className="commandPreview" aria-label="Delivery directory privacy">
-        <div className="previewTop"><span className="liveDot"/> Public Directory <span className="previewTag">PRIVACY-SAFE</span></div>
+      <aside className="commandPreview" aria-label="Delivery directory comparison">
+        <div className="previewTop"><span className="liveDot"/> Public Directory <span className="previewTag">COMPARE</span></div>
         <div className="previewGrid">
-          <div><span>Public</span><strong>NAME + PROVIDER ID</strong></div>
+          <div><span>Provider</span><strong>VERIFIED + ID</strong></div>
           <div><span>Coverage</span><strong>CITY + ZONES</strong></div>
-          <div><span>Schedule</span><strong>DAYS + HOURS</strong></div>
-          <div><span>Private</span><strong>PHONE + EXACT ADDRESS</strong></div>
+          <div><span>Pricing</span><strong>POSTED RATES</strong></div>
+          <div><span>Private</span><strong>PHONE + ADDRESS</strong></div>
         </div>
       </aside>
     </section>
 
     <section className="section">
-      <div className="sectionHead"><div><span className="eyebrow">DELIVERY PROVIDERS</span><h2>Verified network directory</h2></div><p>Contact, onboarding and job coordination remain inside mycubacash and Sofia. The public directory intentionally does not expose provider phone numbers.</p></div>
+      <div className="sectionHead"><div><span className="eyebrow">DELIVERY PROVIDERS</span><h2>Compare verified providers</h2></div><p>Rates shown here are posted by each provider and are separate from mycubacash platform fees. Final delivery price can depend on distance, size, weight, stops, urgency or other disclosed service conditions.</p></div>
       {unavailable?<p>The delivery directory is temporarily unavailable. Contact Sofia on WhatsApp Business for assistance.</p>:
       !providers.length?<div><p>No verified public delivery providers are listed yet.</p><div className="actions"><a className="cta" href={whatsappUrl(channels.whatsappPrimary.e164)}>Become the first verified provider in your area</a></div></div>:
-      <div className="featureGrid">{providers.map((provider)=><article className="feature" key={provider.public_provider_id}>
-        <div className="icon">D</div>
-        <h3>{provider.display_name}</h3>
-        <p><strong>ID:</strong> {provider.public_provider_id}</p>
-        <p><strong>City:</strong> {[provider.city,provider.region,provider.country_code].filter(Boolean).join(', ')}</p>
-        <p><strong>Zones:</strong> {provider.service_zones?.length?provider.service_zones.join(' · '):(provider.service_area||'Coverage available in profile')}</p>
-        <p><strong>Days:</strong> {provider.work_days?.length?provider.work_days.join(' · '):'Flexible'}</p>
-        <p><strong>Hours:</strong> {provider.work_start||provider.work_end?`${formatTime(provider.work_start)} – ${formatTime(provider.work_end)}`:'Flexible'}</p>
-        {provider.transport_mode&&<p><strong>Transport:</strong> {provider.transport_mode}</p>}
-        <div className="featureMeta">{provider.provider_kind==='INDIVIDUAL'?'INDEPENDENT PROVIDER':'PRIVATE BUSINESS'} · VERIFIED</div>
-      </article>)}</div>}
+      <div className="featureGrid">{providers.map((provider)=>{
+        const currency=provider.fee_currency||'USD';
+        const base=money(provider.base_fee,currency);
+        const perKm=money(provider.per_km_fee,currency);
+        const min=money(provider.minimum_fee,currency);
+        const max=money(provider.maximum_fee,currency);
+        return <article className="feature" key={provider.public_provider_id}>
+          <div className="icon">D</div>
+          <h3>{provider.display_name}</h3>
+          <p><strong>ID:</strong> {provider.public_provider_id}</p>
+          <p><strong>City:</strong> {[provider.city,provider.region,provider.country_code].filter(Boolean).join(', ')}</p>
+          <p><strong>Zones:</strong> {provider.service_zones?.length?provider.service_zones.join(' · '):(provider.service_area||'Coverage available in profile')}</p>
+          <p><strong>Days:</strong> {provider.work_days?.length?provider.work_days.join(' · '):'Flexible'}</p>
+          <p><strong>Hours:</strong> {provider.work_start||provider.work_end?`${formatTime(provider.work_start)} – ${formatTime(provider.work_end)}`:'Flexible'}</p>
+          {provider.transport_mode&&<p><strong>Transport:</strong> {provider.transport_mode}</p>}
+          <div className="feature" style={{marginTop:12}}>
+            <strong>Provider-posted delivery pricing</strong>
+            <p><strong>Model:</strong> {provider.pricing_model==='FLAT'?'Flat rate':provider.pricing_model==='PER_DISTANCE'?'Per distance':provider.pricing_model==='HYBRID'?'Base + distance':'Quote required'}</p>
+            {base&&<p><strong>Starting/base fee:</strong> {base}</p>}
+            {perKm&&<p><strong>Distance rate:</strong> {perKm} / km</p>}
+            {(min||max)&&<p><strong>Range:</strong> {min?`Min ${min}`:'No minimum posted'} · {max?`Max ${max}`:'No maximum posted'}</p>}
+            {provider.pricing_notes&&<p><strong>Conditions:</strong> {provider.pricing_notes}</p>}
+            {!base&&!perKm&&provider.pricing_model==='QUOTE'&&<p>Provider requires a job-specific quote.</p>}
+          </div>
+          <div className="actions" style={{marginTop:12}}><a className="ghost" href={whatsappUrl(channels.whatsappPrimary.e164,`I want delivery help with provider ${provider.public_provider_id} (${provider.display_name}). Please confirm the final delivery quote and availability.`)}>Request this provider</a></div>
+          <div className="featureMeta">{provider.provider_kind==='INDIVIDUAL'?'INDEPENDENT PROVIDER':'PRIVATE BUSINESS'} · VERIFIED · PRICING POSTED BY PROVIDER</div>
+        </article>;
+      })}</div>}
     </section>
 
-    <section className="policyBlock"><div><span className="eyebrow">SAFETY RULE</span><h2>Public identification without public contact exposure</h2></div><p>Customers choose providers through mycubacash using the provider ID, city, service zones and work schedule. Phone numbers, precise addresses, payment details and private verification records stay off the public profile.</p></section>
+    <section className="policyBlock"><div><span className="eyebrow">FAIR CHOICE</span><h2>Transparent provider pricing without exposing private contact details</h2></div><p>Customers can compare verified providers using provider ID, location, service zones, schedule and posted delivery charges. A posted rate is not a promise that every job costs the same amount; the final quote must match the actual delivery request and disclosed conditions. mycubacash keeps provider contact details and payment credentials private.</p></section>
   </main>;
 }

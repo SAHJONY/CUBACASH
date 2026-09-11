@@ -73,7 +73,13 @@ export async function POST(req:Request){
   };
 
   const {data,error}=await db.from('sofia_order_intakes').insert(payload).select('id,channel,intake_status,payment_preference,payment_status,created_at').single();
-  if(error) return json({error:'SOFIA_INTAKE_FAILED'},500);
+  if(error){
+    if((error as {code?:string}).code==='23505'&&externalReference){
+      const {data:existing}=await db.from('sofia_order_intakes').select('id,intake_status').eq('external_reference',externalReference).single();
+      if(existing) return json({intake:existing,idempotent:true});
+    }
+    return json({error:'SOFIA_INTAKE_FAILED'},500);
+  }
 
   return json({
     intake:data,

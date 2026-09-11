@@ -1,5 +1,5 @@
 import { localeOf, locales } from '@/lib/i18n';
-import { APP_COMMUNICATIONS, telegramUrl, whatsappUrl } from '@/lib/communications';
+import { APP_COMMUNICATIONS, whatsappUrl } from '@/lib/communications';
 
 const corridorRows = [
   ['FAMILY','Family support to person beneficiaries'],
@@ -29,9 +29,9 @@ export default async function LocaleHome({params}:{params:Promise<{locale:string
         <div className="eyebrow">FAMILY REMITTANCE · BUSINESS REMITTANCE · PRIVATE MARKETPLACE</div>
         <h1>Support families. Pay businesses. Connect private-sector commerce.</h1>
         <p className="heroLead">mycubacash is focused on family remittances, private-business payments, verified delivery services and a trusted marketplace for private businesses and entrepreneurs.</p>
-        <p className="heroSub">Start with Sofia by WhatsApp, Telegram or phone. The application keeps the transaction reference, sender and receiver records, delivery coordination, receipts, confirmations and transaction history together.</p>
-        <div className="actions"><a className="cta" href={whatsappUrl(channels.whatsappPrimary.e164)}>WhatsApp Sofia</a><a className="ghost" href={telegramUrl(channels.telegram.handle)}>Telegram Sofia</a><a className="ghost" href={`tel:${channels.phone.e164}`}>Call Sofia</a></div>
-        <div className="trustbar"><span>✓ FAMILY + BUSINESS</span><span>✓ PRIVATE SECTOR + EMPRENDEDORES</span><span>✓ WHATSAPP · TELEGRAM · PHONE</span></div>
+        <p className="heroSub">Start with Sofia by WhatsApp or phone. The application keeps the transaction reference, sender and receiver records, delivery coordination, receipts, confirmations and transaction history together.</p>
+        <div className="actions"><a className="cta" href={whatsappUrl(channels.whatsappPrimary.e164)}>WhatsApp Sofia</a><a className="ghost" href={`tel:${channels.phone.e164}`}>Call Sofia</a></div>
+        <div className="trustbar"><span>✓ FAMILY + BUSINESS</span><span>✓ PRIVATE SECTOR + EMPRENDEDORES</span><span>✓ WHATSAPP · PHONE</span></div>
       </div>
       <aside className="commandPreview" aria-label="Platform overview">
         <div className="previewTop"><span className="liveDot"/> mycubacash.com <span className="previewTag">REMITTANCE + COMMERCE OS</span></div>
@@ -39,7 +39,7 @@ export default async function LocaleHome({params}:{params:Promise<{locale:string
           <div><span>Family</span><strong>PERSON BENEFICIARY</strong></div>
           <div><span>Business</span><strong>PRIVATE SECTOR</strong></div>
           <div><span>Delivery</span><strong>VERIFIED PROVIDERS</strong></div>
-          <div><span>Sofia</span><strong>3 CHANNELS</strong></div>
+          <div><span>Sofia</span><strong>WHATSAPP + PHONE</strong></div>
         </div>
         <div className="flow"><span>Contact</span><i>→</i><span>Transaction ID</span><i>→</i><span>Fulfillment</span><i>→</i><span>Confirmation</span></div>
       </aside>
@@ -74,11 +74,10 @@ export default async function LocaleHome({params}:{params:Promise<{locale:string
     </section>
 
     <section className="section" id="contact">
-      <div className="sectionHead"><div><span className="eyebrow">SOFIA · OFFICIAL COMMUNICATION CHANNELS</span><h2>Start and manage your transaction with Sofia</h2></div><p>Use the official mycubacash channels below. Sofia can collect the sender and receiver information, transaction amount, payment preference, delivery request and receipt confirmation.</p></div>
+      <div className="sectionHead"><div><span className="eyebrow">SOFIA · OFFICIAL COMMUNICATION CHANNELS</span><h2>Start and manage your transaction with Sofia</h2></div><p>Use the official mycubacash WhatsApp and phone channels below. Sofia can collect sender and receiver information, transaction amount, payment preference, delivery request and receipt confirmation.</p></div>
       <div className="featureGrid">
         <article className="feature"><div className="icon">W</div><h3>{channels.whatsappPrimary.label}</h3><p><strong>{channels.whatsappPrimary.display}</strong></p><p>Primary WhatsApp Business channel for orders and transaction communication.</p><div className="actions"><a className="cta" href={whatsappUrl(channels.whatsappPrimary.e164)}>Open WhatsApp</a></div></article>
         <article className="feature"><div className="icon">W2</div><h3>{channels.whatsappSecondary.label}</h3><p><strong>{channels.whatsappSecondary.display}</strong></p><p>Secondary WhatsApp and phone communication channel.</p><div className="actions"><a className="cta" href={whatsappUrl(channels.whatsappSecondary.e164)}>Open WhatsApp</a></div></article>
-        <article className="feature"><div className="icon">T</div><h3>{channels.telegram.label}</h3><p><strong>{channels.telegram.handle}</strong></p><p>Telegram channel managed through Sofia.</p><div className="actions"><a className="cta" href={telegramUrl(channels.telegram.handle)}>Open Telegram</a></div></article>
         <article className="feature"><div className="icon">P</div><h3>{channels.phone.label}</h3><p><strong>{channels.phone.display}</strong></p><p>Phone-call channel for Sofia-managed transaction intake and support.</p><div className="actions"><a className="cta" href={`tel:${channels.phone.e164}`}>Call Now</a></div></article>
       </div>
     </section>
@@ -93,6 +92,6 @@ export default async function LocaleHome({params}:{params:Promise<{locale:string
       <p>Users can build public transaction history and gold-star reputation through actual platform activity. Community trust does not replace identity, business verification, current compliance evidence or applicable payment/remittance controls.</p>
     </section>
 
-    <footer className="footer"><strong>mycubacash.com</strong><span>WhatsApp {channels.whatsappPrimary.display} · Telegram {channels.telegram.handle} · Phone {channels.phone.display}</span><span>v0.10</span></footer>
+    <footer className="footer"><strong>mycubacash.com</strong><span>WhatsApp {channels.whatsappPrimary.display} · Phone {channels.phone.display}</span><span>v0.10</span></footer>
   </main>;
 }

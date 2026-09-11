@@ -29,6 +29,15 @@ export const AGENTS: readonly AgentDefinition[] = [
     canDelegate: true
   },
   {
+    id: 'cash-ledger-agent',
+    name: 'Cash Ledger Guardian',
+    domain: 'cash',
+    mission: 'Orchestrate direct-cash transaction records, dual confirmation, evidence, community trust and disputes without taking custody of funds.',
+    capabilities: ['cash-records','dual-confirmation','payment-requests','community-trust','dispute-routing','evidence-ledger'],
+    allowedActionRisk: ['READ','LOW_WRITE','MATERIAL_WRITE'],
+    canDelegate: true
+  },
+  {
     id: 'marketplace-matchmaker',
     name: 'Marketplace Matchmaker',
     domain: 'marketplace',

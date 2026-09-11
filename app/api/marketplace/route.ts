@@ -1,27 +1,56 @@
 import { supabaseServer } from '@/lib/supabase/server';
 
+export const dynamic='force-dynamic';
+export const runtime='nodejs';
+
 function json(body:unknown,status=200){
   return Response.json(body,{status,headers:{'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
 }
 
 const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
+async function authContext(){
+  try{
+    const supabase=await supabaseServer();
+    const {data,error}=await supabase.auth.getUser();
+    if(error) return {supabase,user:null,authError:error};
+    return {supabase,user:data.user,authError:null};
+  }catch(error){
+    return {supabase:null,user:null,authError:error};
+  }
+}
+
 export async function GET(){
-  const supabase=await supabaseServer();
-  const {data:{user}}=await supabase.auth.getUser();
-  if(!user) return json({error:'UNAUTHENTICATED'},401);
-  const {data,error}=await supabase.from('marketplace_offers')
-    .select('id,business_id,offer_type,title,description,category,quantity,unit,currency,target_price,origin_country,destination_country,status,entrepreneur_friendly,contact_method,payment_preference,visibility,created_at,updated_at')
-    .order('created_at',{ascending:false})
-    .limit(100);
-  if(error) return json({error:'MARKETPLACE_QUERY_FAILED'},500);
-  return json({offers:data??[]});
+  const ctx=await authContext();
+  if(!ctx.supabase){
+    console.error('MARKETPLACE_AUTH_INIT_FAILED',ctx.authError);
+    return json({error:'AUTH_SERVICE_UNAVAILABLE'},503);
+  }
+  if(!ctx.user) return json({error:'UNAUTHENTICATED'},401);
+
+  try{
+    const {data,error}=await ctx.supabase.from('marketplace_offers')
+      .select('id,business_id,offer_type,title,description,category,quantity,unit,currency,target_price,origin_country,destination_country,status,entrepreneur_friendly,contact_method,payment_preference,visibility,created_at,updated_at')
+      .order('created_at',{ascending:false})
+      .limit(100);
+    if(error){
+      console.error('MARKETPLACE_QUERY_FAILED',error);
+      return json({error:'MARKETPLACE_QUERY_FAILED'},503);
+    }
+    return json({offers:data??[]});
+  }catch(error){
+    console.error('MARKETPLACE_GET_UNHANDLED',error);
+    return json({error:'MARKETPLACE_SERVICE_UNAVAILABLE'},503);
+  }
 }
 
 export async function POST(request:Request){
-  const supabase=await supabaseServer();
-  const {data:{user}}=await supabase.auth.getUser();
-  if(!user) return json({error:'UNAUTHENTICATED'},401);
+  const ctx=await authContext();
+  if(!ctx.supabase){
+    console.error('MARKETPLACE_AUTH_INIT_FAILED',ctx.authError);
+    return json({error:'AUTH_SERVICE_UNAVAILABLE'},503);
+  }
+  if(!ctx.user) return json({error:'UNAUTHENTICATED'},401);
 
   let body:Record<string,unknown>;
   try{body=await request.json();}catch{return json({error:'INVALID_JSON'},400);}
@@ -38,24 +67,32 @@ export async function POST(request:Request){
     return json({error:'INVALID_MARKETPLACE_OFFER'},400);
   }
 
-  const {data,error}=await supabase.rpc('create_marketplace_offer',{
-    p_business_id:businessId,
-    p_offer_type:offerType,
-    p_title:title,
-    p_description:body.description?String(body.description):null,
-    p_category:body.category?String(body.category):null,
-    p_quantity:quantity,
-    p_unit:body.unit?String(body.unit):null,
-    p_currency:currency,
-    p_target_price:targetPrice,
-    p_origin_country:body.originCountry?String(body.originCountry).trim().toUpperCase():body.origin_country?String(body.origin_country).trim().toUpperCase():null,
-    p_destination_country:body.destinationCountry?String(body.destinationCountry).trim().toUpperCase():body.destination_country?String(body.destination_country).trim().toUpperCase():null,
-    p_contact_method:body.contactMethod?String(body.contactMethod):null,
-    p_payment_preference:body.paymentPreference?String(body.paymentPreference):null,
-    p_visibility:visibility
-  });
-  if(error) return json({error:'MARKETPLACE_CREATE_FAILED'},400);
+  try{
+    const {data,error}=await ctx.supabase.rpc('create_marketplace_offer',{
+      p_business_id:businessId,
+      p_offer_type:offerType,
+      p_title:title,
+      p_description:body.description?String(body.description):null,
+      p_category:body.category?String(body.category):null,
+      p_quantity:quantity,
+      p_unit:body.unit?String(body.unit):null,
+      p_currency:currency,
+      p_target_price:targetPrice,
+      p_origin_country:body.originCountry?String(body.originCountry).trim().toUpperCase():body.origin_country?String(body.origin_country).trim().toUpperCase():null,
+      p_destination_country:body.destinationCountry?String(body.destinationCountry).trim().toUpperCase():body.destination_country?String(body.destination_country).trim().toUpperCase():null,
+      p_contact_method:body.contactMethod?String(body.contactMethod):null,
+      p_payment_preference:body.paymentPreference?String(body.paymentPreference):null,
+      p_visibility:visibility
+    });
+    if(error){
+      console.error('MARKETPLACE_CREATE_FAILED',error);
+      return json({error:'MARKETPLACE_CREATE_FAILED'},400);
+    }
 
-  const offer=Array.isArray(data)?data[0]:data;
-  return json({offer,moderationState:'DRAFT',audience:'PRIVATE_SECTOR_AND_ENTREPRENEURS'},201);
+    const offer=Array.isArray(data)?data[0]:data;
+    return json({offer,moderationState:'DRAFT',audience:'PRIVATE_SECTOR_AND_ENTREPRENEURS'},201);
+  }catch(error){
+    console.error('MARKETPLACE_POST_UNHANDLED',error);
+    return json({error:'MARKETPLACE_SERVICE_UNAVAILABLE'},503);
+  }
 }

@@ -24,7 +24,7 @@ export default async function CommandCenter({params}:{params:Promise<{locale:str
       .limit(250),
     supabase
       .from('sofia_order_intakes')
-      .select('id,channel,sender_full_name,sender_phone,sender_country_code,beneficiary_full_name,beneficiary_phone,request_type,requested_amount,requested_currency,requested_fulfillment,payment_preference,payment_status,delivery_requested,intake_status,created_at')
+      .select('id,channel,sender_full_name,sender_phone,sender_country_code,beneficiary_full_name,beneficiary_phone,receiver_whatsapp_phone,receiver_telegram_handle,receiver_phone,receiver_confirmation_channel,receiver_confirmed_at,request_type,requested_amount,requested_currency,requested_fulfillment,payment_preference,payment_status,delivery_requested,intake_status,auto_closed_at,closed_by,created_at')
       .order('created_at',{ascending:false})
       .limit(250)
   ]);
@@ -36,16 +36,19 @@ export default async function CommandCenter({params}:{params:Promise<{locale:str
     </nav>
 
     <section className="section">
-      <div className="sectionHead"><div><span className="eyebrow">SOFIA · OWNER ONLY</span><h1>WhatsApp · Telegram · Phone Orders</h1></div><p>Sofia collects the customer request, sender and beneficiary details, preferred fulfillment, delivery request and how the customer wants to pay. Cash, Zelle and Cash App are recorded as customer payment preferences only; payment remains unverified until trusted evidence confirms it.</p></div>
+      <div className="sectionHead"><div><span className="eyebrow">SOFIA · OWNER ONLY</span><h1>WhatsApp · Telegram · Phone Orders</h1></div><p>Sofia records sender and receiver contact channels, payment preference and fulfillment state. A receiver can confirm receipt from the WhatsApp, Telegram or phone identity bound to the transaction. Sofia only auto-closes when that identity matches and trusted payment verification is already complete.</p></div>
       {intakeError?<p>Unable to load Sofia intake records.</p>:
       <div className="featureGrid">{(intakes??[]).map((item)=><article className="feature" key={item.id}>
         <div className="icon">{item.channel==='WHATSAPP'?'W':item.channel==='TELEGRAM'?'T':'P'}</div>
         <h3>{item.sender_full_name}</h3>
-        <p><strong>Channel:</strong> {item.channel} · <strong>Phone:</strong> {item.sender_phone}</p>
+        <p><strong>Channel:</strong> {item.channel} · <strong>Sender phone:</strong> {item.sender_phone}</p>
         <p><strong>Request:</strong> {item.request_type}{item.requested_amount?` · ${item.requested_amount} ${item.requested_currency}`:''}</p>
         {item.beneficiary_full_name&&<p><strong>Beneficiary:</strong> {item.beneficiary_full_name}{item.beneficiary_phone?` · ${item.beneficiary_phone}`:''}</p>}
+        <p><strong>Receiver contacts:</strong> {[item.receiver_whatsapp_phone&&`WhatsApp ${item.receiver_whatsapp_phone}`,item.receiver_telegram_handle&&`Telegram ${item.receiver_telegram_handle}`,item.receiver_phone&&`Phone ${item.receiver_phone}`].filter(Boolean).join(' · ')||'Not bound'}</p>
+        <p><strong>Receiver confirmation:</strong> {item.receiver_confirmed_at?`${item.receiver_confirmation_channel} · ${new Date(item.receiver_confirmed_at).toLocaleString()}`:'PENDING'}</p>
         <p><strong>Receiver choice:</strong> {item.requested_fulfillment??'UNDECIDED'} · <strong>Delivery:</strong> {item.delivery_requested?'YES':'NO'}</p>
         <p><strong>Payment preference:</strong> {item.payment_preference??'UNDECIDED'} · <strong>Payment status:</strong> {item.payment_status}</p>
+        <p><strong>Closure:</strong> {item.closed_by?`${item.closed_by}${item.auto_closed_at?` · ${new Date(item.auto_closed_at).toLocaleString()}`:''}`:'OPEN'}</p>
         <div className="featureMeta">{item.intake_status} · {new Date(item.created_at).toLocaleString()}</div>
       </article>)}</div>}
     </section>

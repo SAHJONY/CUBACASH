@@ -1,15 +1,12 @@
 import { copy, localeOf } from '@/lib/i18n';
 
 const modules = [
-  {k:'Agentic Command Network',d:'Multi-agent planning, research, remittance, compliance, fraud, marketplace, RFQ, cash-ledger and reconciliation orchestration.',s:'READY'},
-  {k:'Business Network',d:'Business profiles, ownership, counterparties and operating identity.',s:'READY'},
-  {k:'Marketplace',d:'Buyer demand, supplier offers and opportunity discovery.',s:'READY'},
-  {k:'RFQ Desk',d:'Structured requirements, supplier responses and sourcing workflow.',s:'READY'},
-  {k:'Trade Corridors',d:'CU-CU, CU-WORLD, WORLD-CU, CU-US and WORLD-WORLD routing.',s:'READY'},
-  {k:'Remittances',d:'Beneficiaries, transfer intents, compliance routing, tracking and reconciliation.',s:'READY'},
-  {k:'Community Cash Ledger',d:'Direct cash payment records, payment requests, dual confirmation, community trust and disputes.',s:'READY'},
-  {k:'Policy Engine',d:'KYC/KYB, sanctions state, fraud signals, evidence and decision controls.',s:'READY'},
-  {k:'Operations Ledger',d:'Traceable transaction intents, workflow state and audit evidence.',s:'READY'}
+  {k:'Family Remittance',d:'Person-to-person family support, beneficiaries, partner routing, tracking and reconciliation.',s:'CORE'},
+  {k:'Business Remittance',d:'Private-business payment intents with commercial purpose, counterparties and settlement evidence.',s:'CORE'},
+  {k:'Private-Sector Marketplace',d:'Buy, sell and service offers for private businesses and entrepreneurs.',s:'CORE'},
+  {k:'Community Cash Ledger',d:'Direct cash records, all-party confirmation, public transaction reputation, disputes and gold stars.',s:'READY'},
+  {k:'Agentic Command Network',d:'AI orchestration for remittance, marketplace matching, compliance, fraud, support and reconciliation.',s:'READY'},
+  {k:'Trust & Policy Engine',d:'Identity, KYB, sanctions state, fraud signals, evidence and decision controls.',s:'READY'}
 ] as const;
 
 export default async function Dashboard({params}:{params:Promise<{locale:string}>}){
@@ -19,18 +16,18 @@ export default async function Dashboard({params}:{params:Promise<{locale:string}
   const rtl=locale==='ar';
   return <main className="shell" dir={rtl?'rtl':'ltr'}>
     <nav className="nav">
-      <a href={`/${locale}`} className="brandwrap"><div className="brand">mycubacash.com</div><small>{t.tag}</small></a>
-      <div className="navlinks"><a href={`/${locale}`}>Home</a><a href={`/${locale}/agents`}>AI Agents</a><span>{t.market}</span><span>{t.rfq}</span><span>{t.trade}</span><a href={`/${locale}/remittances`}>Remittances</a><a href={`/${locale}/cash`}>Cash Ledger</a><span>{t.compliance}</span></div>
+      <a href={`/${locale}`} className="brandwrap"><div className="brand">mycubacash.com</div><small>Family + Business Remittance</small></a>
+      <div className="navlinks"><a href={`/${locale}`}>Home</a><a href={`/${locale}/remittances`}>Remittances</a><a href={`/${locale}/marketplace`}>Marketplace</a><a href={`/${locale}/cash`}>Cash Ledger</a><a href={`/${locale}/agents`}>AI Agents</a></div>
       <a className="miniCta" href="/api/health">System Health</a>
     </nav>
 
     <section className="section">
-      <div className="sectionHead"><div><span className="eyebrow">PRIVATE ECONOMY COMMAND CENTER</span><h2>{t.dashboard}</h2></div><p>Operational control plane for mycubacash.com. The Agentic Command Network coordinates specialized agents while the platform keeps regulated and material actions behind evidence and approval gates.</p></div>
+      <div className="sectionHead"><div><span className="eyebrow">FAMILY · BUSINESS · PRIVATE MARKETPLACE</span><h2>{t.dashboard}</h2></div><p>Operational control plane for the three primary mycubacash jobs: family remittance, private-business remittance and a marketplace for private-sector businesses and entrepreneurs.</p></div>
       <div className="previewGrid">
-        <div><span>Platform</span><strong>ONLINE</strong></div>
-        <div><span>Agentic mode</span><strong>POLICY-GATED</strong></div>
-        <div><span>Cash custody</span><strong>NONE</strong></div>
-        <div><span>Data policy</span><strong>EVIDENCE-FIRST</strong></div>
+        <div><span>Family</span><strong>REMITTANCE</strong></div>
+        <div><span>Business</span><strong>PAYMENTS</strong></div>
+        <div><span>Commerce</span><strong>MARKETPLACE</strong></div>
+        <div><span>Controls</span><strong>FAIL-CLOSED</strong></div>
       </div>
     </section>
 
@@ -40,7 +37,7 @@ export default async function Dashboard({params}:{params:Promise<{locale:string}
       </div>
     </section>
 
-    <section className="policyBlock"><div><span className="eyebrow">CONTROL PRINCIPLE</span><h2>Evidence before execution</h2></div><p>{t.policyNotice}</p></section>
-    <footer className="footer"><strong>mycubacash.com</strong><span>Private Sector Economy Command Center</span><span>v0.5</span></footer>
+    <section className="policyBlock"><div><span className="eyebrow">CONTROL PRINCIPLE</span><h2>Trust and evidence before execution</h2></div><p>Community reputation can improve discovery and trust, but it never replaces identity, business verification, current compliance evidence or authorized provider controls where required.</p></section>
+    <footer className="footer"><strong>mycubacash.com</strong><span>Family Remittance · Business Remittance · Private-Sector Marketplace</span><span>v0.6</span></footer>
   </main>;
 }

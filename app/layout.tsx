@@ -1,21 +1,23 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import './premium.css';
+import './responsive.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://mycubacash.com'),
   title: {
-    default: 'mycubacash.com | Family Remittance, Business Payments & Private Marketplace',
+    default: 'mycubacash.com | Remesas familiares, pagos comerciales y marketplace privado',
     template: '%s | mycubacash.com'
   },
-  description: 'Family remittance requests, private-business payments, verified delivery services and a private-sector marketplace with transaction tracking and customer support.',
+  description: 'Remesas familiares, pagos a negocios privados, servicios de entrega verificados y marketplace del sector privado con seguimiento de transacciones y asistencia por WhatsApp Business.',
   applicationName: 'mycubacash.com',
-  alternates: { canonical: '/' },
+  alternates: { canonical: '/es', languages: { es: '/es', en: '/en', fr: '/fr', pt: '/pt', ar: '/ar' } },
   openGraph: {
     title: 'mycubacash.com',
-    description: 'Support families, pay businesses and track transactions across a trusted private-sector network.',
-    url: 'https://mycubacash.com',
+    description: 'Apoya a tu familia, paga negocios privados y sigue tus transacciones dentro de una red más transparente.',
+    url: 'https://mycubacash.com/es',
     siteName: 'mycubacash.com',
+    locale: 'es_US',
     type: 'website'
   }
 };

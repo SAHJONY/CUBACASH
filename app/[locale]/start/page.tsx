@@ -5,10 +5,18 @@ import {useParams} from 'next/navigation';
 import {localeOf} from '@/lib/i18n';
 
 type Beneficiary={id:string;full_name:string;country_code:string;beneficiary_type:'PERSON'|'BUSINESS'};
+type DeliverySpeed='EXPRESS_1_3H'|'SAME_DAY'|'FLEXIBLE';
+type DeliveryOption={
+  public_provider_id:string;display_name:string;city:string|null;region:string|null;country_code:string;service_zones:string[]|null;service_area:string|null;
+  transport_mode:string|null;pricing_model:string|null;fee_currency:string|null;base_fee:number|null;per_km_fee:number|null;minimum_fee:number|null;maximum_fee:number|null;
+  pricing_notes:string|null;estimated_eta_min_minutes:number|null;estimated_eta_max_minutes:number|null;starting_fee:number|null;effective_starting_fee:number|null;zone_match:boolean;badges:string[];
+  supports_express_1_3h:boolean;express_1_3h_surcharge:number|null;supports_same_day:boolean;same_day_surcharge:number|null;same_day_cutoff_local:string|null;delivery_speed:DeliverySpeed;
+};
 
 export default function StartTransaction(){
   const params=useParams<{locale:string}>();
   const locale=localeOf(params?.locale);
+  const es=locale==='es';
   const [beneficiaries,setBeneficiaries]=useState<Beneficiary[]>([]);
   const [loading,setLoading]=useState(true);
   const [message,setMessage]=useState('');
@@ -19,6 +27,13 @@ export default function StartTransaction(){
   const [newName,setNewName]=useState('');
   const [newCountry,setNewCountry]=useState('CU');
   const [amount,setAmount]=useState('');
+  const [deliveryRequested,setDeliveryRequested]=useState(false);
+  const [deliverySpeed,setDeliverySpeed]=useState<DeliverySpeed>('EXPRESS_1_3H');
+  const [destinationZone,setDestinationZone]=useState('');
+  const [deliveryOptions,setDeliveryOptions]=useState<DeliveryOption[]>([]);
+  const [deliveryLoading,setDeliveryLoading]=useState(false);
+  const [selectedProvider,setSelectedProvider]=useState('');
+  const [selectionMessage,setSelectionMessage]=useState('');
   const fee=useMemo(()=>{const n=Number(amount);if(!Number.isFinite(n)||n<=0)return null;return Math.min(12,Math.max(1,Math.round(n*0.0125*100)/100))},[amount]);
 
   useEffect(()=>{(async()=>{
@@ -26,26 +41,59 @@ export default function StartTransaction(){
     if(res.status===401){window.location.href=`/${locale}/auth`;return;}
     const body=await res.json().catch(()=>({}));
     if(res.ok){setBeneficiaries(body.beneficiaries??[]);setBeneficiaryId(body.beneficiaries?.[0]?.id??'');}
-    else setMessage('Unable to load your recipients.');
+    else setMessage(es?'No pudimos cargar tus receptores.':'Unable to load your recipients.');
     setLoading(false);
-  })()},[locale]);
+  })()},[locale,es]);
 
   async function addBeneficiary(){
-    if(newName.trim().length<2) return setMessage('Enter the receiver name.');
+    if(newName.trim().length<2) return setMessage(es?'Escribe el nombre del receptor.':'Enter the receiver name.');
     setBusy(true);setMessage('');
     const res=await fetch('/api/beneficiaries',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fullName:newName,countryCode:newCountry,beneficiaryType:'PERSON',deliveryMethod:'PARTNER_NETWORK'})});
     const body=await res.json().catch(()=>({}));
-    if(res.ok){setBeneficiaries(v=>[body.beneficiary,...v]);setBeneficiaryId(body.beneficiary.id);setNewName('');setMessage('Receiver added.');}
-    else setMessage(body.error??'Unable to add receiver.');
+    if(res.ok){setBeneficiaries(v=>[body.beneficiary,...v]);setBeneficiaryId(body.beneficiary.id);setNewName('');setMessage(es?'Receptor agregado.':'Receiver added.');}
+    else setMessage(body.error??(es?'No pudimos agregar el receptor.':'Unable to add receiver.'));
     setBusy(false);
   }
 
+  async function loadDeliveryOptions(country:string,zone:string,speed:DeliverySpeed){
+    setDeliveryLoading(true);setDeliveryOptions([]);setSelectionMessage('');
+    const qs=new URLSearchParams({country,zone,speed});
+    const res=await fetch(`/api/delivery/options?${qs.toString()}`,{cache:'no-store'});
+    const body=await res.json().catch(()=>({}));
+    if(res.ok){
+      setDeliveryOptions(body.options??[]);
+      if(!(body.options??[]).length){
+        setSelectionMessage(speed==='EXPRESS_1_3H'?(es?'No hay proveedores verificados de 1–3 horas disponibles para esta zona ahora mismo. Puedes probar “Mismo día” o “Flexible”.':'No verified 1–3 hour providers are available for this area right now. Try Same Day or Flexible.'):(es?'No encontramos proveedores disponibles para esta velocidad en esta zona.':'No providers are available for this speed in this area.'));
+      }
+    } else setSelectionMessage(es?'No encontramos opciones de entrega disponibles ahora mismo. Sofia puede ayudarte.':'No delivery options are available right now. Sofia can help.');
+    setDeliveryLoading(false);
+  }
+
+  async function refreshDeliverySpeed(speed:DeliverySpeed){
+    setDeliverySpeed(speed);setSelectedProvider('');
+    if(createdId) await loadDeliveryOptions('CU',destinationZone,speed);
+  }
+
+  async function selectDelivery(option:DeliveryOption){
+    if(!createdId) return;
+    setSelectedProvider(option.public_provider_id);setSelectionMessage(es?'Solicitando esta opción…':'Requesting this option…');
+    const res=await fetch('/api/delivery/options',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({remittanceIntentId:createdId,publicProviderId:option.public_provider_id,deliverySpeed})});
+    const body=await res.json().catch(()=>({}));
+    if(res.ok) setSelectionMessage(es?`Elegiste ${option.display_name}. La solicitud quedó enviada para ${deliverySpeed==='EXPRESS_1_3H'?'entrega estimada de 1–3 horas':deliverySpeed==='SAME_DAY'?'entrega el mismo día':'entrega flexible'}. La asignación final depende de confirmación del proveedor.`:`You chose ${option.display_name}. The request was sent for ${deliverySpeed==='EXPRESS_1_3H'?'estimated 1–3 hour delivery':deliverySpeed==='SAME_DAY'?'same-day delivery':'flexible delivery'}. Final assignment depends on provider confirmation.`);
+    else {setSelectedProvider('');setSelectionMessage(body.error??(es?'No pudimos guardar tu selección.':'Unable to save your selection.'));}
+  }
+
   async function submit(event:FormEvent<HTMLFormElement>){
-    event.preventDefault();setBusy(true);setMessage('');setReference('');setCreatedId('');
+    event.preventDefault();setBusy(true);setMessage('');setReference('');setCreatedId('');setDeliveryOptions([]);setSelectedProvider('');setSelectionMessage('');
     const form=new FormData(event.currentTarget);
+    const destinationCountry=String(form.get('destinationCountry')||'CU').toUpperCase();
+    const notes=String(form.get('customerNotes')||'').trim();
+    const speedNote=deliveryRequested?`Velocidad solicitada: ${deliverySpeed}`:'';
+    const zoneNote=deliveryRequested&&destinationZone.trim()?`Zona de entrega: ${destinationZone.trim()}`:'';
+    const combinedNotes=[notes,zoneNote,speedNote].filter(Boolean).join(' · ');
     const payload={
       beneficiaryId,remittanceType:'FAMILY',
-      originCountry:String(form.get('originCountry')||'US').toUpperCase(),destinationCountry:String(form.get('destinationCountry')||'CU').toUpperCase(),
+      originCountry:String(form.get('originCountry')||'US').toUpperCase(),destinationCountry,
       sendCurrency:String(form.get('sendCurrency')||'USD').toUpperCase(),receiveCurrency:String(form.get('receiveCurrency')||'USD').toUpperCase(),
       sendAmount:Number(form.get('sendAmount')),purpose:String(form.get('purpose')||'Family support'),sourceOfFunds:String(form.get('sourceOfFunds')||''),
       senderFullName:String(form.get('senderFullName')||''),senderPhone:String(form.get('senderPhone')||''),senderEmail:String(form.get('senderEmail')||''),
@@ -53,45 +101,64 @@ export default function StartTransaction(){
     };
     const res=await fetch('/api/remittances',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
     const body=await res.json().catch(()=>({}));
-    if(!res.ok){setMessage(body.error??'Unable to create transaction request.');setBusy(false);return;}
+    if(!res.ok){setMessage(body.error??(es?'No pudimos crear la solicitud.':'Unable to create transaction request.'));setBusy(false);return;}
 
     const intentId=body.remittance?.id as string|undefined;
-    const ref=body.remittance?.reference??'Created';
+    const ref=body.remittance?.reference??(es?'Creada':'Created');
     if(intentId){
       await fetch('/api/transactions/actions',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
         action:'PREFERENCE',remittanceIntentId:intentId,paymentPreference:String(form.get('paymentPreference')||'UNDECIDED'),
-        requestedFulfillment:String(form.get('requestedFulfillment')||'CASH'),deliveryRequested:form.get('deliveryRequested')==='on',
-        customerNotes:String(form.get('customerNotes')||'')
+        requestedFulfillment:String(form.get('requestedFulfillment')||'CASH'),deliveryRequested,deliverySpeedPreference:deliverySpeed,
+        customerNotes:combinedNotes
       })});
       setCreatedId(intentId);
+      if(deliveryRequested) await loadDeliveryOptions(destinationCountry,destinationZone,deliverySpeed);
     }
-    setReference(ref);setMessage('Request created. Keep this reference and follow the status in My Transactions. No funds have moved yet.');setBusy(false);
+    setReference(ref);setMessage(es?'Envío publicado correctamente. Guarda tu referencia y, si pediste entrega, elige abajo la opción que prefieras. Todavía no se han movido fondos.':'Request posted successfully. Save your reference and, if delivery was requested, choose your preferred option below. No funds have moved yet.');setBusy(false);
   }
 
-  return <main className="shell">
-    <nav className="nav"><a href={`/${locale}`} className="brandwrap"><div className="brand">mycubacash.com</div><small>Start a Transaction</small></a><div className="navlinks"><a href={`/${locale}/transactions`}>My Transactions</a><a href={`/${locale}/fees`}>Fees</a><a href={`/${locale}/privacy`}>Privacy</a></div></nav>
-    <section className="hero"><div className="heroCopy"><div className="eyebrow">FAMILY REMITTANCE</div><h1>Start, review and track your family support request.</h1><p className="heroLead">Choose the receiver, amount, fulfillment and payment preference. mycubacash creates a traceable transaction reference and keeps the request on hold until required checks are satisfied.</p></div></section>
-    <section className="section" style={{maxWidth:920,margin:'0 auto'}}>
-      {loading?<p>Loading your account…</p>:<>
-      <article className="feature" style={{display:'grid',gap:12,marginBottom:24}}><h2>1. Receiver</h2>
-        {beneficiaries.length>0&&<label>Choose receiver<select value={beneficiaryId} onChange={e=>setBeneficiaryId(e.target.value)} style={{width:'100%',padding:12,marginTop:6}}>{beneficiaries.filter(b=>b.beneficiary_type==='PERSON').map(b=><option key={b.id} value={b.id}>{b.full_name} · {b.country_code}</option>)}</select></label>}
-        <div className="featureGrid"><label>New receiver name<input value={newName} onChange={e=>setNewName(e.target.value)} style={{width:'100%',padding:12,marginTop:6}}/></label><label>Country<input maxLength={2} value={newCountry} onChange={e=>setNewCountry(e.target.value.toUpperCase())} style={{width:'100%',padding:12,marginTop:6}}/></label></div>
-        <button type="button" className="ghost" onClick={addBeneficiary} disabled={busy}>Add receiver</button>
+  const badge=(value:string)=>value==='RECOMMENDED'?(es?'Recomendado':'Recommended'):value==='LOWEST_STARTING_FEE'?(es?'Mejor precio inicial':'Lowest starting fee'):value==='FASTEST_ETA'?(es?'Más rápido':'Fastest'):value==='DELIVERY_1_3_HOURS'?(es?'1–3 HORAS':'1–3 HOURS'):value==='SAME_DAY'?(es?'MISMO DÍA':'SAME DAY'):value;
+
+  return <main className="shell premiumAppShell">
+    <nav className="nav premiumNav"><a href={`/${locale}`} className="brandwrap"><div className="brand">mycubacash</div><small>{es?'Publicar un envío':'Post a delivery'}</small></a><div className="navlinks"><a href={`/${locale}/transactions`}>{es?'Mis transacciones':'My Transactions'}</a><a href={`/${locale}/fees`}>{es?'Tarifas':'Fees'}</a><a href={`/${locale}/privacy`}>{es?'Privacidad':'Privacy'}</a></div></nav>
+    <section className="hero"><div className="heroCopy"><div className="eyebrow">{es?'ENVÍO FAMILIAR':'FAMILY REMITTANCE'}</div><h1>{es?'Publica tu envío. Compara opciones. Tú decides.':'Post your request. Compare options. You decide.'}</h1><p className="heroLead">{es?'Elige entrega estimada de 1–3 horas, mismo día o flexible. mycubacash compara proveedores verificados por precio, tiempo, cobertura y transporte antes de que tú elijas.':'Choose estimated 1–3 hour, same-day or flexible delivery. mycubacash compares verified providers by price, time, coverage and transport before you choose.'}</p></div></section>
+    <section className="section" style={{maxWidth:980,margin:'0 auto'}}>
+      {loading?<p>{es?'Cargando tu cuenta…':'Loading your account…'}</p>:<>
+      <article className="feature" style={{display:'grid',gap:12,marginBottom:24}}><h2>{es?'1. Receptor':'1. Receiver'}</h2>
+        {beneficiaries.length>0&&<label>{es?'Elige el receptor':'Choose receiver'}<select value={beneficiaryId} onChange={e=>setBeneficiaryId(e.target.value)} style={{width:'100%',padding:12,marginTop:6}}>{beneficiaries.filter(b=>b.beneficiary_type==='PERSON').map(b=><option key={b.id} value={b.id}>{b.full_name} · {b.country_code}</option>)}</select></label>}
+        <div className="featureGrid"><label>{es?'Nuevo receptor':'New receiver'}<input value={newName} onChange={e=>setNewName(e.target.value)} style={{width:'100%',padding:12,marginTop:6}}/></label><label>{es?'País':'Country'}<input maxLength={2} value={newCountry} onChange={e=>setNewCountry(e.target.value.toUpperCase())} style={{width:'100%',padding:12,marginTop:6}}/></label></div>
+        <button type="button" className="ghost" onClick={addBeneficiary} disabled={busy}>{es?'Agregar receptor':'Add receiver'}</button>
       </article>
-      <form onSubmit={submit} className="feature" style={{display:'grid',gap:14}}><h2>2. Sender and amount</h2>
-        <div className="featureGrid"><label>Your full name<input name="senderFullName" required minLength={2} style={{width:'100%',padding:12,marginTop:6}}/></label><label>Your phone<input name="senderPhone" required minLength={7} style={{width:'100%',padding:12,marginTop:6}}/></label><label>Email<input name="senderEmail" type="email" style={{width:'100%',padding:12,marginTop:6}}/></label></div>
-        <div className="featureGrid"><label>Origin country<input name="originCountry" defaultValue="US" maxLength={2} required style={{width:'100%',padding:12,marginTop:6}}/></label><label>Destination country<input name="destinationCountry" defaultValue="CU" maxLength={2} required style={{width:'100%',padding:12,marginTop:6}}/></label></div>
-        <div className="featureGrid"><label>Amount<input name="sendAmount" value={amount} onChange={e=>setAmount(e.target.value)} type="number" min="1" step="0.01" required style={{width:'100%',padding:12,marginTop:6}}/></label><label>Send currency<input name="sendCurrency" defaultValue="USD" maxLength={3} required style={{width:'100%',padding:12,marginTop:6}}/></label><label>Receive currency<input name="receiveCurrency" defaultValue="USD" maxLength={3} required style={{width:'100%',padding:12,marginTop:6}}/></label></div>
-        {fee!==null&&<p><strong>Estimated mycubacash family platform fee:</strong> ${fee.toFixed(2)} USD. Separate settlement, FX or delivery charges may apply and must be disclosed before commitment.</p>}
-        <h2>3. How should the receiver receive value?</h2>
-        <div className="featureGrid"><label>Fulfillment<select name="requestedFulfillment" defaultValue="CASH" style={{width:'100%',padding:12,marginTop:6}}><option value="CASH">Cash</option><option value="PRODUCTS">Products</option><option value="SERVICES">Services</option><option value="SPLIT">Split</option></select></label><label>Payment preference<select name="paymentPreference" defaultValue="UNDECIDED" style={{width:'100%',padding:12,marginTop:6}}><option value="UNDECIDED">Decide with Sofia</option><option value="CASH">Cash</option><option value="ZELLE">Zelle</option><option value="CASH_APP">Cash App</option><option value="OTHER">Other</option></select></label></div>
-        <label><input name="deliveryRequested" type="checkbox"/> Delivery coordination requested</label>
-        <label>Purpose<input name="purpose" defaultValue="Family support" required style={{width:'100%',padding:12,marginTop:6}}/></label><label>Source of funds<input name="sourceOfFunds" placeholder="Salary, savings, business income…" style={{width:'100%',padding:12,marginTop:6}}/></label><label>Notes<textarea name="customerNotes" maxLength={500} placeholder="Receiver instructions, preferred city/zone, product request or other details" style={{width:'100%',padding:12,marginTop:6,minHeight:90}}/></label>
-        <label><input type="checkbox" required/> I confirm the information is accurate and I agree to the <a href={`/${locale}/terms`}>Terms</a> and <a href={`/${locale}/privacy`}>Privacy Notice</a>.</label>
-        <button className="cta" disabled={busy||!beneficiaryId}>{busy?'Creating request…':'Create Transaction Request'}</button>
-        {message&&<p role="status">{message}</p>}{reference&&<div className="feature"><h3>Transaction reference</h3><p><strong>{reference}</strong></p><p>Save this reference. You can now track review, payment evidence and fulfillment status.</p><div className="actions"><a className="cta" href={`/${locale}/transactions`}>Track Transaction</a>{createdId&&<a className="ghost" href={`/${locale}/transactions/${reference}`}>Open Details</a>}</div></div>}
+      <form onSubmit={submit} className="feature" style={{display:'grid',gap:14}}><h2>{es?'2. Remitente y monto':'2. Sender and amount'}</h2>
+        <div className="featureGrid"><label>{es?'Tu nombre completo':'Your full name'}<input name="senderFullName" required minLength={2} style={{width:'100%',padding:12,marginTop:6}}/></label><label>{es?'Tu teléfono':'Your phone'}<input name="senderPhone" required minLength={7} style={{width:'100%',padding:12,marginTop:6}}/></label><label>Email<input name="senderEmail" type="email" style={{width:'100%',padding:12,marginTop:6}}/></label></div>
+        <div className="featureGrid"><label>{es?'País de origen':'Origin country'}<input name="originCountry" defaultValue="US" maxLength={2} required style={{width:'100%',padding:12,marginTop:6}}/></label><label>{es?'País de destino':'Destination country'}<input name="destinationCountry" defaultValue="CU" maxLength={2} required style={{width:'100%',padding:12,marginTop:6}}/></label></div>
+        <div className="featureGrid"><label>{es?'Monto':'Amount'}<input name="sendAmount" value={amount} onChange={e=>setAmount(e.target.value)} type="number" min="1" step="0.01" required style={{width:'100%',padding:12,marginTop:6}}/></label><label>{es?'Moneda de envío':'Send currency'}<input name="sendCurrency" defaultValue="USD" maxLength={3} required style={{width:'100%',padding:12,marginTop:6}}/></label><label>{es?'Moneda de recepción':'Receive currency'}<input name="receiveCurrency" defaultValue="USD" maxLength={3} required style={{width:'100%',padding:12,marginTop:6}}/></label></div>
+        {fee!==null&&<p><strong>{es?'Tarifa estimada de plataforma familiar mycubacash:':'Estimated mycubacash family platform fee:'}</strong> ${fee.toFixed(2)} USD. {es?'Cargos separados de settlement, FX o entrega pueden aplicar y deben mostrarse antes del compromiso.':'Separate settlement, FX or delivery charges may apply and must be disclosed before commitment.'}</p>}
+        <h2>{es?'3. Cómo quieres que reciba el valor':'3. How should the receiver receive value?'}</h2>
+        <div className="featureGrid"><label>{es?'Entrega del valor':'Fulfillment'}<select name="requestedFulfillment" defaultValue="CASH" style={{width:'100%',padding:12,marginTop:6}}><option value="CASH">{es?'Efectivo':'Cash'}</option><option value="PRODUCTS">{es?'Productos':'Products'}</option><option value="SERVICES">{es?'Servicios':'Services'}</option><option value="SPLIT">{es?'Combinado':'Split'}</option></select></label><label>{es?'Preferencia de pago':'Payment preference'}<select name="paymentPreference" defaultValue="UNDECIDED" style={{width:'100%',padding:12,marginTop:6}}><option value="UNDECIDED">{es?'Decidir con Sofia':'Decide with Sofia'}</option><option value="CASH">Cash</option><option value="ZELLE">Zelle</option><option value="CASH_APP">Cash App</option><option value="OTHER">{es?'Otro':'Other'}</option></select></label></div>
+        <label className="deliveryToggle"><input checked={deliveryRequested} onChange={e=>setDeliveryRequested(e.target.checked)} type="checkbox"/> {es?'Quiero comparar servicios de entrega':'I want to compare delivery services'}</label>
+        {deliveryRequested&&<div className="feature" style={{display:'grid',gap:14}}><span className="eyebrow">{es?'VELOCIDAD DE ENTREGA':'DELIVERY SPEED'}</span><label>{es?'¿Qué tan rápido lo necesitas?':'How fast do you need it?'}<select value={deliverySpeed} onChange={e=>setDeliverySpeed(e.target.value as DeliverySpeed)} style={{width:'100%',padding:12,marginTop:6}}><option value="EXPRESS_1_3H">{es?'1–3 horas · prioridad':'1–3 hours · priority'}</option><option value="SAME_DAY">{es?'Mismo día':'Same day'}</option><option value="FLEXIBLE">{es?'Flexible · buscar mejor precio':'Flexible · optimize for price'}</option></select></label><label>{es?'Ciudad / municipio / zona de entrega':'Delivery city / municipality / zone'}<input value={destinationZone} onChange={e=>setDestinationZone(e.target.value)} required placeholder={es?'Ej. La Habana, Vedado, Santiago…':'e.g. Havana, Vedado, Santiago…'} style={{width:'100%',padding:12,marginTop:6}}/></label><p className="sectionCopy">{es?'1–3 horas y mismo día son objetivos estimados publicados por cada proveedor, no garantías. La entrega depende de aceptación, disponibilidad, ruta y controles de la transacción.':'1–3 hour and same-day are provider-posted estimated service targets, not guarantees. Delivery depends on acceptance, availability, route and transaction controls.'}</p></div>}
+        <label>{es?'Propósito':'Purpose'}<input name="purpose" defaultValue={es?'Apoyo familiar':'Family support'} required style={{width:'100%',padding:12,marginTop:6}}/></label><label>{es?'Origen de fondos':'Source of funds'}<input name="sourceOfFunds" placeholder={es?'Salario, ahorros, ingreso de negocio…':'Salary, savings, business income…'} style={{width:'100%',padding:12,marginTop:6}}/></label><label>{es?'Notas':'Notes'}<textarea name="customerNotes" maxLength={500} placeholder={es?'Instrucciones para el receptor, detalles del envío u otra información útil':'Receiver instructions, shipment details or other useful information'} style={{width:'100%',padding:12,marginTop:6,minHeight:90}}/></label>
+        <label><input type="checkbox" required/> {es?'Confirmo que la información es correcta y acepto los':'I confirm the information is accurate and I agree to the'} <a href={`/${locale}/terms`}>{es?'Términos':'Terms'}</a> {es?'y el':'and'} <a href={`/${locale}/privacy`}>{es?'Aviso de Privacidad':'Privacy Notice'}</a>.</label>
+        <button className="cta premiumCta" disabled={busy||!beneficiaryId}>{busy?(es?'Publicando envío…':'Posting request…'):(es?'Publicar envío':'Post Request')}</button>
+        {message&&<p role="status">{message}</p>}{reference&&<div className="feature premiumCard"><h3>{es?'Referencia de transacción':'Transaction reference'}</h3><p><strong>{reference}</strong></p><p>{es?'Guárdala. Une el envío, la selección de entrega y el seguimiento.':'Save it. It connects the request, delivery choice and tracking.'}</p></div>}
       </form></>}
-      <p className="sectionCopy">Creating a request does not move funds. Customer-selected payment methods and submitted references are not treated as verified payment. Transactions remain on hold until the required identity, sanctions, payment, corridor and authorized-provider controls are satisfied.</p>
+
+      {createdId&&deliveryRequested&&<section style={{marginTop:30}}>
+        <div className="sectionHead"><div><span className="eyebrow">{es?'ELIGE TU ENTREGA':'CHOOSE YOUR DELIVERY'}</span><h2>{deliverySpeed==='EXPRESS_1_3H'?(es?'Opciones de 1–3 horas':'1–3 hour options'):deliverySpeed==='SAME_DAY'?(es?'Opciones para hoy':'Same-day options'):(es?'Opciones flexibles':'Flexible options')}</h2></div><p>{es?'Compara proveedores verificados por precio inicial, ETA, cobertura y transporte. Tu elección es una solicitud; el proveedor debe confirmar antes de quedar asignado.':'Compare verified providers by starting price, ETA, coverage and transport. Your choice is a request; the provider must confirm before assignment.'}</p></div>
+        <div className="actions" style={{marginBottom:20}}><button type="button" className={deliverySpeed==='EXPRESS_1_3H'?'cta premiumCta':'glassCta'} onClick={()=>refreshDeliverySpeed('EXPRESS_1_3H')}>{es?'1–3 horas':'1–3 hours'}</button><button type="button" className={deliverySpeed==='SAME_DAY'?'cta premiumCta':'glassCta'} onClick={()=>refreshDeliverySpeed('SAME_DAY')}>{es?'Mismo día':'Same day'}</button><button type="button" className={deliverySpeed==='FLEXIBLE'?'cta premiumCta':'glassCta'} onClick={()=>refreshDeliverySpeed('FLEXIBLE')}>{es?'Flexible':'Flexible'}</button></div>
+        {deliveryLoading?<div className="feature premiumCard"><h3>{es?'Buscando las mejores opciones…':'Finding the best options…'}</h3></div>:deliveryOptions.length===0?<div className="feature premiumCard"><h3>{es?'Sin opciones automáticas para esta velocidad':'No automatic options for this speed'}</h3><p>{selectionMessage||(es?'Tu envío ya está publicado. Prueba otra velocidad o pide ayuda a Sofia.':'Your request is already posted. Try another speed or ask Sofia for help.')}</p></div>:<div className="deliveryChoiceGrid">{deliveryOptions.map((o,index)=>{const displayedFee=o.effective_starting_fee??o.starting_fee;return <article className={`feature premiumCard deliveryChoiceCard ${selectedProvider===o.public_provider_id?'selectedDelivery':''}`} key={o.public_provider_id}>
+          <div className="deliveryChoiceTop"><div><span className="eyebrow">{index===0?(es?'MEJOR OPCIÓN':'BEST MATCH'):(es?'OPCIÓN':'OPTION')} {index+1}</span><h3>{o.display_name}</h3></div><div className="deliveryEta">{o.estimated_eta_min_minutes!=null?`${o.estimated_eta_min_minutes}${o.estimated_eta_max_minutes?`–${o.estimated_eta_max_minutes}`:''} min`:'ETA —'}</div></div>
+          <div className="deliveryBadges">{o.badges?.map(b=><span key={b}>{badge(b)}</span>)}</div>
+          <div className="deliveryMetrics"><div><span>{es?'Desde':'From'}</span><strong>{displayedFee!=null?`${Number(displayedFee).toFixed(2)} ${o.fee_currency||''}`:(es?'Cotización':'Quote')}</strong></div><div><span>{es?'Transporte':'Transport'}</span><strong>{o.transport_mode||'—'}</strong></div><div><span>{es?'Zona':'Area'}</span><strong>{o.city||o.region||o.service_area||'—'}</strong></div></div>
+          {deliverySpeed==='SAME_DAY'&&o.same_day_cutoff_local&&<p><strong>{es?'Corte local mismo día:':'Same-day local cutoff:'}</strong> {o.same_day_cutoff_local.slice(0,5)}</p>}
+          {o.pricing_notes&&<p>{o.pricing_notes}</p>}
+          <button type="button" className={selectedProvider===o.public_provider_id?'cta premiumCta':'glassCta'} onClick={()=>selectDelivery(o)}>{selectedProvider===o.public_provider_id?(es?'Seleccionado':'Selected'):(es?'Elegir esta opción':'Choose this option')}</button>
+        </article>})}</div>}
+        {selectionMessage&&deliveryOptions.length>0&&<p role="status" style={{marginTop:16}}>{selectionMessage}</p>}
+      </section>}
+
+      <p className="sectionCopy" style={{marginTop:28}}>{es?'Publicar un envío no mueve fondos. Elegir 1–3 horas, mismo día o un proveedor tampoco significa aceptación final ni garantiza el tiempo. La transacción permanece sujeta a los controles requeridos de identidad, sanciones, pago, corredor y proveedor autorizado.':'Posting a request does not move funds. Choosing 1–3 hour, same-day or a provider does not mean final acceptance or guarantee timing. The transaction remains subject to required identity, sanctions, payment, corridor and authorized-provider controls.'}</p>
     </section>
   </main>;
 }

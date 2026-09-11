@@ -24,6 +24,7 @@ export const APP_COMMUNICATIONS = {
   }
 } as const;
 
-export function whatsappUrl(e164:string){
-  return `https://wa.me/${e164.replace(/\D/g,'')}`;
+export function whatsappUrl(e164:string,message?:string){
+  const base=`https://wa.me/${e164.replace(/\D/g,'')}`;
+  return message?.trim()?`${base}?text=${encodeURIComponent(message.trim())}`:base;
 }

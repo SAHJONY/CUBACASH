@@ -17,7 +17,9 @@ function authorized(req:Request){
 const CHANNELS=['WHATSAPP','PHONE_CALL'] as const;
 const PAYMENT=['CASH','ZELLE','CASH_APP','OTHER','UNDECIDED'] as const;
 const FULFILLMENT=['CASH','PRODUCTS_SERVICES','SPLIT','UNDECIDED'] as const;
-const REQUESTS=['FAMILY_REMITTANCE','BUSINESS_REMITTANCE','PRODUCTS_SERVICES','DELIVERY','OTHER'] as const;
+const REQUESTS=['FAMILY_REMITTANCE','BUSINESS_REMITTANCE','PRODUCTS_SERVICES','DELIVERY','LOCAL_SERVICE','OTHER'] as const;
+const DELIVERY_SPEEDS=['XPRESS_1H','EXPRESS_1_3H','SAME_DAY','FLEXIBLE'] as const;
+const SERVICE_CODE=/^[A-Z0-9_]{2,64}$/;
 
 export async function POST(req:Request){
   if(!authorized(req)) return json({error:'UNAUTHORIZED'},401);
@@ -32,6 +34,8 @@ export async function POST(req:Request){
   const paymentPreference=String(body.paymentPreference??'UNDECIDED').trim().toUpperCase();
   const requestedFulfillment=String(body.requestedFulfillment??'UNDECIDED').trim().toUpperCase();
   const requestType=String(body.requestType??'FAMILY_REMITTANCE').trim().toUpperCase();
+  const deliverySpeedPreference=String(body.deliverySpeedPreference??'FLEXIBLE').trim().toUpperCase();
+  const requestedServiceCode=body.requestedServiceCode?String(body.requestedServiceCode).trim().toUpperCase():null;
   const amount=body.requestedAmount==null?null:Number(body.requestedAmount);
   const currency=String(body.requestedCurrency??'USD').trim().toUpperCase();
   const receiverWhatsApp=body.receiverWhatsAppPhone?String(body.receiverWhatsAppPhone).trim():null;
@@ -40,9 +44,11 @@ export async function POST(req:Request){
   if(!CHANNELS.includes(channel as typeof CHANNELS[number])||senderFullName.length<2||senderPhone.length<7||!/^[A-Z]{2}$/.test(senderCountryCode)){
     return json({error:'SENDER_INFORMATION_REQUIRED'},400);
   }
-  if(!PAYMENT.includes(paymentPreference as typeof PAYMENT[number])||!FULFILLMENT.includes(requestedFulfillment as typeof FULFILLMENT[number])||!REQUESTS.includes(requestType as typeof REQUESTS[number])||!/^[A-Z]{3}$/.test(currency)||amount!==null&&(!Number.isFinite(amount)||amount<=0)){
+  if(!PAYMENT.includes(paymentPreference as typeof PAYMENT[number])||!FULFILLMENT.includes(requestedFulfillment as typeof FULFILLMENT[number])||!REQUESTS.includes(requestType as typeof REQUESTS[number])||!DELIVERY_SPEEDS.includes(deliverySpeedPreference as typeof DELIVERY_SPEEDS[number])||!/^[A-Z]{3}$/.test(currency)||amount!==null&&(!Number.isFinite(amount)||amount<=0)){
     return json({error:'INVALID_INTAKE'},400);
   }
+  if(requestedServiceCode&&!SERVICE_CODE.test(requestedServiceCode)) return json({error:'INVALID_SERVICE_CODE'},400);
+  if(requestType==='LOCAL_SERVICE'&&!requestedServiceCode) return json({error:'LOCAL_SERVICE_CODE_REQUIRED'},400);
   if(!receiverWhatsApp&&!receiverPhone){
     return json({error:'RECEIVER_CONTACT_REQUIRED',requiredOneOf:['receiverWhatsAppPhone','receiverPhone']},400);
   }
@@ -69,6 +75,8 @@ export async function POST(req:Request){
     receiver_whatsapp_phone:receiverWhatsApp,
     receiver_phone:receiverPhone,
     request_type:requestType,
+    requested_service_code:requestedServiceCode,
+    delivery_speed_preference:deliverySpeedPreference,
     requested_amount:amount,
     requested_currency:currency,
     requested_fulfillment:requestedFulfillment,
@@ -79,7 +87,7 @@ export async function POST(req:Request){
     intake_status:'READY_FOR_REVIEW'
   };
 
-  const {data,error}=await db.from('sofia_order_intakes').insert(payload).select('id,channel,intake_status,payment_preference,payment_status,receiver_whatsapp_phone,receiver_phone,created_at').single();
+  const {data,error}=await db.from('sofia_order_intakes').insert(payload).select('id,channel,intake_status,request_type,requested_service_code,delivery_speed_preference,payment_preference,payment_status,receiver_whatsapp_phone,receiver_phone,created_at').single();
   if(error){
     if((error as {code?:string}).code==='23505'&&externalReference){
       const {data:existing}=await db.from('sofia_order_intakes').select('id,intake_status').eq('external_reference',externalReference).single();
@@ -90,9 +98,11 @@ export async function POST(req:Request){
 
   return json({
     intake:data,
-    nextAction:'PROCESS_AND_AWAIT_RECEIVER_CONFIRMATION',
+    nextAction:'PROCESS_WITH_POLICY_GATES',
     paymentRule:'CUSTOMER_PREFERENCE_RECORDED_NOT_PAYMENT_VERIFICATION',
     receiverRule:'BOUND_WHATSAPP_OR_PHONE_REQUIRED_FOR_FINAL_CONFIRMATION',
+    serviceRule:'LOCAL_SERVICE_SELECTION_DOES_NOT_AUTHORIZE_MONEY_TRANSMISSION_CURRENCY_EXCHANGE_CUSTODY_OR_SETTLEMENT',
+    deliveryRule:'DELIVERY_SPEED_IS_A_CUSTOMER_PREFERENCE_UNTIL_PROVIDER_ACCEPTANCE',
     permittedPaymentPreferences:['CASH','ZELLE','CASH_APP','OTHER','UNDECIDED']
   },201);
 }

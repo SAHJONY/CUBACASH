@@ -14,7 +14,7 @@ function authorized(req:Request){
   return a.length===b.length&&timingSafeEqual(a,b);
 }
 
-const CHANNELS=['WHATSAPP','TELEGRAM','PHONE_CALL'] as const;
+const CHANNELS=['WHATSAPP','PHONE_CALL'] as const;
 
 export async function POST(req:Request){
   if(!authorized(req)) return json({error:'UNAUTHORIZED'},401);

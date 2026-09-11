@@ -2,11 +2,12 @@ import { copy, localeOf } from '@/lib/i18n';
 
 const cards=[
   ['Pay Cash','Create a direct cash payment record between two private-sector businesses.'],
-  ['Request Payment','The recipient can initiate a payment request and wait for both parties to confirm the handoff.'],
-  ['Dual Confirmation','A transaction is not completed until both payer and payee independently confirm it.'],
+  ['Request Payment','The recipient can initiate a payment request and wait for all required parties to confirm the handoff.'],
+  ['All-Party Confirmation','A transaction is not completed until every required participant independently confirms it.'],
+  ['Gold Stars','After a completed transaction, participants can rate counterparties from 1 to 5 gold stars. Ratings are transaction-backed and cannot be self-awarded.'],
   ['Community Trust','Participants can endorse or flag counterparties; community verification stays separate from legal remittance authorization.'],
   ['Receipts & Evidence','Attach transaction evidence to confirmations and preserve a traceable record.'],
-  ['Disputes','Either participant can open a dispute, which moves the transaction into a disputed state for review.']
+  ['Disputes','Any eligible participant can open a dispute, which keeps the transaction history visible and moves the record into review.']
 ] as const;
 
 export default async function CashLedger({params}:{params:Promise<{locale:string}>}){
@@ -22,11 +23,11 @@ export default async function CashLedger({params}:{params:Promise<{locale:string
     </nav>
 
     <section className="section">
-      <div className="sectionHead"><div><span className="eyebrow">COMMUNITY CASH LEDGER</span><h2>Direct cash. Dual confirmation. Permanent platform record.</h2></div><p>mycubacash records direct cash settlement between private-sector participants without taking custody of the cash. Each record preserves who paid, who received, amount, currency, purpose, confirmation state, evidence and disputes.</p></div>
+      <div className="sectionHead"><div><span className="eyebrow">COMMUNITY CASH LEDGER</span><h2>Direct cash. All-party confirmation. Public reputation.</h2></div><p>mycubacash records direct cash settlement between private-sector participants without taking custody of the cash. Each record preserves who paid, who received, amount, currency, purpose, confirmation state, public status history, evidence, disputes and transaction-backed reputation.</p></div>
       <div className="previewGrid">
         <div><span>Custody</span><strong>NONE</strong></div>
-        <div><span>Completion</span><strong>DUAL CONFIRMATION</strong></div>
-        <div><span>Trust</span><strong>COMMUNITY + POLICY</strong></div>
+        <div><span>Completion</span><strong>ALL REQUIRED PARTIES</strong></div>
+        <div><span>Reputation</span><strong>★★★★★</strong></div>
         <div><span>Records</span><strong>AUDITABLE</strong></div>
       </div>
     </section>
@@ -37,7 +38,7 @@ export default async function CashLedger({params}:{params:Promise<{locale:string
       </div>
     </section>
 
-    <section className="policyBlock"><div><span className="eyebrow">ROLE SEPARATION</span><h2>Community Verified ≠ Authorized Remittance Partner</h2></div><p>A trusted entrepreneur or business may participate in direct private-sector cash transactions and maintain a verified transaction history. Legal authority to accept and transmit remittance funds is a separate status and cannot be created by community votes alone.</p></section>
-    <footer className="footer"><strong>mycubacash.com</strong><span>Community Cash Ledger</span><span>v0.5</span></footer>
+    <section className="policyBlock"><div><span className="eyebrow">REPUTATION PRINCIPLE</span><h2>Gold stars must come from real completed transactions</h2></div><p>Only a participating business may rate another participating business after the transaction is completed. Self-ratings are prohibited, and each rater/target pair gets one rating per transaction. Public star averages therefore reflect transaction-backed community history rather than unverified popularity.</p></section>
+    <footer className="footer"><strong>mycubacash.com</strong><span>Community Cash Ledger</span><span>v0.6</span></footer>
   </main>;
 }

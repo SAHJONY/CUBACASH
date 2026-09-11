@@ -3,9 +3,9 @@ import {APP_COMMUNICATIONS,whatsappUrl} from '@/lib/communications';
 import {supabaseServer} from '@/lib/supabase/server';
 
 const MEDIA={
-  marketplace:'https://images.unsplash.com/photo-1786987337759-b98225cadb8f?auto=format&fit=crop&fm=jpg&q=82&w=2600',
-  family:'https://images.unsplash.com/photo-1758522491760-f6fb110ec485?auto=format&fit=crop&fm=jpg&q=82&w=2600',
-  delivery:'https://images.unsplash.com/photo-1779518084038-c9ced1f8790f?auto=format&fit=crop&fm=jpg&q=82&w=2600'
+  marketplace:'https://images.unsplash.com/photo-1786987337759-b98225cadb8f?auto=format&fit=crop&fm=jpg&q=82&w=2400',
+  family:'https://images.unsplash.com/photo-1758522491760-f6fb110ec485?auto=format&fit=crop&fm=jpg&q=82&w=2400',
+  delivery:'https://images.unsplash.com/photo-1779518084038-c9ced1f8790f?auto=format&fit=crop&fm=jpg&q=82&w=2400'
 } as const;
 
 const copy={

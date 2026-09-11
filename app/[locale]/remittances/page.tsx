@@ -3,8 +3,8 @@ import { copy, localeOf } from '@/lib/i18n';
 const family=[
   ['Family beneficiaries','Manage people receiving family support with identity and delivery-method state.'],
   ['Send family support','Create a FAMILY remittance intent for a person beneficiary.'],
-  ['Track delivery','Follow review, partner processing, availability, delivery and settlement from one reference.'],
-  ['Family history','Preserve recurring-recipient history without letting history override hard compliance controls.']
+  ['Receiver choice','Where supported, the beneficiary can choose an eligible cash payout route or approved private-sector goods and services.'],
+  ['Track delivery','Follow review, partner processing, availability, delivery and settlement from one reference.']
 ] as const;
 
 const business=[
@@ -12,6 +12,13 @@ const business=[
   ['Business payment','Create a BUSINESS remittance intent tied to an owned sender business and commercial purpose.'],
   ['Invoice / purpose evidence','Keep commercial purpose, supporting evidence and counterparty state attached to the transfer record.'],
   ['Business reconciliation','Match provider settlement, fees and delivered amount against the expected commercial payment.']
+] as const;
+
+const delivery=[
+  ['Independent delivery provider','A single person may register for delivery work, including part-time availability, without becoming a remittance intermediary.'],
+  ['Private-business delivery provider','A verified private-sector business can register its delivery service separately from its merchant role.'],
+  ['Multi-role account','The same account may be a customer, family beneficiary and independent delivery provider. Each role keeps separate permissions.'],
+  ['Beneficiary rights stay intact','A delivery provider who is personally receiving family support can receive their own FAMILY remittance like any other eligible beneficiary.']
 ] as const;
 
 const crypto=[
@@ -35,26 +42,31 @@ export default async function Remittances({params}:{params:Promise<{locale:strin
 
     <section className="hero">
       <div className="heroCopy">
-        <div className="eyebrow">FAMILY + BUSINESS REMITTANCE OS</div>
-        <h1>Send support. Pay businesses. Keep every transfer traceable.</h1>
-        <p className="heroLead">mycubacash separates family remittances from private-business payments so each flow can use the right beneficiary, evidence, compliance and partner route.</p>
-        <p className="heroSub">Fiat and approved crypto can be offered as funding or settlement preferences where an appropriately authorized provider supports the corridor. mycubacash does not take custody of crypto; platform revenue remains USD-denominated.</p>
-        <div className="actions"><a className="cta" href="#family">Family remittance</a><a className="ghost" href="#business">Business remittance</a></div>
+        <div className="eyebrow">FAMILY + BUSINESS + DELIVERY NETWORK</div>
+        <h1>Send support. Pay businesses. Deliver to family. Keep every role traceable.</h1>
+        <p className="heroLead">mycubacash separates family remittances, private-business payments and delivery-provider activity so one person can hold multiple legitimate roles without those permissions bleeding into one another.</p>
+        <p className="heroSub">Fiat and approved crypto can be offered as funding or settlement preferences where an appropriately authorized provider supports the corridor. Delivery-provider status never authorizes a person or business to transmit remittance funds for others.</p>
+        <div className="actions"><a className="cta" href="#family">Family remittance</a><a className="ghost" href="#delivery">Delivery providers</a></div>
       </div>
       <aside className="commandPreview" aria-label="Remittance overview">
-        <div className="previewTop"><span className="liveDot"/> Remittance Control <span className="previewTag">FAIL-CLOSED</span></div>
+        <div className="previewTop"><span className="liveDot"/> Remittance Control <span className="previewTag">ROLE-SEPARATED</span></div>
         <div className="previewGrid">
           <div><span>Primary flows</span><strong>FAMILY + BUSINESS</strong></div>
-          <div><span>Funding options</span><strong>FIAT + APPROVED CRYPTO</strong></div>
-          <div><span>Funds movement</span><strong>PARTNER-ROUTED</strong></div>
+          <div><span>Delivery providers</span><strong>INDIVIDUAL + BUSINESS</strong></div>
+          <div><span>Funds movement</span><strong>AUTHORIZED ROUTE ONLY</strong></div>
           <div><span>Platform fees</span><strong>USD ONLY</strong></div>
         </div>
       </aside>
     </section>
 
     <section className="section" id="family">
-      <div className="sectionHead"><div><span className="eyebrow">FAMILY REMITTANCE</span><h2>Person-to-person family support</h2></div><p>Designed for legitimate family support to a person beneficiary. The beneficiary must be a person, and the intent remains pending review until trusted controls are satisfied.</p></div>
+      <div className="sectionHead"><div><span className="eyebrow">FAMILY REMITTANCE</span><h2>Person-to-person family support</h2></div><p>Designed for legitimate family support to a person beneficiary. A beneficiary may also hold another platform role, including independent delivery provider, without changing the rules that apply to the FAMILY remittance.</p></div>
       <div className="featureGrid">{family.map(([title,description],i)=><article className="feature" key={title}><div className="icon">F{String(i+1).padStart(2,'0')}</div><h3>{title}</h3><p>{description}</p><div className="featureMeta">FAMILY FLOW</div></article>)}</div>
+    </section>
+
+    <section className="section" id="delivery">
+      <div className="sectionHead"><div><span className="eyebrow">DELIVERY PROVIDERS</span><h2>Part-time individuals and private businesses</h2></div><p>Verified private-sector individuals and businesses can maintain delivery profiles, service areas and availability. Their delivery role is operational only; it does not create remittance, cash-handling or money-transmission authority.</p></div>
+      <div className="featureGrid">{delivery.map(([title,description],i)=><article className="feature" key={title}><div className="icon">D{String(i+1).padStart(2,'0')}</div><h3>{title}</h3><p>{description}</p><div className="featureMeta">SEPARATE ROLE + PERMISSIONS</div></article>)}</div>
     </section>
 
     <section className="section" id="business">
@@ -67,7 +79,7 @@ export default async function Remittances({params}:{params:Promise<{locale:strin
       <div className="featureGrid">{crypto.map(([asset,networks],i)=><article className="feature" key={asset}><div className="icon">C{String(i+1).padStart(2,'0')}</div><h3>{asset}</h3><p>{networks}</p><div className="featureMeta">AUTHORIZED PROVIDER REQUIRED</div></article>)}</div>
     </section>
 
-    <section className="policyBlock"><div><span className="eyebrow">CORE RULE</span><h2>Funding preference never overrides compliance</h2></div><p>Family and business classification, sanctions state, identity/KYB, corridor controls, approved crypto asset/network policy and authorized-provider eligibility all remain separate gates. Crypto never bypasses them.</p></section>
-    <footer className="footer"><strong>mycubacash.com</strong><span>Family + Business Remittance · Fiat + Approved Crypto</span><span>v0.8</span></footer>
+    <section className="policyBlock"><div><span className="eyebrow">CORE RULE</span><h2>One account can have many roles, but authority never transfers between roles</h2></div><p>A delivery provider may receive their own family remittance as a beneficiary. That does not authorize them to receive or transmit remittance funds on behalf of unrelated customers. Family/business classification, identity/KYB, sanctions state, corridor controls and authorized-provider eligibility remain separate gates.</p></section>
+    <footer className="footer"><strong>mycubacash.com</strong><span>Family + Business Remittance · Private-Sector Delivery Network</span><span>v0.9</span></footer>
   </main>;
 }

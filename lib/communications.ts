@@ -13,17 +13,9 @@ export const APP_COMMUNICATIONS = {
     label: 'Phone',
     display: process.env.NEXT_PUBLIC_PHONE_DISPLAY ?? '+1 281-662-8581',
     e164: process.env.NEXT_PUBLIC_PHONE_E164 ?? '+12816628581'
-  },
-  telegram: {
-    label: 'Telegram',
-    handle: process.env.NEXT_PUBLIC_TELEGRAM_HANDLE ?? '@SahjonyGlobalTradeBot'
   }
 } as const;
 
 export function whatsappUrl(e164:string){
   return `https://wa.me/${e164.replace(/\D/g,'')}`;
-}
-
-export function telegramUrl(handle:string){
-  return `https://t.me/${handle.replace(/^@/,'')}`;
 }

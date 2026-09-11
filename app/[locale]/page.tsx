@@ -1,4 +1,5 @@
-import { copy, localeOf, locales } from '@/lib/i18n';
+import { localeOf, locales } from '@/lib/i18n';
+import { APP_COMMUNICATIONS, telegramUrl, whatsappUrl } from '@/lib/communications';
 
 const corridorRows = [
   ['FAMILY','Family support to person beneficiaries'],
@@ -11,13 +12,14 @@ const corridorRows = [
 export default async function LocaleHome({params}:{params:Promise<{locale:string}>}){
   const {locale:raw}=await params;
   const locale=localeOf(raw);
-  const t=copy[locale];
   const rtl=locale==='ar';
+  const channels=APP_COMMUNICATIONS;
+
   return <main className="shell" dir={rtl?'rtl':'ltr'}>
     <nav className="nav">
       <a href={`/${locale}`} className="brandwrap"><div className="brand">mycubacash.com</div><small>Family · Business · Marketplace</small></a>
       <div className="navlinks">
-        <a href="#family">Family</a><a href="#business">Business</a><a href={`/${locale}/marketplace`}>Marketplace</a><a href={`/${locale}/cash`}>Cash Ledger</a><a href="#controls">Trust & Controls</a>
+        <a href="#family">Family</a><a href="#business">Business</a><a href={`/${locale}/marketplace`}>Marketplace</a><a href={`/${locale}/delivery-providers`}>Delivery</a><a href="#contact">Contact Sofia</a><a href="#controls">Trust & Controls</a>
       </div>
       <div className="navright"><div className="lang">{locales.map(l=><a key={l} href={`/${l}`}>{l.toUpperCase()}</a>)}</div><a className="miniCta" href={`/${locale}/dashboard`}>Command Center</a></div>
     </nav>
@@ -26,20 +28,20 @@ export default async function LocaleHome({params}:{params:Promise<{locale:string
       <div className="heroCopy">
         <div className="eyebrow">FAMILY REMITTANCE · BUSINESS REMITTANCE · PRIVATE MARKETPLACE</div>
         <h1>Support families. Pay businesses. Connect private-sector commerce.</h1>
-        <p className="heroLead">mycubacash is focused on three primary jobs: family remittances, private-business payments, and a trusted marketplace for private businesses and entrepreneurs.</p>
-        <p className="heroSub">One platform for beneficiaries, business counterparties, buy/sell/service offers, partner routing, transaction records, public reputation, gold stars, disputes, reconciliation and AI-assisted matching.</p>
-        <div className="actions"><a className="cta" href={`/${locale}/remittances`}>Send / Pay</a><a className="ghost" href={`/${locale}/marketplace`}>Open Marketplace</a></div>
-        <div className="trustbar"><span>✓ FAMILY + BUSINESS</span><span>✓ PRIVATE SECTOR + EMPRENDEDORES</span><span>✓ EVIDENCE-FIRST</span></div>
+        <p className="heroLead">mycubacash is focused on family remittances, private-business payments, verified delivery services and a trusted marketplace for private businesses and entrepreneurs.</p>
+        <p className="heroSub">Start with Sofia by WhatsApp, Telegram or phone. The application keeps the transaction reference, sender and receiver records, delivery coordination, receipts, confirmations and transaction history together.</p>
+        <div className="actions"><a className="cta" href={whatsappUrl(channels.whatsappPrimary.e164)}>WhatsApp Sofia</a><a className="ghost" href={telegramUrl(channels.telegram.handle)}>Telegram Sofia</a><a className="ghost" href={`tel:${channels.phone.e164}`}>Call Sofia</a></div>
+        <div className="trustbar"><span>✓ FAMILY + BUSINESS</span><span>✓ PRIVATE SECTOR + EMPRENDEDORES</span><span>✓ WHATSAPP · TELEGRAM · PHONE</span></div>
       </div>
       <aside className="commandPreview" aria-label="Platform overview">
         <div className="previewTop"><span className="liveDot"/> mycubacash.com <span className="previewTag">REMITTANCE + COMMERCE OS</span></div>
         <div className="previewGrid">
           <div><span>Family</span><strong>PERSON BENEFICIARY</strong></div>
-          <div><span>Business</span><strong>COMMERCIAL PURPOSE</strong></div>
-          <div><span>Marketplace</span><strong>BUY · SELL · SERVICE</strong></div>
-          <div><span>Controls</span><strong>FAIL-CLOSED</strong></div>
+          <div><span>Business</span><strong>PRIVATE SECTOR</strong></div>
+          <div><span>Delivery</span><strong>VERIFIED PROVIDERS</strong></div>
+          <div><span>Sofia</span><strong>3 CHANNELS</strong></div>
         </div>
-        <div className="flow"><span>Identity</span><i>→</i><span>Trust</span><i>→</i><span>Match / Pay</span><i>→</i><span>Record</span></div>
+        <div className="flow"><span>Contact</span><i>→</i><span>Transaction ID</span><i>→</i><span>Fulfillment</span><i>→</i><span>Confirmation</span></div>
       </aside>
     </section>
 
@@ -48,7 +50,7 @@ export default async function LocaleHome({params}:{params:Promise<{locale:string
       <div className="featureGrid">
         <article className="feature"><div className="icon">01</div><h3>Family beneficiaries</h3><p>Create recipient profiles for relatives and other legitimate family beneficiaries.</p><div className="featureMeta">PERSON · IDENTITY · DELIVERY</div></article>
         <article className="feature"><div className="icon">02</div><h3>Send support</h3><p>Create a FAMILY intent, choose the corridor and delivery method, and track its state.</p><div className="featureMeta">INTENT · ROUTING · TRACKING</div></article>
-        <article className="feature"><div className="icon">03</div><h3>Trusted history</h3><p>Keep an auditable history of recurring beneficiaries and completed partner outcomes.</p><div className="featureMeta">HISTORY · RECEIPTS · RECONCILIATION</div></article>
+        <article className="feature"><div className="icon">03</div><h3>Trusted history</h3><p>Keep an auditable history of recurring beneficiaries and completed outcomes.</p><div className="featureMeta">HISTORY · RECEIPTS · RECONCILIATION</div></article>
       </div>
     </section>
 
@@ -57,18 +59,28 @@ export default async function LocaleHome({params}:{params:Promise<{locale:string
       <div className="featureGrid">
         <article className="feature"><div className="icon">01</div><h3>Business counterparties</h3><p>Keep business recipient identity, registration and verification state separate from family beneficiaries.</p><div className="featureMeta">BUSINESS · KYB · COUNTERPARTY</div></article>
         <article className="feature"><div className="icon">02</div><h3>Commercial payments</h3><p>Create BUSINESS payment intents with source-of-funds and commercial-purpose context.</p><div className="featureMeta">PURPOSE · EVIDENCE · ROUTING</div></article>
-        <article className="feature"><div className="icon">03</div><h3>Settlement controls</h3><p>Track authorized-provider processing, fees, settlement and reconciliation without fabricating live pricing.</p><div className="featureMeta">PARTNER · SETTLEMENT · RECONCILIATION</div></article>
+        <article className="feature"><div className="icon">03</div><h3>Settlement controls</h3><p>Track processing, fees, settlement and reconciliation without fabricating live pricing.</p><div className="featureMeta">PAYMENT · SETTLEMENT · RECONCILIATION</div></article>
       </div>
     </section>
 
     <section className="section" id="marketplace">
-      <div className="sectionHead"><div><span className="eyebrow">03 · MARKETPLACE</span><h2>Private-sector marketplace for businesses and entrepreneurs</h2></div><p>Businesses and emprendedores can publish BUY, SELL and SERVICE offers, build reputation and move matched opportunities into documented business-payment workflows.</p></div>
+      <div className="sectionHead"><div><span className="eyebrow">03 · MARKETPLACE</span><h2>Private-sector marketplace for businesses and entrepreneurs</h2></div><p>Businesses and emprendedores can publish BUY, SELL and SERVICE offers, build reputation and move matched opportunities into documented payment workflows.</p></div>
       <div className="featureGrid">
         <article className="feature"><div className="icon">01</div><h3>Buy</h3><p>Post demand for goods, inputs, inventory and services.</p><div className="featureMeta">DEMAND · RFQ · SOURCING</div></article>
         <article className="feature"><div className="icon">02</div><h3>Sell</h3><p>List products and commercial offers for verified private-sector buyers.</p><div className="featureMeta">OFFERS · PRODUCTS · SUPPLIERS</div></article>
         <article className="feature"><div className="icon">03</div><h3>Services</h3><p>Offer professional, technical, logistics and other legitimate private-sector services.</p><div className="featureMeta">SERVICES · TRUST · MATCHING</div></article>
       </div>
       <div className="actions"><a className="cta" href={`/${locale}/marketplace`}>Explore Marketplace</a></div>
+    </section>
+
+    <section className="section" id="contact">
+      <div className="sectionHead"><div><span className="eyebrow">SOFIA · OFFICIAL COMMUNICATION CHANNELS</span><h2>Start and manage your transaction with Sofia</h2></div><p>Use the official mycubacash channels below. Sofia can collect the sender and receiver information, transaction amount, payment preference, delivery request and receipt confirmation.</p></div>
+      <div className="featureGrid">
+        <article className="feature"><div className="icon">W</div><h3>{channels.whatsappPrimary.label}</h3><p><strong>{channels.whatsappPrimary.display}</strong></p><p>Primary WhatsApp Business channel for orders and transaction communication.</p><div className="actions"><a className="cta" href={whatsappUrl(channels.whatsappPrimary.e164)}>Open WhatsApp</a></div></article>
+        <article className="feature"><div className="icon">W2</div><h3>{channels.whatsappSecondary.label}</h3><p><strong>{channels.whatsappSecondary.display}</strong></p><p>Secondary WhatsApp and phone communication channel.</p><div className="actions"><a className="cta" href={whatsappUrl(channels.whatsappSecondary.e164)}>Open WhatsApp</a></div></article>
+        <article className="feature"><div className="icon">T</div><h3>{channels.telegram.label}</h3><p><strong>{channels.telegram.handle}</strong></p><p>Telegram channel managed through Sofia.</p><div className="actions"><a className="cta" href={telegramUrl(channels.telegram.handle)}>Open Telegram</a></div></article>
+        <article className="feature"><div className="icon">P</div><h3>{channels.phone.label}</h3><p><strong>{channels.phone.display}</strong></p><p>Phone-call channel for Sofia-managed transaction intake and support.</p><div className="actions"><a className="cta" href={`tel:${channels.phone.e164}`}>Call Now</a></div></article>
+      </div>
     </section>
 
     <section className="section split">
@@ -78,9 +90,9 @@ export default async function LocaleHome({params}:{params:Promise<{locale:string
 
     <section className="policyBlock" id="controls">
       <div><span className="eyebrow">TRUST + CONTROL</span><h2>Reputation helps discovery; evidence governs execution</h2></div>
-      <p>Users can build public transaction history and gold-star reputation through actual platform activity. Community trust does not replace identity, business verification, current compliance evidence or authorized remittance-partner status.</p>
+      <p>Users can build public transaction history and gold-star reputation through actual platform activity. Community trust does not replace identity, business verification, current compliance evidence or applicable payment/remittance controls.</p>
     </section>
 
-    <footer className="footer"><strong>mycubacash.com</strong><span>Family Remittance · Business Remittance · Private-Sector Marketplace</span><span>v0.6</span></footer>
+    <footer className="footer"><strong>mycubacash.com</strong><span>WhatsApp {channels.whatsappPrimary.display} · Telegram {channels.telegram.handle} · Phone {channels.phone.display}</span><span>v0.10</span></footer>
   </main>;
 }

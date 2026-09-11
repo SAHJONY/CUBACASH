@@ -1,0 +1,19 @@
+version: mycubacash-sanctions-v1
+sanctions_screening:
+  source_policy:
+    require_current_authoritative_source: true
+    allow_model_only_clearance: false
+  name_matching:
+    confidence_threshold: 0.92
+    require_secondary_identifier: true
+    secondary_identifiers:
+      - dob
+      - nationality
+      - known_addresses
+      - entity_ownership
+    fuzzy_match_assist: model_inference
+    disposition:
+      exact_or_high_confidence_match: hold_for_authorized_review
+      incomplete_identity_resolution: hold
+      source_error: hold
+    note: AI may assist prioritization and false-positive reduction, but may not clear a sanctions match without corroborating identifiers and current authoritative evidence.

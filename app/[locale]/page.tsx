@@ -1,11 +1,11 @@
 import { copy, localeOf, locales } from '@/lib/i18n';
 
 const corridorRows = [
-  ['CU-CU','Private commerce inside Cuba'],
-  ['CU-WORLD','Private-sector exports from Cuba'],
-  ['WORLD-CU','Imports and sourcing into Cuba'],
-  ['CU-US','U.S.-nexus workflow with special controls'],
-  ['WORLD-WORLD','International private-sector trade']
+  ['FAMILY','Family support to person beneficiaries'],
+  ['BUSINESS','Private-business payments with commercial purpose'],
+  ['MARKETPLACE','Buy, sell and service offers for private businesses and entrepreneurs'],
+  ['CU-CU / WORLD-CU','Domestic and international-to-Cuba routing'],
+  ['CU-WORLD / CU-US','Outbound and U.S.-nexus flows with additional controls']
 ] as const;
 
 export default async function LocaleHome({params}:{params:Promise<{locale:string}>}){
@@ -15,54 +15,72 @@ export default async function LocaleHome({params}:{params:Promise<{locale:string
   const rtl=locale==='ar';
   return <main className="shell" dir={rtl?'rtl':'ltr'}>
     <nav className="nav">
-      <a href={`/${locale}`} className="brandwrap"><div className="brand">{t.brand}</div><small>{t.tag}</small></a>
+      <a href={`/${locale}`} className="brandwrap"><div className="brand">mycubacash.com</div><small>Family · Business · Marketplace</small></a>
       <div className="navlinks">
-        <a href="#network">{t.businesses}</a><a href="#commerce">{t.market}</a><a href="#trade">{t.trade}</a><a href="#controls">{t.compliance}</a>
+        <a href="#family">Family</a><a href="#business">Business</a><a href={`/${locale}/marketplace`}>Marketplace</a><a href={`/${locale}/cash`}>Cash Ledger</a><a href="#controls">Trust & Controls</a>
       </div>
-      <div className="navright"><div className="lang">{locales.map(l=><a key={l} href={`/${l}`}>{l.toUpperCase()}</a>)}</div><a className="miniCta" href={`/${locale}/dashboard`}>{t.dashboard}</a></div>
+      <div className="navright"><div className="lang">{locales.map(l=><a key={l} href={`/${l}`}>{l.toUpperCase()}</a>)}</div><a className="miniCta" href={`/${locale}/dashboard`}>Command Center</a></div>
     </nav>
 
     <section className="hero">
       <div className="heroCopy">
-        <div className="eyebrow">PRIVATE SECTOR ECONOMY OS</div>
-        <h1>{t.brand}</h1>
-        <p className="heroLead">{t.hero}</p>
-        <p className="heroSub">{t.subhero}</p>
-        <div className="actions"><a className="cta" href={`/${locale}/dashboard`}>{t.cta}</a><a className="ghost" href="#platform">{t.secondary}</a></div>
-        <div className="trustbar"><span>✓ {t.private}</span><span>✓ ES · EN · FR · PT · AR</span><span>✓ {t.safe}</span></div>
+        <div className="eyebrow">FAMILY REMITTANCE · BUSINESS REMITTANCE · PRIVATE MARKETPLACE</div>
+        <h1>Support families. Pay businesses. Connect private-sector commerce.</h1>
+        <p className="heroLead">mycubacash is focused on three primary jobs: family remittances, private-business payments, and a trusted marketplace for private businesses and entrepreneurs.</p>
+        <p className="heroSub">One platform for beneficiaries, business counterparties, buy/sell/service offers, partner routing, transaction records, public reputation, gold stars, disputes, reconciliation and AI-assisted matching.</p>
+        <div className="actions"><a className="cta" href={`/${locale}/remittances`}>Send / Pay</a><a className="ghost" href={`/${locale}/marketplace`}>Open Marketplace</a></div>
+        <div className="trustbar"><span>✓ FAMILY + BUSINESS</span><span>✓ PRIVATE SECTOR + EMPRENDEDORES</span><span>✓ EVIDENCE-FIRST</span></div>
       </div>
       <aside className="commandPreview" aria-label="Platform overview">
-        <div className="previewTop"><span className="liveDot"/> mycubacash.com <span className="previewTag">CONTROL PLANE</span></div>
+        <div className="previewTop"><span className="liveDot"/> mycubacash.com <span className="previewTag">REMITTANCE + COMMERCE OS</span></div>
         <div className="previewGrid">
-          <div><span>{t.status}</span><strong>READY</strong></div>
-          <div><span>{t.corridors}</span><strong>5</strong></div>
-          <div><span>{t.orchestration}</span><strong>FAIL-CLOSED</strong></div>
-          <div><span>{t.evidence}</span><strong>SOURCE-BOUND</strong></div>
+          <div><span>Family</span><strong>PERSON BENEFICIARY</strong></div>
+          <div><span>Business</span><strong>COMMERCIAL PURPOSE</strong></div>
+          <div><span>Marketplace</span><strong>BUY · SELL · SERVICE</strong></div>
+          <div><span>Controls</span><strong>FAIL-CLOSED</strong></div>
         </div>
-        <div className="flow"><span>Identity</span><i>→</i><span>Trade</span><i>→</i><span>Policy</span><i>→</i><span>Evidence</span></div>
+        <div className="flow"><span>Identity</span><i>→</i><span>Trust</span><i>→</i><span>Match / Pay</span><i>→</i><span>Record</span></div>
       </aside>
     </section>
 
-    <section className="section" id="platform">
-      <div className="sectionHead"><div><span className="eyebrow">ONE OPERATING LAYER</span><h2>Private economy infrastructure</h2></div><p>Built to coordinate real businesses, real demand, real supply, traceable workflows and evidence-backed controls.</p></div>
+    <section className="section" id="family">
+      <div className="sectionHead"><div><span className="eyebrow">01 · FAMILY</span><h2>Family remittance</h2></div><p>Person-to-person family support with beneficiary records, transfer tracking, confirmation history and evidence-aware routing.</p></div>
       <div className="featureGrid">
-        <article className="feature" id="network"><div className="icon">01</div><h3>{t.networkTitle}</h3><p>{t.networkBody}</p><div className="featureMeta">KYB · Ownership · Counterparties · Profiles</div></article>
-        <article className="feature" id="commerce"><div className="icon">02</div><h3>{t.commerceTitle}</h3><p>{t.commerceBody}</p><div className="featureMeta">Demand · Offers · RFQs · Sourcing</div></article>
-        <article className="feature" id="trade"><div className="icon">03</div><h3>{t.tradeTitle}</h3><p>{t.tradeBody}</p><div className="featureMeta">Logistics · Documents · Landed Cost · Workflow</div></article>
-        <article className="feature" id="controls"><div className="icon">04</div><h3>{t.controlsTitle}</h3><p>{t.controlsBody}</p><div className="featureMeta">KYC/KYB · Sanctions · Fraud · Audit</div></article>
+        <article className="feature"><div className="icon">01</div><h3>Family beneficiaries</h3><p>Create recipient profiles for relatives and other legitimate family beneficiaries.</p><div className="featureMeta">PERSON · IDENTITY · DELIVERY</div></article>
+        <article className="feature"><div className="icon">02</div><h3>Send support</h3><p>Create a FAMILY intent, choose the corridor and delivery method, and track its state.</p><div className="featureMeta">INTENT · ROUTING · TRACKING</div></article>
+        <article className="feature"><div className="icon">03</div><h3>Trusted history</h3><p>Keep an auditable history of recurring beneficiaries and completed partner outcomes.</p><div className="featureMeta">HISTORY · RECEIPTS · RECONCILIATION</div></article>
       </div>
     </section>
 
+    <section className="section" id="business">
+      <div className="sectionHead"><div><span className="eyebrow">02 · BUSINESS</span><h2>Private-business remittance</h2></div><p>Commercial payment intents tied to a sender business, business beneficiary, commercial purpose and appropriate review controls.</p></div>
+      <div className="featureGrid">
+        <article className="feature"><div className="icon">01</div><h3>Business counterparties</h3><p>Keep business recipient identity, registration and verification state separate from family beneficiaries.</p><div className="featureMeta">BUSINESS · KYB · COUNTERPARTY</div></article>
+        <article className="feature"><div className="icon">02</div><h3>Commercial payments</h3><p>Create BUSINESS payment intents with source-of-funds and commercial-purpose context.</p><div className="featureMeta">PURPOSE · EVIDENCE · ROUTING</div></article>
+        <article className="feature"><div className="icon">03</div><h3>Settlement controls</h3><p>Track authorized-provider processing, fees, settlement and reconciliation without fabricating live pricing.</p><div className="featureMeta">PARTNER · SETTLEMENT · RECONCILIATION</div></article>
+      </div>
+    </section>
+
+    <section className="section" id="marketplace">
+      <div className="sectionHead"><div><span className="eyebrow">03 · MARKETPLACE</span><h2>Private-sector marketplace for businesses and entrepreneurs</h2></div><p>Businesses and emprendedores can publish BUY, SELL and SERVICE offers, build reputation and move matched opportunities into documented business-payment workflows.</p></div>
+      <div className="featureGrid">
+        <article className="feature"><div className="icon">01</div><h3>Buy</h3><p>Post demand for goods, inputs, inventory and services.</p><div className="featureMeta">DEMAND · RFQ · SOURCING</div></article>
+        <article className="feature"><div className="icon">02</div><h3>Sell</h3><p>List products and commercial offers for verified private-sector buyers.</p><div className="featureMeta">OFFERS · PRODUCTS · SUPPLIERS</div></article>
+        <article className="feature"><div className="icon">03</div><h3>Services</h3><p>Offer professional, technical, logistics and other legitimate private-sector services.</p><div className="featureMeta">SERVICES · TRUST · MATCHING</div></article>
+      </div>
+      <div className="actions"><a className="cta" href={`/${locale}/marketplace`}>Explore Marketplace</a></div>
+    </section>
+
     <section className="section split">
-      <div><span className="eyebrow">TRADE ROUTING</span><h2>Five corridor model</h2><p className="sectionCopy">Every transaction intent is classified before controls are evaluated. No corridor is treated as universally equivalent.</p></div>
+      <div><span className="eyebrow">OPERATING MODEL</span><h2>Classify before moving forward</h2><p className="sectionCopy">Every payment request is classified by remittance type and corridor. Every marketplace offer is tied to a private-sector business identity and controlled publication state.</p></div>
       <div className="corridorTable">{corridorRows.map(([code,label])=><div className="corridorRow" key={code}><strong>{code}</strong><span>{label}</span></div>)}</div>
     </section>
 
-    <section className="policyBlock">
-      <div><span className="eyebrow">POLICY ORCHESTRATION</span><h2>Controls without fabricated certainty</h2></div>
-      <p>{t.policyNotice}</p>
+    <section className="policyBlock" id="controls">
+      <div><span className="eyebrow">TRUST + CONTROL</span><h2>Reputation helps discovery; evidence governs execution</h2></div>
+      <p>Users can build public transaction history and gold-star reputation through actual platform activity. Community trust does not replace identity, business verification, current compliance evidence or authorized remittance-partner status.</p>
     </section>
 
-    <footer className="footer"><strong>mycubacash.com</strong><span>Private Sector Economy Platform</span><span>v0.2</span></footer>
+    <footer className="footer"><strong>mycubacash.com</strong><span>Family Remittance · Business Remittance · Private-Sector Marketplace</span><span>v0.6</span></footer>
   </main>;
 }

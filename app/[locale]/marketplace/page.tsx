@@ -3,16 +3,14 @@ import {APP_COMMUNICATIONS,whatsappUrl} from '@/lib/communications';
 import {supabaseServer} from '@/lib/supabase/server';
 
 const MEDIA={
-  marketplace:'https://images.unsplash.com/photo-1786987337759-b98225cadb8f?auto=format&fit=crop&fm=jpg&q=82&w=2400',
-  family:'https://images.unsplash.com/photo-1758522491760-f6fb110ec485?auto=format&fit=crop&fm=jpg&q=82&w=2400',
-  delivery:'https://images.unsplash.com/photo-1779518084038-c9ced1f8790f?auto=format&fit=crop&fm=jpg&q=82&w=2400'
+  marketplace:'https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&fm=jpg&q=86&w=2600',
+  family:'https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&fm=jpg&q=84&w=2200',
+  delivery:'https://images.unsplash.com/photo-1617347454431-f49d7ff5c3b1?auto=format&fit=crop&fm=jpg&q=84&w=2200'
 } as const;
 
 const copy={
-  es:{
-    badge:'MERCADO PRIVADO + EMPRENDEDORES',title:'Comercio privado con confianza, contexto y personas reales detrás de cada oportunidad.',lead:'Compra, vende y contrata servicios dentro de una red más transparente, con identidad comercial, historial y coordinación de mycubacash unidos a la misma experiencia.',sub:'Explora oportunidades públicas, publica desde tu negocio o pídele a Sofia que coordine una contraparte sin exponer datos privados.',browse:'Explorar oportunidades',post:'Publicar oferta',sofia:'Pedir ayuda a Sofia',payments:'Pagos comerciales',live:'MERCADO ACTIVO',buy:'COMPRAR',sell:'VENDER',service:'SERVICIOS',trust:'CONFIANZA',sectionTitle:'Oportunidades disponibles',sectionText:'Solo aparecen aquí ofertas públicas que ya pasaron por el flujo de publicación de la plataforma. Los datos privados de contacto y pago no se muestran.',empty:'Todavía no hay ofertas públicas disponibles. Puedes publicar una necesidad o pedirle a Sofia que busque una contraparte.',how:'Cómo funciona',howText:'Un flujo simple para compradores, vendedores y prestadores de servicios.',rule:'REGLA DE CONFIANZA',ruleTitle:'La reputación se gana con actividad real',ruleText:'Las calificaciones, disputas, historial y estado de verificación permanecen vinculados a la actividad real de la plataforma. Pagar por un servicio de mycubacash no compra reputación.',verified:'NEGOCIO VERIFICADO',network:'RED PRIVADA',from:'Origen',to:'Destino',price:'Precio objetivo / solicitado',qty:'Cantidad',category:'Categoría',updated:'Actualizado',request:'Solicitar esta oportunidad',noPrice:'Precio a coordinar',home:'Inicio',remit:'Remesas',delivery:'Entrega',account:'Mi cuenta'},
-  en:{
-    badge:'PRIVATE SECTOR + ENTREPRENEURS',title:'Private commerce with trust, context and real people behind every opportunity.',lead:'Buy, sell and hire services inside a more transparent network where business identity, history and mycubacash coordination stay connected to the same experience.',sub:'Browse public opportunities, publish from your business, or ask Sofia to coordinate a counterparty without exposing private data.',browse:'Browse opportunities',post:'Post an offer',sofia:'Ask Sofia to help',payments:'Business payments',live:'LIVE MARKETPLACE',buy:'BUY',sell:'SELL',service:'SERVICES',trust:'TRUST',sectionTitle:'Available opportunities',sectionText:'Only public offers that have passed the platform publication workflow appear here. Private contact and payment information stays hidden.',empty:'There are no public offers available yet. Post a requirement or ask Sofia to find a counterparty.',how:'How it works',howText:'A simple flow for buyers, sellers and service providers.',rule:'TRUST RULE',ruleTitle:'Reputation is earned through real activity',ruleText:'Ratings, disputes, history and verification status remain tied to real platform activity. Paying mycubacash for a service never buys reputation.',verified:'VERIFIED BUSINESS',network:'PRIVATE NETWORK',from:'Origin',to:'Destination',price:'Target / asking price',qty:'Quantity',category:'Category',updated:'Updated',request:'Request this opportunity',noPrice:'Price to coordinate',home:'Home',remit:'Remittances',delivery:'Delivery',account:'My account'}
+  es:{badge:'MERCADO PRIVADO + EMPRENDEDORES',title:'Comercio privado diseñado para sentirse simple, premium y confiable.',lead:'Compra, vende y contrata servicios dentro de una red donde identidad comercial, historial y coordinación permanecen conectados.',sub:'Explora oportunidades públicas, publica desde tu negocio o pide a Sofia que coordine una contraparte sin exponer datos privados.',browse:'Explorar oportunidades',post:'Publicar oferta',sofia:'Pedir ayuda a Sofia',live:'MERCADO ACTIVO',buy:'COMPRAR',sell:'VENDER',service:'SERVICIOS',trust:'CONFIANZA',sectionTitle:'Oportunidades disponibles',sectionText:'Solo aparecen ofertas públicas que ya pasaron por el flujo de publicación. Los datos privados de contacto y pago permanecen ocultos.',empty:'Todavía no hay ofertas públicas disponibles. Publica una necesidad o pide a Sofia que encuentre una contraparte.',how:'CÓMO FUNCIONA',howText:'De oportunidad a transacción, sin perder el contexto.',rule:'REGLA DE CONFIANZA',ruleTitle:'La reputación se gana con actividad real',ruleText:'Calificaciones, disputas, historial y verificación permanecen ligados a actividad real. Pagar por un servicio de mycubacash nunca compra reputación.',verified:'NEGOCIO VERIFICADO',network:'RED PRIVADA',from:'Origen',to:'Destino',price:'Precio objetivo / solicitado',qty:'Cantidad',category:'Categoría',updated:'Actualizado',request:'Solicitar oportunidad',noPrice:'Precio a coordinar',home:'Inicio',remit:'Remesas',delivery:'Entrega',account:'Mi cuenta'},
+  en:{badge:'PRIVATE SECTOR + ENTREPRENEURS',title:'Private commerce designed to feel simple, premium and trusted.',lead:'Buy, sell and hire services inside a network where business identity, history and coordination stay connected.',sub:'Browse public opportunities, publish from your business, or ask Sofia to coordinate a counterparty without exposing private data.',browse:'Browse opportunities',post:'Post an offer',sofia:'Ask Sofia to help',live:'LIVE MARKETPLACE',buy:'BUY',sell:'SELL',service:'SERVICES',trust:'TRUST',sectionTitle:'Available opportunities',sectionText:'Only public offers that passed the publication workflow appear here. Private contact and payment information stays hidden.',empty:'There are no public offers available yet. Post a requirement or ask Sofia to find a counterparty.',how:'HOW IT WORKS',howText:'From opportunity to transaction without losing context.',rule:'TRUST RULE',ruleTitle:'Reputation is earned through real activity',ruleText:'Ratings, disputes, history and verification remain tied to real platform activity. Paying mycubacash never buys reputation.',verified:'VERIFIED BUSINESS',network:'PRIVATE NETWORK',from:'Origin',to:'Destination',price:'Target / asking price',qty:'Quantity',category:'Category',updated:'Updated',request:'Request opportunity',noPrice:'Price to coordinate',home:'Home',remit:'Remittances',delivery:'Delivery',account:'My account'}
 } as const;
 
 export default async function Marketplace({params,searchParams}:{params:Promise<{locale:string}>,searchParams:Promise<{type?:string}>}){
@@ -22,85 +20,57 @@ export default async function Marketplace({params,searchParams}:{params:Promise<
   const channels=APP_COMMUNICATIONS;
   const query=await searchParams;
   const type=['BUY','SELL','SERVICE'].includes(String(query.type||'').toUpperCase())?String(query.type).toUpperCase():'';
-  let offers:any[]=[];
-  let unavailable=false;
+  let offers:any[]=[];let unavailable=false;
   try{
     const supabase=await supabaseServer();
-    let db=supabase.from('marketplace_public_directory')
-      .select('offer_id,offer_type,title,description,category,quantity,unit,currency,target_price,origin_country,destination_country,business_display_name,entrepreneur_friendly,verified_business,published_at,updated_at')
-      .order('verified_business',{ascending:false})
-      .order('updated_at',{ascending:false})
-      .limit(48);
+    let db=supabase.from('marketplace_public_directory').select('offer_id,offer_type,title,description,category,quantity,unit,currency,target_price,origin_country,destination_country,business_display_name,entrepreneur_friendly,verified_business,published_at,updated_at').order('verified_business',{ascending:false}).order('updated_at',{ascending:false}).limit(48);
     if(type) db=db.eq('offer_type',type);
-    const {data,error}=await db;
-    if(error) unavailable=true; else offers=data??[];
+    const {data,error}=await db;if(error) unavailable=true;else offers=data??[];
   }catch{unavailable=true;}
 
   const steps=locale==='es'?
-    [['1','PUBLICA','El negocio publica una necesidad, una oferta o un servicio.'],['2','COMPARA','Clientes y negocios comparan precio, categoría, ruta y estado de verificación.'],['3','COORDINA','Sofia ayuda con preguntas, matching y contexto de la transacción.'],['4','DOCUMENTA','La operación pasa al flujo correspondiente de mycubacash y mantiene su historial.']]:
-    [['1','POST','A business publishes a requirement, offer or service.'],['2','COMPARE','Customers and businesses compare price, category, route and verification state.'],['3','COORDINATE','Sofia helps with questions, matching and transaction context.'],['4','DOCUMENT','The deal moves into the appropriate mycubacash workflow and keeps its history.']];
+    [['1','PUBLICA','Crea una necesidad, oferta o servicio desde tu negocio.'],['2','COMPARA','Evalúa precio, categoría, ruta y verificación.'],['3','COORDINA','Sofia ayuda con matching, preguntas y contexto.'],['4','DOCUMENTA','La operación continúa dentro del flujo mycubacash y conserva su historial.']]:
+    [['1','POST','Create a requirement, offer or service from your business.'],['2','COMPARE','Evaluate price, category, route and verification.'],['3','COORDINATE','Sofia helps with matching, questions and context.'],['4','DOCUMENT','The deal continues inside mycubacash and keeps its history.']];
 
   const stories=locale==='es'?
     [
-      {kicker:'COMERCIO REAL',title:'Emprendedores privados con una vitrina profesional',text:'La oportunidad comercial se presenta con contexto, precio, ruta y estado de verificación, sin convertir datos sensibles en información pública.',image:MEDIA.marketplace,alt:'Emprendedores privados usando un teléfono en un entorno comercial.'},
-      {kicker:'IMPACTO HUMANO',title:'Cada operación termina ayudando a una persona, familia o negocio',text:'mycubacash mantiene el contexto humano de la operación visible para el cliente sin sacrificar privacidad ni controles.',image:MEDIA.family,alt:'Pareja usando un teléfono en casa durante una videollamada.'},
-      {kicker:'ÚLTIMA MILLA',title:'Servicios de entrega que compiten por valor, no por exposición de datos',text:'Los clientes pueden comparar cobertura, disponibilidad, ETA y tarifas publicadas antes de solicitar coordinación.',image:MEDIA.delivery,alt:'Repartidor profesional en motocicleta realizando una entrega urbana.'}
+      {kicker:'COMERCIO REAL',title:'Negocios privados presentados con una experiencia de clase mundial',text:'Oportunidades con contexto, precio, ruta y verificación, sin publicar información privada innecesaria.',image:MEDIA.marketplace,alt:'Equipo de emprendedores privados trabajando.'},
+      {kicker:'IMPACTO HUMANO',title:'La tecnología conecta la operación con la persona que importa',text:'El sistema conserva el contexto humano mientras protege privacidad, evidencia y controles.',image:MEDIA.family,alt:'Familia reunida en casa.'},
+      {kicker:'ÚLTIMA MILLA',title:'Entrega competitiva con mejores opciones para el cliente',text:'Compara cobertura, disponibilidad, ETA y tarifas antes de coordinar el servicio.',image:MEDIA.delivery,alt:'Profesional coordinando una entrega.'}
     ]:
     [
-      {kicker:'REAL COMMERCE',title:'Private entrepreneurs presented with a professional storefront',text:'Commercial opportunities are shown with context, price, route and verification state without turning sensitive information into public data.',image:MEDIA.marketplace,alt:'Private entrepreneurs using a phone in a commercial environment.'},
-      {kicker:'HUMAN IMPACT',title:'Every transaction ultimately supports a person, family or business',text:'mycubacash keeps the human context of the transaction visible to the customer without sacrificing privacy or controls.',image:MEDIA.family,alt:'Couple using a phone at home during a video call.'},
-      {kicker:'LAST MILE',title:'Delivery services compete on value, not exposure of private data',text:'Customers can compare coverage, availability, ETA and provider-posted pricing before requesting coordination.',image:MEDIA.delivery,alt:'Professional motorcycle courier completing an urban delivery.'}
+      {kicker:'REAL COMMERCE',title:'Private businesses presented through a world-class experience',text:'Opportunities include context, price, route and verification without publishing unnecessary private information.',image:MEDIA.marketplace,alt:'Entrepreneurial team working together.'},
+      {kicker:'HUMAN IMPACT',title:'Technology connects the transaction to the person who matters',text:'The system keeps the human context while protecting privacy, evidence and controls.',image:MEDIA.family,alt:'Family together at home.'},
+      {kicker:'LAST MILE',title:'Competitive delivery gives customers better choices',text:'Compare coverage, availability, ETA and posted pricing before coordinating service.',image:MEDIA.delivery,alt:'Professional coordinating delivery.'}
     ];
 
   return <main className="shell cinematicShell" dir={locale==='ar'?'rtl':'ltr'}>
     <nav className="nav premiumNav">
-      <a href={`/${locale}`} className="brandwrap"><div className="brand">mycubacash.com</div><small>Private Sector Marketplace</small></a>
+      <a href={`/${locale}`} className="brandwrap"><div className="brand">mycubacash</div><small>Private Sector Marketplace</small></a>
       <div className="navlinks"><a href={`/${locale}`}>{l.home}</a><a href={`/${locale}/remittances`}>{l.remit}</a><a href={`/${locale}/delivery-providers`}>{l.delivery}</a><a href={`/${locale}/transactions`}>{l.account}</a></div>
-      <a className="miniCta" href={whatsappUrl(channels.whatsappPrimary.e164,locale==='es'?'Necesito ayuda con el marketplace de mycubacash.':'I need help with the mycubacash marketplace.')}>WhatsApp Business Sofia</a>
+      <a className="miniCta premiumCta" href={whatsappUrl(channels.whatsappPrimary.e164,locale==='es'?'Necesito ayuda con el marketplace de mycubacash.':'I need help with the mycubacash marketplace.')}>WhatsApp Business Sofia</a>
     </nav>
 
     <section className="cinematicHero">
-      <img className="cinematicHeroMedia" src={MEDIA.marketplace} alt={locale==='es'?'Emprendedores privados trabajando con tecnología móvil.':'Private entrepreneurs working with mobile technology.'}/>
-      <div className="cinematicHeroShade"/>
-      <div className="cinematicHeroContent">
-        <div className="eyebrow">{l.badge}</div>
-        <h1>{l.title}</h1>
-        <p className="heroLead">{l.lead}</p>
-        <p className="heroSub">{l.sub}</p>
+      <img className="cinematicHeroMedia" src={MEDIA.marketplace} alt={locale==='es'?'Emprendedores privados trabajando.':'Private entrepreneurs working together.'}/><div className="cinematicHeroShade"/>
+      <div className="cinematicHeroContent"><div className="eyebrow">{l.badge}</div><h1>{l.title}</h1><p className="heroLead">{l.lead}</p><p className="heroSub">{l.sub}</p>
         <div className="actions"><a className="cta premiumCta" href="#offers">{l.browse}</a><a className="glassCta" href={`/${locale}/marketplace/manage`}>{l.post}</a><a className="glassCta" href={whatsappUrl(channels.whatsappPrimary.e164,locale==='es'?'Quiero comprar, vender o contratar un servicio. Ayúdame a encontrar la mejor opción.':'I want to buy, sell or hire a service. Help me find the best option.')}>{l.sofia}</a></div>
         <div className="cinematicStats"><div><strong>{l.buy}</strong><span>Demand</span></div><div><strong>{l.sell}</strong><span>Supply</span></div><div><strong>{l.service}</strong><span>Providers</span></div><div><strong>{l.trust}</strong><span>History + stars</span></div></div>
       </div>
     </section>
 
-    <section className="section cinematicStorySection">
-      <div className="sectionHead"><div><span className="eyebrow">{locale==='es'?'UNA RED, TRES EXPERIENCIAS':'ONE NETWORK, THREE EXPERIENCES'}</span><h2>{locale==='es'?'Diseñado alrededor de personas reales y comercio real':'Designed around real people and real commerce'}</h2></div><p>{locale==='es'?'Cada imagen representa una parte distinta del ecosistema: marketplace, impacto humano y entrega. No repetimos visuales entre contextos.':'Every visual represents a different part of the ecosystem: marketplace, human impact and delivery. No duplicated imagery between contexts.'}</p></div>
-      <div className="cinematicStoryGrid">{stories.map(story=><article className="cinematicStory" key={story.kicker}>
-        <img src={story.image} alt={story.alt} loading="lazy"/>
-        <div className="cinematicStoryShade"/>
-        <div className="cinematicStoryCopy"><span>{story.kicker}</span><h3>{story.title}</h3><p>{story.text}</p></div>
-      </article>)}</div>
+    <section className="section cinematicStorySection"><div className="sectionHead"><div><span className="eyebrow">{locale==='es'?'PERSONAS REALES · COMERCIO REAL':'REAL PEOPLE · REAL COMMERCE'}</span><h2>{locale==='es'?'Una experiencia visual distinta para cada parte de la red.':'A distinct visual experience for every part of the network.'}</h2></div><p>{locale==='es'?'Marketplace, impacto humano y entrega usan contextos visuales distintos para que la aplicación se sienta editorial, premium y auténtica.':'Marketplace, human impact and delivery use distinct visual contexts so the application feels editorial, premium and authentic.'}</p></div>
+      <div className="cinematicStoryGrid">{stories.map(story=><article className="cinematicStory" key={story.kicker}><img src={story.image} alt={story.alt} loading="lazy"/><div className="cinematicStoryShade"/><div className="cinematicStoryCopy"><span>{story.kicker}</span><h3>{story.title}</h3><p>{story.text}</p></div></article>)}</div>
     </section>
 
-    <section className="section" id="offers">
-      <div className="sectionHead"><div><span className="eyebrow">MARKETPLACE</span><h2>{l.sectionTitle}</h2></div><p>{l.sectionText}</p></div>
-      <div className="actions" style={{marginBottom:24}}><a className={!type?'cta':'ghost'} href={`/${locale}/marketplace#offers`}>{locale==='es'?'Todas':'All'}</a><a className={type==='BUY'?'cta':'ghost'} href={`/${locale}/marketplace?type=BUY#offers`}>{l.buy}</a><a className={type==='SELL'?'cta':'ghost'} href={`/${locale}/marketplace?type=SELL#offers`}>{l.sell}</a><a className={type==='SERVICE'?'cta':'ghost'} href={`/${locale}/marketplace?type=SERVICE#offers`}>{l.service}</a></div>
-      {unavailable?<div className="feature premiumCard"><h3>{locale==='es'?'Marketplace temporalmente no disponible':'Marketplace temporarily unavailable'}</h3><p>{locale==='es'?'Sofia puede ayudarte mientras restablecemos el directorio.':'Sofia can help while the directory is restored.'}</p></div>:
-      !offers.length?<div className="feature premiumCard"><h3>{l.empty}</h3><div className="actions"><a className="cta" href={`/${locale}/marketplace/manage`}>{l.post}</a><a className="ghost" href={whatsappUrl(channels.whatsappPrimary.e164,locale==='es'?'Busca una contraparte para mi necesidad en el marketplace.':'Find a marketplace counterparty for my need.')}>{l.sofia}</a></div></div>:
-      <div className="featureGrid">{offers.map(o=><article className="feature premiumCard" key={o.offer_id}>
-        <div className="icon">{o.offer_type==='BUY'?'B':o.offer_type==='SELL'?'S':'SV'}</div>
-        <div className="featureMeta">{o.offer_type} · {o.verified_business?l.verified:l.network}</div>
-        <h3>{o.title}</h3><p><strong>{o.business_display_name}</strong></p>{o.description&&<p>{o.description}</p>}
-        {o.category&&<p><strong>{l.category}:</strong> {o.category}</p>}{o.quantity!==null&&<p><strong>{l.qty}:</strong> {o.quantity} {o.unit||''}</p>}
-        <p><strong>{l.price}:</strong> {o.target_price!==null?`${Number(o.target_price).toLocaleString()} ${o.currency}`:l.noPrice}</p>
-        {(o.origin_country||o.destination_country)&&<p><strong>{l.from}:</strong> {o.origin_country||'—'} · <strong>{l.to}:</strong> {o.destination_country||'—'}</p>}
-        <p><small>{l.updated}: {new Date(o.updated_at).toLocaleDateString(locale==='es'?'es-US':'en-US')}</small></p>
-        <div className="actions"><a className="ghost" href={whatsappUrl(channels.whatsappPrimary.e164,locale==='es'?`Me interesa la oportunidad ${o.offer_id}: ${o.title}. Ayúdame a coordinar.`:`I'm interested in marketplace opportunity ${o.offer_id}: ${o.title}. Help me coordinate.`)}>{l.request}</a></div>
-      </article>)}</div>}
+    <section className="section" id="offers"><div className="sectionHead"><div><span className="eyebrow">MARKETPLACE</span><h2>{l.sectionTitle}</h2></div><p>{l.sectionText}</p></div>
+      <div className="actions" style={{marginBottom:28}}><a className={!type?'cta':'ghost'} href={`/${locale}/marketplace#offers`}>{locale==='es'?'Todas':'All'}</a><a className={type==='BUY'?'cta':'ghost'} href={`/${locale}/marketplace?type=BUY#offers`}>{l.buy}</a><a className={type==='SELL'?'cta':'ghost'} href={`/${locale}/marketplace?type=SELL#offers`}>{l.sell}</a><a className={type==='SERVICE'?'cta':'ghost'} href={`/${locale}/marketplace?type=SERVICE#offers`}>{l.service}</a></div>
+      {unavailable?<div className="feature premiumCard"><h3>{locale==='es'?'Marketplace temporalmente no disponible':'Marketplace temporarily unavailable'}</h3><p>{locale==='es'?'Sofia puede ayudarte mientras restablecemos el directorio.':'Sofia can help while the directory is restored.'}</p></div>:!offers.length?<div className="feature premiumCard"><h3>{l.empty}</h3><div className="actions"><a className="cta" href={`/${locale}/marketplace/manage`}>{l.post}</a><a className="ghost" href={whatsappUrl(channels.whatsappPrimary.e164,locale==='es'?'Busca una contraparte para mi necesidad en el marketplace.':'Find a marketplace counterparty for my need.')}>{l.sofia}</a></div></div>:<div className="featureGrid">{offers.map(o=><article className="feature premiumCard" key={o.offer_id}><div className="icon">{o.offer_type==='BUY'?'B':o.offer_type==='SELL'?'S':'SV'}</div><div className="featureMeta">{o.offer_type} · {o.verified_business?l.verified:l.network}</div><h3>{o.title}</h3><p><strong>{o.business_display_name}</strong></p>{o.description&&<p>{o.description}</p>}{o.category&&<p><strong>{l.category}:</strong> {o.category}</p>}{o.quantity!==null&&<p><strong>{l.qty}:</strong> {o.quantity} {o.unit||''}</p>}<p><strong>{l.price}:</strong> {o.target_price!==null?`${Number(o.target_price).toLocaleString()} ${o.currency}`:l.noPrice}</p>{(o.origin_country||o.destination_country)&&<p><strong>{l.from}:</strong> {o.origin_country||'—'} · <strong>{l.to}:</strong> {o.destination_country||'—'}</p>}<p><small>{l.updated}: {new Date(o.updated_at).toLocaleDateString(locale==='es'?'es-US':'en-US')}</small></p><div className="actions"><a className="ghost" href={whatsappUrl(channels.whatsappPrimary.e164,locale==='es'?`Me interesa la oportunidad ${o.offer_id}: ${o.title}. Ayúdame a coordinar.`:`I'm interested in marketplace opportunity ${o.offer_id}: ${o.title}. Help me coordinate.`)}>{l.request}</a></div></article>)}</div>}
     </section>
 
-    <section className="section"><div className="sectionHead"><div><span className="eyebrow">{l.how}</span><h2>{l.howText}</h2></div><p>{locale==='es'?'mycubacash mantiene la identidad comercial, la reputación y el contexto de la operación unidos a la plataforma.':'mycubacash keeps business identity, reputation and transaction context attached to the platform.'}</p></div><div className="featureGrid">{steps.map(([n,t,d])=><article className="feature premiumCard" key={n}><div className="icon">{n}</div><h3>{t}</h3><p>{d}</p></article>)}</div></section>
+    <section className="section"><div className="sectionHead"><div><span className="eyebrow">{l.how}</span><h2>{l.howText}</h2></div><p>{locale==='es'?'mycubacash mantiene identidad comercial, reputación y contexto unidos a la operación.':'mycubacash keeps business identity, reputation and transaction context attached to the operation.'}</p></div><div className="luxuryGrid">{steps.map(([n,t,d])=><article className="luxuryCard" key={n}><span>{n}</span><h3>{t}</h3><p>{d}</p></article>)}</div></section>
 
     <section className="policyBlock premiumPolicy"><div><span className="eyebrow">{l.rule}</span><h2>{l.ruleTitle}</h2></div><p>{l.ruleText}</p></section>
-    <footer className="footer"><strong>mycubacash.com</strong><span>Private-Sector Marketplace · WhatsApp Business Sofia</span><span>Commerce Network</span></footer>
+    <footer className="footer premiumFooter"><strong>mycubacash</strong><span>Private-Sector Marketplace · WhatsApp Business Sofia</span><span>Commerce Network</span></footer>
   </main>;
 }

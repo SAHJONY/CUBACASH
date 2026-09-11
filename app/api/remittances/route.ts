@@ -38,8 +38,23 @@ export async function POST(req:Request){
   const businessPurposeCode=body.businessPurposeCode?String(body.businessPurposeCode).trim().toUpperCase():null;
   const sendAmount=Number(body.sendAmount);
 
+  // Required private sender snapshot for every transaction. These fields are stored
+  // in an owner-only table and are intentionally omitted from customer GET responses.
+  const senderFullName=String(body.senderFullName??'').trim();
+  const senderPhone=String(body.senderPhone??'').trim();
+  const senderEmail=body.senderEmail?String(body.senderEmail).trim():null;
+  const senderAddressLine1=body.senderAddressLine1?String(body.senderAddressLine1).trim():null;
+  const senderAddressLine2=body.senderAddressLine2?String(body.senderAddressLine2).trim():null;
+  const senderCity=body.senderCity?String(body.senderCity).trim():null;
+  const senderRegion=body.senderRegion?String(body.senderRegion).trim():null;
+  const senderPostalCode=body.senderPostalCode?String(body.senderPostalCode).trim():null;
+  const senderCountryCode=String(body.senderCountryCode??originCountry).trim().toUpperCase();
+
   if(!UUID.test(beneficiaryId)||!['FAMILY','BUSINESS'].includes(remittanceType)||!/^[A-Z]{2}$/.test(originCountry)||!/^[A-Z]{2}$/.test(destinationCountry)||!/^[A-Z]{3}$/.test(sendCurrency)||!/^[A-Z]{3}$/.test(receiveCurrency)||!purpose||!Number.isFinite(sendAmount)||sendAmount<=0){
     return json({error:'INVALID_REMITTANCE'},400);
+  }
+  if(senderFullName.length<2||senderPhone.length<7||!/^[A-Z]{2}$/.test(senderCountryCode)){
+    return json({error:'SENDER_INFORMATION_REQUIRED',required:['senderFullName','senderPhone','senderCountryCode']},400);
   }
   if(remittanceType==='BUSINESS'&&(!senderBusinessId||!UUID.test(senderBusinessId))){
     return json({error:'BUSINESS_SENDER_REQUIRED'},400);
@@ -93,6 +108,15 @@ export async function POST(req:Request){
     p_send_amount:sendAmount,
     p_receive_currency:receiveCurrency,
     p_corridor:risk.corridor,
+    p_sender_full_name:senderFullName,
+    p_sender_phone:senderPhone,
+    p_sender_email:senderEmail,
+    p_sender_address_line1:senderAddressLine1,
+    p_sender_address_line2:senderAddressLine2,
+    p_sender_city:senderCity,
+    p_sender_region:senderRegion,
+    p_sender_postal_code:senderPostalCode,
+    p_sender_country_code:senderCountryCode,
     p_business_purpose_code:remittanceType==='BUSINESS'?businessPurposeCode:null
   });
   if(error) return json({error:'REMITTANCE_CREATE_FAILED'},500);
@@ -101,6 +125,7 @@ export async function POST(req:Request){
   return json({
     remittance:row,
     familyOrBusiness:remittanceType,
+    senderPrivateSnapshot:'CAPTURED_OWNER_ONLY',
     risk:{
       advisory:true,
       decision:risk.decision,

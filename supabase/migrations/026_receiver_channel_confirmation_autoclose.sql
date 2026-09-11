@@ -1,13 +1,12 @@
 -- mycubacash.com receiver contact + Sofia autonomous close
--- Receiver confirms receipt through a bound WhatsApp, Telegram, or phone identity.
+-- Receiver confirms receipt through a bound WhatsApp or phone identity.
 -- Sofia may close automatically only when all required verification gates are already clear.
 
 alter table public.sofia_order_intakes
   add column if not exists receiver_whatsapp_phone text,
-  add column if not exists receiver_telegram_handle text,
   add column if not exists receiver_phone text,
   add column if not exists receiver_confirmation_channel text
-    check (receiver_confirmation_channel is null or receiver_confirmation_channel in ('WHATSAPP','TELEGRAM','PHONE_CALL')),
+    check (receiver_confirmation_channel is null or receiver_confirmation_channel in ('WHATSAPP','PHONE_CALL')),
   add column if not exists receiver_confirmation_reference text,
   add column if not exists receiver_confirmed_at timestamptz,
   add column if not exists receiver_confirmation_payload jsonb not null default '{}'::jsonb,
@@ -17,10 +16,7 @@ alter table public.sofia_order_intakes
 
 create index if not exists idx_sofia_receiver_phone on public.sofia_order_intakes(receiver_phone);
 create index if not exists idx_sofia_receiver_whatsapp on public.sofia_order_intakes(receiver_whatsapp_phone);
-create index if not exists idx_sofia_receiver_telegram on public.sofia_order_intakes(receiver_telegram_handle);
 
--- Trusted server function used by Sofia channel adapters after they authenticate the
--- inbound receiver identity against the contact bound to the transaction.
 create or replace function public.sofia_confirm_receiver_and_maybe_close(
   p_intake_id uuid,
   p_channel text,
@@ -37,7 +33,7 @@ declare
   v_row public.sofia_order_intakes%rowtype;
   v_expected text;
 begin
-  if p_channel not in ('WHATSAPP','TELEGRAM','PHONE_CALL') then
+  if p_channel not in ('WHATSAPP','PHONE_CALL') then
     raise exception 'INVALID_CONFIRMATION_CHANNEL';
   end if;
 
@@ -46,17 +42,11 @@ begin
 
   v_expected := case p_channel
     when 'WHATSAPP' then nullif(trim(v_row.receiver_whatsapp_phone),'')
-    when 'TELEGRAM' then nullif(lower(trim(v_row.receiver_telegram_handle)),'')
     when 'PHONE_CALL' then nullif(trim(v_row.receiver_phone),'')
   end;
 
   if v_expected is null then raise exception 'RECEIVER_CHANNEL_NOT_BOUND'; end if;
-
-  if p_channel='TELEGRAM' then
-    if lower(trim(coalesce(p_channel_identity,''))) <> v_expected then raise exception 'RECEIVER_IDENTITY_MISMATCH'; end if;
-  else
-    if trim(coalesce(p_channel_identity,'')) <> v_expected then raise exception 'RECEIVER_IDENTITY_MISMATCH'; end if;
-  end if;
+  if trim(coalesce(p_channel_identity,'')) <> v_expected then raise exception 'RECEIVER_IDENTITY_MISMATCH'; end if;
 
   update public.sofia_order_intakes
   set receiver_confirmation_channel=p_channel,
@@ -67,8 +57,6 @@ begin
   where id=p_intake_id
   returning * into v_row;
 
-  -- Sofia may close autonomously only after trusted payment verification and no open hold.
-  -- Conversational statements alone never promote payment_status to VERIFIED.
   if v_row.owner_auto_close_enabled
      and v_row.payment_status='VERIFIED'
      and v_row.intake_status='READY_FOR_REVIEW'
@@ -89,4 +77,4 @@ $$;
 revoke all on function public.sofia_confirm_receiver_and_maybe_close(uuid,text,text,text,jsonb) from public, anon, authenticated;
 
 comment on function public.sofia_confirm_receiver_and_maybe_close(uuid,text,text,text,jsonb) is
-  'Trusted-server receiver confirmation. Sofia auto-closes only after receiver identity match plus payment_status VERIFIED and no hold state.';
+  'Trusted-server receiver confirmation. Sofia auto-closes only after WhatsApp/phone identity match plus payment_status VERIFIED and no hold state.';

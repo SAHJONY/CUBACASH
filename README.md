@@ -8,14 +8,14 @@
 
 ## Product scope
 
-mycubacash.com is designed as a business operating platform rather than a bank. The initial platform includes:
+mycubacash.com is a private-sector business operating platform. The initial platform includes:
 
 - Private-sector business profiles and KYB status
 - Buyer / supplier marketplace
 - RFQs and trade opportunities
 - Domestic and cross-border corridor classification
-- Transaction and settlement-intent ledger (non-custodial)
-- Compliance decisioning with fail-closed sanctions controls
+- Private-sector transaction and settlement-intent ledger
+- Compliance policy orchestration with fail-closed sanctions controls
 - Beneficial-owner and counterparty verification states
 - Audit trail and evidence references
 - Multilingual interface: Spanish, English, French, Portuguese and Arabic/RTL
@@ -29,9 +29,9 @@ mycubacash.com is designed as a business operating platform rather than a bank. 
 - `CU-US` — transactions involving the United States or U.S. nexus; special review required
 - `WORLD-WORLD` — international private-sector transactions outside Cuba
 
-## Compliance model
+## Policy and orchestration model
 
-mycubacash.com is designed to fail closed:
+mycubacash.com uses this framework as its private-sector policy and orchestration layer:
 
 - `SANCTIONS_BLOCKED` -> `BLOCK`
 - `SANCTIONS_PENDING | REVIEW | ERROR` -> `HOLD`
@@ -40,6 +40,8 @@ mycubacash.com is designed to fail closed:
 - U.S.-nexus transaction without product/control review -> `HOLD`
 
 A stable legitimate family-remittance pattern may reduce anomaly weighting only. It never bypasses sanctions, KYC/KYB, fraud, structuring, export controls, or mandatory review.
+
+Sanctions data, jurisdiction-specific legal obligations, regulatory interpretations, and filing decisions must remain tied to authoritative current sources and appropriately authorized compliance/legal personnel. The application orchestrates policy, evidence, workflow, controls, and decision state; it does not substitute stale or inferred legal data for authoritative current determinations.
 
 ## Stack
 
@@ -85,9 +87,9 @@ Browser / Mobile / Messaging Channels
        Supabase Postgres
               |
   Marketplace / RFQ / Ledger
-  Compliance / Audit / KYB
+  Policy / Compliance / Audit / KYB
 ```
 
-## Production gates
+## Private-sector operating policy
 
-Do not treat mycubacash.com as a regulated financial institution or live sanctions service until the required providers, licenses, legal reviews, banking/payment partners and production controls are in place. Transaction eligibility must be evaluated per jurisdiction and corridor.
+The platform is scoped to the private-sector economy. Policy execution is automated where appropriate, while sanctions data, jurisdiction-specific legal obligations, regulatory interpretations, and filing decisions are sourced from authoritative current sources and remain subject to appropriately authorized compliance/legal review when required.

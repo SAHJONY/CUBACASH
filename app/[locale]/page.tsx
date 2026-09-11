@@ -14,7 +14,7 @@ export default async function LocaleHome({params}:{params:Promise<{locale:string
     <section className="hero">
       <div>
         <div className="eyebrow">PRIVATE ECONOMY OS</div>
-        <h1>SAHJONY<br/>CUBACASH</h1>
+        <h1>mycubacash.com</h1>
         <p>{t.hero}</p>
         <a className="cta" href="/api/health">{t.cta}</a>
       </div>
@@ -34,6 +34,6 @@ export default async function LocaleHome({params}:{params:Promise<{locale:string
       <article className="card"><span className="badge">CU-WORLD</span><h3>Export & Market Access</h3><p>Private producers and service providers can structure export opportunities with evidence-backed compliance gates.</p></article>
     </section>
     <div className="notice">{t.notice}</div>
-    <footer className="footer">SAHJONY CUBACASH · Private Sector Economy Platform · v0.1</footer>
+    <footer className="footer">mycubacash.com · Private Sector Economy Platform · v0.1</footer>
   </main>;
 }

@@ -16,4 +16,5 @@ sanctions_screening:
       exact_or_high_confidence_match: hold_for_authorized_review
       incomplete_identity_resolution: hold
       source_error: hold
-    note: AI may assist prioritization and false-positive reduction, but may not clear a sanctions match without corroborating identifiers and current authoritative evidence.
+    note: "AI may assist prioritization and false-positive reduction, but may not clear a sanctions match without corroborating identifiers."
+    evidence_note: "Sanctions disposition must remain tied to current authoritative source data."

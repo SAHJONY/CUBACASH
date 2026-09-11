@@ -5,6 +5,7 @@ import type { ActionRisk, AgentDomain, AgentPlan, AgentRunInput, AgentTask, Tool
 export const AGENTIC_POLICY_VERSION = 'mycubacash-agentic-v1';
 
 const domainHints: Array<[RegExp, AgentDomain]> = [
+  [/(cash|cash payment|cash receipt|pay cash|receive cash|community ledger|payment request)/i, 'cash'],
   [/(remit|send money|beneficiar|transfer)/i, 'remittance'],
   [/(sanction|compliance|kyc|kyb|ubo|regulat)/i, 'compliance'],
   [/(rfq|quotation|quote|sourcing)/i, 'rfq'],
@@ -48,6 +49,11 @@ export function planAgentRun(input: AgentRunInput): AgentPlan {
     tasks.push(task('t3','fraud-guardian','Evaluate anomaly, duplicate identity, velocity and structuring indicators.','READ',['t1'],['TRANSACTION_CONTEXT'],allow));
     tasks.push(task('t4','remittance-router','Prepare provider-routing package and transfer intent only after hard controls are satisfied.','REGULATED',['t2','t3'],['APPROVED_PROVIDER_ROUTE','BENEFICIARY_VERIFICATION'],allow));
     tasks.push(task('t5','reconciliation-agent','Prepare post-submission tracking and reconciliation plan.','LOW_WRITE',['t4'],['PARTNER_REFERENCE'],allow));
+  } else if(domain==='cash'){
+    tasks.push(task('t2','cash-ledger-agent','Validate participant roles, direct-cash record semantics and community trust state without assuming custody of funds.','READ',['t1'],['PARTICIPANT_BUSINESS_IDS','DIRECT_CASH_HANDOFF_CONTEXT'],allow));
+    tasks.push(task('t3','fraud-guardian','Check for suspicious velocity, duplicate records, coercion indicators or structuring signals.','READ',['t1','t2'],['TRANSACTION_CONTEXT'],allow));
+    tasks.push(task('t4','cash-ledger-agent','Create or update only the permitted cash-ledger workflow state; completion requires independent payer and payee confirmation.','MATERIAL_WRITE',['t2','t3'],['DUAL_CONFIRMATION_REQUIREMENT'],allow));
+    tasks.push(task('t5','risk-analyst','Challenge trust assumptions and route disputes or higher-risk patterns for review.','READ',['t4'],['COMMUNITY_TRUST_EVIDENCE','DISPUTE_STATE'],allow));
   } else if(domain==='marketplace' || domain==='rfq'){
     tasks.push(task('t2','compliance-sentinel','Confirm counterparties are eligible for the requested commercial workflow.','REGULATED',['t1'],['COUNTERPARTY_VERIFICATION'],allow));
     tasks.push(task('t3',domain==='rfq'?'rfq-operator':'marketplace-matchmaker','Structure and rank execution-ready opportunities using verified data.','LOW_WRITE',['t1','t2'],['COMMERCIAL_EVIDENCE'],allow));

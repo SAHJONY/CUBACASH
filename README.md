@@ -1,10 +1,14 @@
-# SAHJONY CUBACASH
+# mycubacash.com
 
-**SAHJONY CUBACASH** is a standalone, multilingual full-stack platform for the private-sector economy: private businesses, entrepreneurs, cooperatives, buyers, suppliers, service providers and approved international counterparties.
+**mycubacash.com** is the standalone, multilingual full-stack platform for the private-sector economy: private businesses, entrepreneurs, cooperatives, buyers, suppliers, service providers and approved international counterparties.
+
+**Application name:** `mycubacash.com`  
+**Primary domain:** `https://mycubacash.com`  
+**Technical repository:** `SAHJONY/CUBACASH`
 
 ## Product scope
 
-CUBACASH is designed as a business operating platform rather than a bank. The initial platform includes:
+mycubacash.com is designed as a business operating platform rather than a bank. The initial platform includes:
 
 - Private-sector business profiles and KYB status
 - Buyer / supplier marketplace
@@ -27,7 +31,7 @@ CUBACASH is designed as a business operating platform rather than a bank. The in
 
 ## Compliance model
 
-CUBACASH is designed to fail closed:
+mycubacash.com is designed to fail closed:
 
 - `SANCTIONS_BLOCKED` -> `BLOCK`
 - `SANCTIONS_PENDING | REVIEW | ERROR` -> `HOLD`
@@ -56,6 +60,7 @@ npm run dev
 Required environment variables:
 
 ```bash
+NEXT_PUBLIC_SITE_URL=https://mycubacash.com
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 ```
@@ -66,6 +71,8 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 Browser / Mobile / Messaging Channels
               |
               v
+      mycubacash.com
+              |
        Next.js Application
               |
    +----------+-----------+
@@ -83,4 +90,4 @@ Browser / Mobile / Messaging Channels
 
 ## Production gates
 
-Do not treat CUBACASH as a regulated financial institution or live sanctions service until the required providers, licenses, legal reviews, banking/payment partners and production controls are in place. Transaction eligibility must be evaluated per jurisdiction and corridor.
+Do not treat mycubacash.com as a regulated financial institution or live sanctions service until the required providers, licenses, legal reviews, banking/payment partners and production controls are in place. Transaction eligibility must be evaluated per jurisdiction and corridor.

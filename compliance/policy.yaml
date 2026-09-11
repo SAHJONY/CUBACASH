@@ -1,0 +1,34 @@
+version: mycubacash-policy-v2
+scope: private_sector_only
+
+principles:
+  - fail_closed_on_missing_authoritative_evidence
+  - model_first_triage_human_accountability_for_high_risk
+  - no_model_only_sanctions_clearance
+  - preserve_auditability
+
+decision_bands:
+  LOW:
+    action: process
+    monitoring: continuous
+    human_review_required: false
+  MEDIUM:
+    action: process_with_enhanced_checks
+    monitoring: continuous
+    human_review_required: false
+  HIGH:
+    action: auto_triage_then_hold
+    escalation_target: model_confidence_router
+    human_review_required: true
+    human_on_call_required: true
+    max_hold_duration: 4h
+    pre_review_package: auto_generated
+    override_window: 15m
+  PROHIBITED:
+    action: reject_and_report
+    human_review_required: true
+
+authoritative_source_requirements:
+  sanctions: current_authoritative_source
+  jurisdiction_obligations: current_authoritative_source
+  filing_decisions: authorized_compliance_or_legal_personnel

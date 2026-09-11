@@ -4,15 +4,15 @@ import './globals.css';
 export const metadata: Metadata = {
   metadataBase: new URL('https://mycubacash.com'),
   title: {
-    default: 'mycubacash.com',
+    default: 'mycubacash.com | Family Remittance, Business Payments & Private Marketplace',
     template: '%s | mycubacash.com'
   },
-  description: 'Private-sector economy operating platform for commerce, sourcing, RFQs, compliance and business operations.',
+  description: 'Family remittance requests, private-business payments, verified delivery services and a private-sector marketplace with transaction tracking and customer support.',
   applicationName: 'mycubacash.com',
   alternates: { canonical: '/' },
   openGraph: {
     title: 'mycubacash.com',
-    description: 'Private-sector economy operating platform',
+    description: 'Support families, pay businesses and track transactions across a trusted private-sector network.',
     url: 'https://mycubacash.com',
     siteName: 'mycubacash.com',
     type: 'website'

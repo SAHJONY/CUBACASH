@@ -1,7 +1,8 @@
 import { hasSupabaseConfig } from '@/lib/supabase/config';
+import { sanctionsProviderConfigured } from '@/lib/sanctions/ofac-sls';
 
 export async function GET(){
-  const sanctionsProviderConfigured=process.env.SANCTIONS_PROVIDER!=='unconfigured'&&!!process.env.SANCTIONS_PROVIDER;
+  const sanctionsProviderReady=sanctionsProviderConfigured();
   const cryptoProviderConfigured=process.env.CRYPTO_PROVIDER!=='unconfigured'&&!!process.env.CRYPTO_PROVIDER;
   const databaseConfigured=hasSupabaseConfig();
 
@@ -19,7 +20,8 @@ export async function GET(){
     policyVersion:'mycubacash-policy-v2',
     sanctionsPolicyVersion:'mycubacash-sanctions-v1',
     auditPolicyVersion:'mycubacash-audit-v1',
-    sanctionsProviderConfigured,
+    sanctionsProvider:'OFAC_SLS',
+    sanctionsProviderConfigured:sanctionsProviderReady,
     cryptoProviderConfigured,
     databaseConfigured,
     failClosed:true,

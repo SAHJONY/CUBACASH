@@ -1,11 +1,13 @@
 version: mycubacash-policy-v2
-scope: private_sector_only
+scope: cuba_private_sector_only
 
 principles:
   - fail_closed_on_missing_authoritative_evidence
   - model_first_triage_human_accountability_for_high_risk
   - no_model_only_sanctions_clearance
   - preserve_auditability
+  - cuba_private_sector_participants_only
+  - state_linked_or_excluded_entity_requires_hold_or_rejection
 
 decision_bands:
   LOW:
@@ -32,3 +34,5 @@ authoritative_source_requirements:
   sanctions: current_authoritative_source
   jurisdiction_obligations: current_authoritative_source
   filing_decisions: authorized_compliance_or_legal_personnel
+  cuba_private_sector_eligibility: current_verified_business_and_ownership_evidence
+  state_linked_entity_exclusion: current_authoritative_and_internal_policy_evidence

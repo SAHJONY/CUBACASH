@@ -1,10 +1,12 @@
 import { hasSupabaseConfig } from '@/lib/supabase/config';
 import { sanctionsProviderConfigured } from '@/lib/sanctions/ofac-sls';
+import { telegramStatus } from '@/lib/telegram';
 
 export async function GET(){
   const sanctionsProviderReady=sanctionsProviderConfigured();
   const cryptoProviderConfigured=process.env.CRYPTO_PROVIDER!=='unconfigured'&&!!process.env.CRYPTO_PROVIDER;
   const databaseConfigured=hasSupabaseConfig();
+  const telegramConfigured=telegramStatus().configured;
 
   const readinessControls={
     scope:'CUBA_PRIVATE_SECTOR_ONLY',
@@ -15,7 +17,8 @@ export async function GET(){
     chargebackHandling:'NOT_CONFIGURED',
     refundReversalControls:'PARTIAL',
     kycKybRecordRetention:'NOT_VERIFIED',
-    cryptoSettlement:cryptoProviderConfigured?'CONFIGURED':'NOT_CONFIGURED'
+    cryptoSettlement:cryptoProviderConfigured?'CONFIGURED':'NOT_CONFIGURED',
+    telegramAcquisitionChannel:telegramConfigured?'CONFIGURED':'NOT_CONFIGURED'
   } as const;
 
   return Response.json({
@@ -23,7 +26,7 @@ export async function GET(){
     systemHealth:'HEALTHY',
     businessReadiness:'PARTIAL',
     service:'mycubacash.com',
-    version:'0.8.0',
+    version:'0.8.1',
     mode:'family-business-remittance-marketplace',
     businessScope:'CUBA_PRIVATE_SECTOR_ONLY',
     locales:['es','en','fr','pt','ar'],
@@ -38,6 +41,7 @@ export async function GET(){
     sanctionsProvider:'OFAC_SLS',
     sanctionsProviderConfigured:sanctionsProviderReady,
     cryptoProviderConfigured,
+    telegramConfigured,
     databaseConfigured,
     failClosed:true,
     readinessControls,

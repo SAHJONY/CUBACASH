@@ -2,8 +2,17 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabaseServer } from '@/lib/supabase/server';
 
 function safeNext(value:string|null){
-  if(!value || !value.startsWith('/') || value.startsWith('//')) return '/en/start';
+  if(!value || !value.startsWith('/') || value.startsWith('//')) return '/es/start';
   return value;
+}
+
+function authDestination(url:URL,next:string,error:string){
+  const locale=next.split('/')[1]||'es';
+  const supported=['es','en','fr','pt','ar'].includes(locale)?locale:'es';
+  const destination=new URL(`/${supported}/auth`,url.origin);
+  destination.searchParams.set('error',error);
+  destination.searchParams.set('next',next);
+  return destination;
 }
 
 export async function GET(request:NextRequest){
@@ -11,24 +20,14 @@ export async function GET(request:NextRequest){
   const code=url.searchParams.get('code');
   const next=safeNext(url.searchParams.get('next'));
 
-  if(!code){
-    const destination=new URL('/en/auth',url.origin);
-    destination.searchParams.set('error','confirmation_missing_code');
-    return NextResponse.redirect(destination);
-  }
+  if(!code) return NextResponse.redirect(authDestination(url,next,'confirmation_missing_code'));
 
   try{
     const supabase=await supabaseServer();
     const {error}=await supabase.auth.exchangeCodeForSession(code);
-    if(error){
-      const destination=new URL('/en/auth',url.origin);
-      destination.searchParams.set('error','confirmation_failed');
-      return NextResponse.redirect(destination);
-    }
+    if(error) return NextResponse.redirect(authDestination(url,next,'confirmation_failed'));
     return NextResponse.redirect(new URL(next,url.origin));
   }catch{
-    const destination=new URL('/en/auth',url.origin);
-    destination.searchParams.set('error','confirmation_failed');
-    return NextResponse.redirect(destination);
+    return NextResponse.redirect(authDestination(url,next,'confirmation_failed'));
   }
 }

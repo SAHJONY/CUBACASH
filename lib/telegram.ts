@@ -1,3 +1,5 @@
+import 'server-only';
+
 type TelegramResult={ok:boolean;messageId?:number;chatId?:string;error?:string};
 type TelegramProbe={configured:boolean;reachable:boolean;botUsername?:string;chatTitle?:string;chatUsername?:string;chatType?:string;error?:string};
 

@@ -1,13 +1,13 @@
 import { copy, localeOf } from '@/lib/i18n';
 
 const cards=[
-  ['Pay Cash','Create a direct cash payment record between two private-sector businesses.'],
-  ['Request Payment','The recipient can initiate a payment request and wait for all required parties to confirm the handoff.'],
-  ['All-Party Confirmation','A transaction is not completed until every required participant independently confirms it.'],
-  ['Gold Stars','After a completed transaction, participants can rate counterparties from 1 to 5 gold stars. Ratings are transaction-backed and cannot be self-awarded.'],
-  ['Community Trust','Participants can endorse or flag counterparties; community verification stays separate from legal remittance authorization.'],
-  ['Receipts & Evidence','Attach transaction evidence to confirmations and preserve a traceable record.'],
-  ['Disputes','Any eligible participant can open a dispute, which keeps the transaction history visible and moves the record into review.']
+  ['Negocios entre participantes','Dos negocios privados verificados pueden hacer negocios directamente entre sí y registrar la operación en mycubacash.'],
+  ['Pago en persona','El pago puede hacerse directamente, en persona, entre las partes. mycubacash no toma custodia del efectivo.'],
+  ['Confirmación en la aplicación','Después del intercambio, pagador y receptor confirman independientemente en la aplicación. La operación queda pendiente hasta completar las confirmaciones requeridas.'],
+  ['Solicitar pago','El receptor puede iniciar una solicitud de pago y esperar la confirmación de la entrega por las partes requeridas.'],
+  ['Recibos y evidencia','Las partes pueden adjuntar evidencia a la confirmación y conservar un registro trazable.'],
+  ['Reputación transaccional','Después de una operación completada, los participantes pueden calificarse de 1 a 5 estrellas. Las calificaciones deben estar respaldadas por una transacción real.'],
+  ['Disputas','Un participante elegible puede abrir una disputa. El historial permanece visible y el registro pasa a revisión.']
 ] as const;
 
 export default async function CashLedger({params}:{params:Promise<{locale:string}>}){
@@ -18,27 +18,27 @@ export default async function CashLedger({params}:{params:Promise<{locale:string
   return <main className="shell" dir={rtl?'rtl':'ltr'}>
     <nav className="nav">
       <a href={`/${locale}`} className="brandwrap"><div className="brand">mycubacash.com</div><small>{t.tag}</small></a>
-      <div className="navlinks"><a href={`/${locale}/dashboard`}>Command Center</a><a href={`/${locale}/agents`}>AI Agents</a><a href={`/${locale}/remittances`}>Remittances</a><span>Cash Ledger</span></div>
-      <a className="miniCta" href="/api/health">System Health</a>
+      <div className="navlinks"><a href={`/${locale}/dashboard`}>Centro de Comando</a><a href={`/${locale}/agents`}>Agentes IA</a><a href={`/${locale}/remittances`}>Remesas</a><span>Registro de efectivo</span></div>
+      <a className="miniCta" href="/api/health">Estado del sistema</a>
     </nav>
 
     <section className="section">
-      <div className="sectionHead"><div><span className="eyebrow">COMMUNITY CASH LEDGER</span><h2>Direct cash. All-party confirmation. Public reputation.</h2></div><p>mycubacash records direct cash settlement between private-sector participants without taking custody of the cash. Each record preserves who paid, who received, amount, currency, purpose, confirmation state, public status history, evidence, disputes and transaction-backed reputation.</p></div>
+      <div className="sectionHead"><div><span className="eyebrow">NEGOCIOS DIRECTOS · PAGO EN PERSONA</span><h2>Haz el negocio directamente. Paga en persona. Confirma en mycubacash.</h2></div><p>mycubacash permite registrar operaciones directas entre negocios privados participantes. Las partes acuerdan el negocio entre sí, el pago se entrega directamente en persona y cada participante confirma el resultado dentro de la aplicación. La plataforma conserva la referencia, importe, moneda, propósito, estado, evidencia y reputación de la operación sin tomar custodia del efectivo.</p></div>
       <div className="previewGrid">
-        <div><span>Custody</span><strong>NONE</strong></div>
-        <div><span>Completion</span><strong>ALL REQUIRED PARTIES</strong></div>
-        <div><span>Reputation</span><strong>★★★★★</strong></div>
-        <div><span>Records</span><strong>AUDITABLE</strong></div>
+        <div><span>Custodia de mycubacash</span><strong>NINGUNA</strong></div>
+        <div><span>Pago</span><strong>DIRECTO · EN PERSONA</strong></div>
+        <div><span>Confirmación</span><strong>AMBAS PARTES</strong></div>
+        <div><span>Registro</span><strong>AUDITABLE</strong></div>
       </div>
     </section>
 
     <section className="section" style={{paddingTop:0}}>
       <div className="featureGrid">
-        {cards.map(([title,description],i)=><article className="feature" key={title}><div className="icon">{String(i+1).padStart(2,'0')}</div><h3>{title}</h3><p>{description}</p><div className="featureMeta">CONTROLLED · EVIDENCE-FIRST</div></article>)}
+        {cards.map(([title,description],i)=><article className="feature" key={title}><div className="icon">{String(i+1).padStart(2,'0')}</div><h3>{title}</h3><p>{description}</p><div className="featureMeta">DIRECTO · CONFIRMADO · TRAZABLE</div></article>)}
       </div>
     </section>
 
-    <section className="policyBlock"><div><span className="eyebrow">REPUTATION PRINCIPLE</span><h2>Gold stars must come from real completed transactions</h2></div><p>Only a participating business may rate another participating business after the transaction is completed. Self-ratings are prohibited, and each rater/target pair gets one rating per transaction. Public star averages therefore reflect transaction-backed community history rather than unverified popularity.</p></section>
-    <footer className="footer"><strong>mycubacash.com</strong><span>Community Cash Ledger</span><span>v0.6</span></footer>
+    <section className="policyBlock"><div><span className="eyebrow">FLUJO DE CONFIRMACIÓN</span><h2>El sistema registra el acuerdo, pero las partes controlan la entrega</h2></div><p>Una parte crea o solicita la operación, las partes realizan el pago directamente, y luego pagador y receptor confirman de manera independiente dentro de mycubacash. Si una parte rechaza la operación o abre una disputa, el registro no se presenta como completado. La confirmación de la aplicación documenta lo ocurrido; no sustituye las obligaciones legales, regulatorias o contractuales aplicables a las partes.</p></section>
+    <footer className="footer"><strong>mycubacash.com</strong><span>Negocios directos y registro de efectivo</span><span>v0.7</span></footer>
   </main>;
 }

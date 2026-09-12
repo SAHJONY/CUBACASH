@@ -6,11 +6,26 @@ export async function GET(){
   const cryptoProviderConfigured=process.env.CRYPTO_PROVIDER!=='unconfigured'&&!!process.env.CRYPTO_PROVIDER;
   const databaseConfigured=hasSupabaseConfig();
 
+  const readinessControls={
+    scope:'CUBA_PRIVATE_SECTOR_ONLY',
+    cubaPrivateSectorEligibility:'REQUIRES_VERIFIED_BUSINESS_AND_OWNERSHIP_EVIDENCE',
+    stateLinkedEntityExclusion:'REQUIRES_POLICY_ENFORCEMENT',
+    sanctionsScreening:sanctionsProviderReady?'CONFIGURED_FAIL_CLOSED':'NOT_CONFIGURED',
+    disputeHandling:'PARTIAL',
+    chargebackHandling:'NOT_CONFIGURED',
+    refundReversalControls:'PARTIAL',
+    kycKybRecordRetention:'NOT_VERIFIED',
+    cryptoSettlement:cryptoProviderConfigured?'CONFIGURED':'NOT_CONFIGURED'
+  } as const;
+
   return Response.json({
     ok:true,
+    systemHealth:'HEALTHY',
+    businessReadiness:'PARTIAL',
     service:'mycubacash.com',
     version:'0.8.0',
     mode:'family-business-remittance-marketplace',
+    businessScope:'CUBA_PRIVATE_SECTOR_ONLY',
     locales:['es','en','fr','pt','ar'],
     corridors:['CU-CU','CU-WORLD','WORLD-CU','CU-US','WORLD-WORLD'],
     approvedCryptoAssets:['USDC','USDT','BTC','ETH'],
@@ -25,6 +40,7 @@ export async function GET(){
     cryptoProviderConfigured,
     databaseConfigured,
     failClosed:true,
+    readinessControls,
     timestamp:new Date().toISOString()
   },{headers:{'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
 }

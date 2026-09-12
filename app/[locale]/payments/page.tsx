@@ -1,12 +1,13 @@
 import { localeOf } from '@/lib/i18n';
+import { supabaseServer } from '@/lib/supabase/server';
 
 const methods=[
   {
     key:'automatic',
     es:'Pago automático de tarifa',
     en:'Automatic platform-fee payment',
-    esBody:'Cuando exista un checkout activo, la aplicación mostrará el método disponible (por ejemplo tarjeta o ACH), el importe exacto y la referencia antes de pagar. No se considera disponible hasta que el proveedor de pagos esté realmente configurado.',
-    enBody:'When an active checkout exists, the app will show the available method (for example card or ACH), the exact amount and reference before payment. It is not treated as available until the payment provider is actually configured.'
+    esBody:'Cuando exista un checkout activo, la aplicación mostrará el método disponible, el importe exacto y la referencia antes de pagar. No se considera disponible hasta que el proveedor de pagos esté realmente configurado.',
+    enBody:'When an active checkout exists, the app will show the available method, exact amount and reference before payment. It is not treated as available until the payment provider is actually configured.'
   },
   {
     key:'manual',
@@ -28,6 +29,12 @@ export default async function PaymentsPage({params}:{params:Promise<{locale:stri
   const {locale:raw}=await params;
   const locale=localeOf(raw);
   const es=locale==='es';
+  const supabase=await supabaseServer();
+  const {data:configuredMethods}=await supabase.from('platform_payment_methods')
+    .select('method_key,display_name,recipient_identifier,payment_url,instructions')
+    .eq('enabled',true)
+    .eq('public_visible',true)
+    .order('display_name');
 
   return <main className="shell" dir={locale==='ar'?'rtl':'ltr'}>
     <nav className="nav">
@@ -49,6 +56,11 @@ export default async function PaymentsPage({params}:{params:Promise<{locale:stri
       </div>
     </section>
 
+    {(configuredMethods??[]).length>0&&<section className="section">
+      <div className="sectionHead"><div><span className="eyebrow">{es?'MÉTODOS DISPONIBLES':'AVAILABLE METHODS'}</span><h2>{es?'Paga la tarifa usando un método habilitado por el propietario.':'Pay the platform fee using an owner-enabled method.'}</h2></div><p>{es?'Incluye siempre la referencia de tarifa de tu operación.':'Always include your transaction fee reference.'}</p></div>
+      <div className="featureGrid">{(configuredMethods??[]).map(method=><article className="feature premiumCard" key={method.method_key}><h3>{method.display_name}</h3>{method.recipient_identifier&&<p><strong>{es?'Destino':'Destination'}:</strong> {method.recipient_identifier}</p>}{method.instructions&&<p>{method.instructions}</p>}{method.payment_url&&<div className="actions"><a className="cta" href={method.payment_url} target="_blank" rel="noreferrer">{es?'Abrir pago':'Open payment'}</a></div>}</article>)}</div>
+    </section>}
+
     <section className="section">
       <div className="sectionHead"><div><span className="eyebrow">{es?'FLUJO DE COBRO':'COLLECTION FLOW'}</span><h2>{es?'Una tarifa separada, trazable y reconciliable.':'A separate, traceable and reconcilable fee.'}</h2></div><p>{es?'La tarifa nunca debe confundirse con el principal que pagan o reciben los participantes.':'The platform fee must never be confused with principal paid or received by participants.'}</p></div>
       <div className="featureGrid">
@@ -63,7 +75,7 @@ export default async function PaymentsPage({params}:{params:Promise<{locale:stri
       <div className="featureGrid">{methods.map(method=><article className="feature" key={method.key}><h3>{es?method.es:method.en}</h3><p>{es?method.esBody:method.enBody}</p></article>)}</div>
     </section>
 
-    <section className="policyBlock"><div><span className="eyebrow">{es?'IMPORTANTE':'IMPORTANT'}</span><h2>{es?'No publicamos instrucciones bancarias sensibles en páginas públicas.':'We do not publish sensitive banking instructions on public pages.'}</h2></div><p>{es?'Cuando corresponda un pago manual, las instrucciones deben aparecer dentro de una sesión autenticada o ser emitidas por un canal autorizado, junto con la referencia exacta. La confirmación manual requiere revisión de un usuario autorizado de la plataforma.':'When a manual payment applies, instructions should appear in an authenticated session or be issued through an authorized channel together with the exact reference. Manual confirmation requires review by an authorized platform user.'}</p></section>
+    <section className="policyBlock"><div><span className="eyebrow">{es?'IMPORTANTE':'IMPORTANT'}</span><h2>{es?'No uses un método que no aparezca habilitado por mycubacash.':'Do not use a method that is not enabled by mycubacash.'}</h2></div><p>{es?'Cuando corresponda un pago manual, usa la referencia exacta de la tarifa. La confirmación manual requiere revisión de un usuario autorizado de la plataforma.':'When a manual payment applies, use the exact platform-fee reference. Manual confirmation requires review by an authorized platform user.'}</p></section>
 
     <footer className="footer"><strong>mycubacash.com</strong><span>{es?'Tarifa separada del principal · Referencia obligatoria · Confirmación trazable':'Fee separate from principal · Reference required · Traceable confirmation'}</span><span><a href={`/${locale}/fees`}>{es?'Tarifas':'Fees'}</a> · <a href={`/${locale}/terms`}>{es?'Términos':'Terms'}</a> · <a href={`/${locale}/privacy`}>{es?'Privacidad':'Privacy'}</a></span></footer>
   </main>;

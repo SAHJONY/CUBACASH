@@ -74,6 +74,18 @@ export async function POST(req:Request){
   }).select('id,reference,payer_business_id,payee_business_id,transaction_type,amount,currency,purpose,status,compliance_state,evidence_state,initiated_by_role,created_at').single();
   if(error) return json({error:'CASH_TRANSACTION_CREATE_FAILED'},500);
 
+  const {data:feeGate}=await supabase.from('transaction_platform_fee_gates')
+    .select('id,fee_amount,fee_currency,fee_status,due_before_execution,paid_at')
+    .eq('entity_type','CASH_TRANSACTION')
+    .eq('entity_id',data.id)
+    .maybeSingle();
+
   const trust=Object.fromEntries((verifications??[]).map((v)=>[v.business_id,{status:v.status,communityScore:v.community_score}]));
-  return json({transaction:data,trust,requiresDualConfirmation:true,platformCustody:false},201);
+  return json({
+    transaction:data,
+    trust,
+    requiresDualConfirmation:true,
+    platformCustody:false,
+    platformFee:feeGate??(currency==='USD'?{status:'FEE_GATE_PENDING'}:{status:'USD_FEE_BASIS_REQUIRED',currency:'USD'})
+  },201);
 }

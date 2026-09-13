@@ -17,7 +17,7 @@ export default async function Autonomy({params}:{params:Promise<{locale:string}>
   const {locale:raw}=await params; const locale=localeOf(raw); const rtl=locale==='ar'; const es=locale==='es'; const engines=es?enginesEs:enginesEn;
   return <main className="shell premiumAppShell" dir={rtl?'rtl':'ltr'}>
     <nav className="nav premiumNav">
-      <a href={`/${locale}`} className="brandwrap"><div className="brand">mycubacash.com</div><small>{es?'Cerebro de la aplicación':'Application Brain'}</small></a>
+      <a href={`/${locale}`} className="brandwrap"><div className="brand">MY CUBA CASH</div><small>{es?'Cerebro de la aplicación':'Application Brain'}</small></a>
       <div className="navlinks"><a href={`/${locale}/dashboard`}>Command Center</a><a href={`/${locale}/remittances`}>{es?'Remesas':'Remittances'}</a><a href={`/${locale}/marketplace`}>Marketplace</a><a href={`/${locale}/agents`}>{es?'Agentes':'Agents'}</a></div>
       <a className="miniCta" href="/api/autonomy">{es?'API de autonomía':'Autonomy API'}</a>
     </nav>
@@ -32,6 +32,6 @@ export default async function Autonomy({params}:{params:Promise<{locale:string}>
     </section>
     <section className="section" style={{paddingTop:0}}><div className="featureGrid">{engines.map(([n,d,s],i)=><article className="feature" key={n}><div className="icon">{String(i+1).padStart(2,'0')}</div><h3>{n}</h3><p>{d}</p><div className="featureMeta">{s}</div></article>)}</div></section>
     <section className="policyBlock"><div><span className="eyebrow">{es?'DOCTRINA CENTRAL':'CORE DOCTRINE'}</span><h2>{es?'Los modelos proponen. La política autoriza. La evidencia promueve.':'Models propose. Policy authorizes. Evidence promotes.'}</h2></div><p>{es?'Ningún motor autónomo puede levantar sanciones, aprobar por sí mismo una transacción regulada, crear obligaciones vinculantes con socios, cambiar precios materiales o contactar comercialmente a quien se haya excluido.':'No autonomous engine can clear sanctions, approve its own regulated transaction, create binding partner obligations, change material pricing or send marketing to an opted-out user.'}</p></section>
-    <footer className="footer"><strong>mycubacash.com</strong><span>{es?'Sistema Operativo Autónomo':'Autonomous Operating System'}</span></footer>
+    <footer className="footer"><strong>MY CUBA CASH</strong><span>{es?'Sistema Operativo Autónomo':'Autonomous Operating System'}</span></footer>
   </main>;
 }

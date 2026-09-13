@@ -6,11 +6,11 @@ function nextStep(item:{transfer_status:string;compliance_state:string;sanctions
   if(item.sanctions_state==='BLOCKED'||item.compliance_state==='BLOCK') return 'This request cannot proceed. Contact support if you believe the status is incorrect.';
   if(item.compliance_state==='HOLD'||item.sanctions_state!=='CLEAR') return 'Review is still required. Keep your information current and submit any requested supporting information.';
   if(item.transfer_status==='PENDING_REVIEW'||item.transfer_status==='DRAFT') return 'Your request is awaiting review before it can be routed to an authorized provider.';
-  if(item.transfer_status==='READY_FOR_PARTNER') return 'The request is ready for authorized-provider routing. Do not send funds outside instructions shown by mycubacash or Sofia.';
+  if(item.transfer_status==='READY_FOR_PARTNER') return 'The request is ready for authorized-provider routing. Do not send funds outside instructions shown by MY CUBA CASH or Sofia.';
   if(['SUBMITTED','PROCESSING'].includes(item.transfer_status)) return 'Processing is underway. Track this page for the next verified status update.';
   if(item.transfer_status==='AVAILABLE') return 'Value is reported available. Follow the approved pickup, merchant or delivery instructions tied to this transaction.';
   if(item.transfer_status==='DELIVERED') return 'Delivery is reported complete. Keep receipts and confirmation records for your transaction history.';
-  if(item.transfer_status==='FAILED') return 'Processing failed. Do not retry payment until mycubacash or the authorized provider gives a new instruction.';
+  if(item.transfer_status==='FAILED') return 'Processing failed. Do not retry payment until MY CUBA CASH or the authorized provider gives a new instruction.';
   return 'Track this page for the next verified status update.';
 }
 
@@ -30,12 +30,12 @@ export default async function TransactionDetail({params}:{params:Promise<{locale
   const step=nextStep(item);
 
   return <main className="shell" dir={locale==='ar'?'rtl':'ltr'}>
-    <nav className="nav"><a href={`/${locale}`} className="brandwrap"><div className="brand">mycubacash.com</div><small>Transaction Details</small></a><div className="navlinks"><a href={`/${locale}/transactions`}>My Transactions</a><a href={`/${locale}/fees`}>Fees</a><a href={`/${locale}/privacy`}>Privacy</a></div></nav>
+    <nav className="nav"><a href={`/${locale}`} className="brandwrap"><div className="brand">MY CUBA CASH</div><small>Transaction Details</small></a><div className="navlinks"><a href={`/${locale}/transactions`}>My Transactions</a><a href={`/${locale}/fees`}>Fees</a><a href={`/${locale}/privacy`}>Privacy</a></div></nav>
     <section className="hero"><div className="heroCopy"><div className="eyebrow">TRANSACTION {item.transfer_status}</div><h1>{item.reference}</h1><p className="heroLead">{item.origin_country} → {item.destination_country} · {item.send_amount} {item.send_currency}</p></div></section>
     <section className="section" style={{maxWidth:980,margin:'0 auto'}}>
       <div className="featureGrid">
         <article className="feature"><h2>Current status</h2><p><strong>Transfer:</strong> {item.transfer_status}</p><p><strong>Review:</strong> {item.compliance_state}</p><p><strong>Sanctions:</strong> {item.sanctions_state}</p><p><strong>Settlement:</strong> {item.settlement_status}</p><div className="featureMeta">Updated {new Date(item.updated_at).toLocaleString()}</div></article>
-        <article className="feature"><h2>What happens next</h2><p>{step}</p><p>Never treat a customer-submitted payment reference as verified until mycubacash or the authorized provider marks it reviewed.</p></article>
+        <article className="feature"><h2>What happens next</h2><p>{step}</p><p>Never treat a customer-submitted payment reference as verified until MY CUBA CASH or the authorized provider marks it reviewed.</p></article>
         <article className="feature"><h2>Your request</h2><p><strong>Purpose:</strong> {item.purpose}</p><p><strong>Fulfillment:</strong> {pref?.requested_fulfillment??'Not selected'}</p><p><strong>Payment preference:</strong> {pref?.payment_preference??'Not selected'}</p><p><strong>Delivery requested:</strong> {pref?.delivery_requested?'Yes':'No'}</p></article>
       </div>
       <div style={{marginTop:24}}><EvidenceForm remittanceIntentId={item.id}/></div>

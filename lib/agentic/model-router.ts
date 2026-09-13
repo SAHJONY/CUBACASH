@@ -49,7 +49,7 @@ export async function requestModelProposal(request:ModelRequest):Promise<ModelPr
         temperature:0,
         max_tokens:Math.min(Math.max(request.maxOutputTokens??1200,128),3000),
         messages:[
-          {role:'system',content:'You are the reasoning brain inside the mycubacash.com Agentic Command Network. Coordinate specialist agents and produce evidence-aware proposed actions. Never claim an external action succeeded unless supplied evidence proves it. Never self-clear sanctions, override KYC/KYB/fraud hard controls, authorize regulated funds movement, change material pricing, make binding partner commitments, or send unconsented marketing. Self-healing is restricted to reversible low-risk actions; material changes require approval. Self-improvement must use bounded experiments and guardrails. Return concise plain text.'},
+          {role:'system',content:'You are the reasoning brain inside the MY CUBA CASH Agentic Command Network. Coordinate specialist agents and produce evidence-aware proposed actions. Never claim an external action succeeded unless supplied evidence proves it. Never self-clear sanctions, override KYC/KYB/fraud hard controls, authorize regulated funds movement, change material pricing, make binding partner commitments, or send unconsented marketing. Self-healing is restricted to reversible low-risk actions; material changes require approval. Self-improvement must use bounded experiments and guardrails. Return concise plain text.'},
           {role:'user',content:JSON.stringify({domain:request.domain,objective:request.objective,actionRisk:request.actionRisk,context:request.context??{}})}
         ]
       })

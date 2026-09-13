@@ -19,7 +19,7 @@ export default function EvidenceForm({remittanceIntentId}:{remittanceIntentId:st
   }
   return <form onSubmit={submit} className="feature" style={{display:'grid',gap:12}}>
     <h2>Submit supporting information</h2>
-    <p>Use this to provide a payment reference, receipt note or delivery note. mycubacash will review it before any trusted status changes.</p>
+    <p>Use this to provide a payment reference, receipt note or delivery note. MY CUBA CASH will review it before any trusted status changes.</p>
     <label>Evidence type<select name="evidenceType" defaultValue="PAYMENT_REFERENCE" style={{width:'100%',padding:12,marginTop:6}}><option value="PAYMENT_REFERENCE">Payment reference</option><option value="RECEIPT_NOTE">Receipt note</option><option value="DELIVERY_NOTE">Delivery note</option><option value="OTHER">Other</option></select></label>
     <label>Reference / confirmation<input name="evidenceReference" required minLength={3} maxLength={240} placeholder="Reference number, receipt identifier or delivery note" style={{width:'100%',padding:12,marginTop:6}}/></label>
     <label>Notes<textarea name="customerNote" maxLength={500} style={{width:'100%',padding:12,marginTop:6,minHeight:90}}/></label>

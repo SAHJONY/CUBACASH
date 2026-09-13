@@ -23,7 +23,7 @@ export default async function DeliveryDirectory({params}:{params:Promise<{locale
 
   return <main className="shell" dir={locale==='ar'?'rtl':'ltr'}>
     <nav className="nav">
-      <a href={`/${locale}`} className="brandwrap"><div className="brand">mycubacash.com</div><small>{es?'Red de entrega verificada':'Verified Delivery Network'}</small></a>
+      <a href={`/${locale}`} className="brandwrap"><div className="brand">MY CUBA CASH</div><small>{es?'Red de entrega verificada':'Verified Delivery Network'}</small></a>
       <div className="navlinks"><a href={`/${locale}/remittances`}>{es?'Remesas':'Remittances'}</a><a href={`/${locale}/marketplace`}>Marketplace</a></div>
     </nav>
 

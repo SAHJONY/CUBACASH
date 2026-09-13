@@ -62,7 +62,7 @@ export async function publishTelegram(input:{text:string;imageUrl?:string;button
 
   const imageUrl=input.imageUrl?.trim();
   const buttonUrl=input.buttonUrl?.trim();
-  const buttonText=input.buttonText?.trim()||'Abrir mycubacash';
+  const buttonText=input.buttonText?.trim()||'Abrir MY CUBA CASH';
   if(imageUrl&&!/^https:\/\//i.test(imageUrl)) return {ok:false,error:'HTTPS_IMAGE_REQUIRED'};
   if(buttonUrl&&!/^https:\/\//i.test(buttonUrl)) return {ok:false,error:'HTTPS_BUTTON_URL_REQUIRED'};
   if(imageUrl&&text.length>1024) return {ok:false,error:'PHOTO_CAPTION_TOO_LONG'};

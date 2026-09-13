@@ -34,13 +34,13 @@ export default async function Dashboard({params}:{params:Promise<{locale:string}
   const modules=es?modulesEs:modulesEn;
   return <main className="shell premiumAppShell" dir={rtl?'rtl':'ltr'}>
     <nav className="nav premiumNav">
-      <a href={`/${locale}`} className="brandwrap"><div className="brand">mycubacash.com</div><small>{es?'Remesas familiares + comerciales':'Family + Business Remittance'}</small></a>
+      <a href={`/${locale}`} className="brandwrap"><div className="brand">MY CUBA CASH</div><small>{es?'Remesas familiares + comerciales':'Family + Business Remittance'}</small></a>
       <div className="navlinks"><a href={`/${locale}`}>{es?'Inicio':'Home'}</a><a href={`/${locale}/remittances`}>{es?'Remesas':'Remittances'}</a><a href={`/${locale}/marketplace`}>Marketplace</a><a href={`/${locale}/cash`}>{es?'Registro de efectivo':'Cash Ledger'}</a><a href={`/${locale}/agents`}>{es?'Agentes IA':'AI Agents'}</a><a href={`/${locale}/autonomy`}>{es?'Autonomía':'Autonomy'}</a></div>
       <a className="miniCta" href="/api/health">{es?'Salud del sistema':'System Health'}</a>
     </nav>
 
     <section className="section">
-      <div className="sectionHead"><div><span className="eyebrow">{es?'FAMILIA · NEGOCIOS · MARKETPLACE PRIVADO':'FAMILY · BUSINESS · PRIVATE MARKETPLACE'}</span><h2>{es?'Centro de Comando':t.dashboard}</h2></div><p>{es?'Plano de control operativo para las funciones principales de mycubacash, coordinado por un cerebro de aplicación con autorreparación, mejora continua y crecimiento autónomo sujetos a políticas.':'Operational control plane for the primary mycubacash jobs, coordinated by an application brain with bounded self-healing, self-improvement, autonomous growth and partner-gated crypto routing.'}</p></div>
+      <div className="sectionHead"><div><span className="eyebrow">{es?'FAMILIA · NEGOCIOS · MARKETPLACE PRIVADO':'FAMILY · BUSINESS · PRIVATE MARKETPLACE'}</span><h2>{es?'Centro de Comando':t.dashboard}</h2></div><p>{es?'Plano de control operativo para las funciones principales de MY CUBA CASH, coordinado por un cerebro de aplicación con autorreparación, mejora continua y crecimiento autónomo sujetos a políticas.':'Operational control plane for the primary MY CUBA CASH jobs, coordinated by an application brain with bounded self-healing, self-improvement, autonomous growth and partner-gated crypto routing.'}</p></div>
       <div className="previewGrid">
         <div><span>{es?'Cerebro':'Brain'}</span><strong>{es?'ORQUESTADO':'ORCHESTRATED'}</strong></div>
         <div><span>Crypto</span><strong>{es?'RUTEADO POR SOCIO':'PARTNER-ROUTED'}</strong></div>
@@ -56,6 +56,6 @@ export default async function Dashboard({params}:{params:Promise<{locale:string}
     </section>
 
     <section className="policyBlock"><div><span className="eyebrow">{es?'PRINCIPIO DE AUTONOMÍA':'AUTONOMY PRINCIPLE'}</span><h2>{es?'Los modelos proponen. La política autoriza. La evidencia promueve.':'Models propose. Policy authorizes. Evidence promotes.'}</h2></div><p>{es?'La recuperación segura y reversible puede automatizarse. Configuración material, precios, acciones reguladas, compromisos vinculantes, settlement cripto y contacto externo sin consentimiento permanecen detrás de políticas o aprobaciones explícitas.':'Safe reversible recovery can be automated. Material configuration, pricing, regulated actions, binding partner commitments, crypto settlement and unconsented external outreach stay behind explicit policy or approval gates.'}</p></section>
-    <footer className="footer"><strong>mycubacash.com</strong><span>{es?'Remesas familiares · Remesas comerciales · Marketplace privado':'Family Remittance · Business Remittance · Private-Sector Marketplace'}</span></footer>
+    <footer className="footer"><strong>MY CUBA CASH</strong><span>{es?'Remesas familiares · Remesas comerciales · Marketplace privado':'Family Remittance · Business Remittance · Private-Sector Marketplace'}</span></footer>
   </main>;
 }

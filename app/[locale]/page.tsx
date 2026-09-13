@@ -1,5 +1,6 @@
 import { localeOf, locales } from '@/lib/i18n';
 import { APP_COMMUNICATIONS, whatsappUrl } from '@/lib/communications';
+import ShareAppButton from '@/components/ShareAppButton';
 
 const MEDIA={
   hero:'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&fm=jpg&q=86&w=2600',
@@ -32,7 +33,7 @@ export default async function LocaleHome({params}:{params:Promise<{locale:string
         <h1>{es?'Hacemos que la liquidez local compita por ti.':'We make local liquidity compete for you.'}</h1>
         <p className="heroLead">{es?'MY CUBA CASH conecta tu necesidad con proveedores verificados que compiten en disponibilidad, velocidad, cobertura y costo total para darte una mejor opción de cumplimiento local.':'MY CUBA CASH connects your need with verified providers that compete on availability, speed, coverage and total cost to give you a better local fulfillment option.'}</p>
         <p className="heroSub">{es?'Tú ves las opciones. Sofia coordina. La plataforma mantiene la referencia, la evidencia y el seguimiento. Los controles de identidad, riesgo y cumplimiento permanecen separados y activos.':'You see the options. Sofia coordinates. The platform keeps the reference, evidence and tracking. Identity, risk and compliance controls remain separate and active.'}</p>
-        <div className="actions"><a className="cta premiumCta heroPrimary" href={`/${locale}/start`}>{es?'Iniciar solicitud':'Start Request'}</a><a className="glassCta" href={`/${locale}/delivery-providers`}>{es?'Comparar proveedores':'Compare Providers'}</a><a className="glassCta" href={whatsappUrl(channels.whatsappPrimary.e164)}>{es?'Hablar con Sofia':'Talk to Sofia'}</a></div>
+        <div className="actions"><a className="cta premiumCta heroPrimary" href={`/${locale}/start`}>{es?'Iniciar solicitud':'Start Request'}</a><a className="glassCta" href={`/${locale}/delivery-providers`}>{es?'Comparar proveedores':'Compare Providers'}</a><a className="glassCta" href={whatsappUrl(channels.whatsappPrimary.e164)}>{es?'Hablar con Sofia':'Talk to Sofia'}</a><ShareAppButton locale={locale} es={es}/></div>
         <div className="heroTrustRail"><span>{es?'Liquidez disponible':'Available liquidity'}</span><span>{es?'Precio competitivo':'Competitive pricing'}</span><span>{es?'Cumplimiento local rápido':'Fast local fulfillment'}</span><span>{es?'Reputación verificable':'Verifiable reputation'}</span></div>
       </div>
     </section>

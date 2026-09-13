@@ -19,6 +19,11 @@ export const metadata: Metadata = {
     siteName: 'MY CUBA CASH',
     locale: 'es_US',
     type: 'website'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'MY CUBA CASH',
+    description: 'Familias, negocios, servicios y marketplace privado en una sola plataforma.'
   }
 };
 

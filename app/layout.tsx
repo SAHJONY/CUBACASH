@@ -4,7 +4,7 @@ import './premium.css';
 import './responsive.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://mycubacash.com'),
+  metadataBase: new URL('https://www.mycubacash.com'),
   title: {
     default: 'MY CUBA CASH | Remesas familiares, pagos comerciales y marketplace privado',
     template: '%s | MY CUBA CASH'
@@ -15,15 +15,23 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'MY CUBA CASH',
     description: 'Apoya a tu familia, compara servicios y sigue tus transacciones con Sofia dentro de una red más transparente.',
-    url: 'https://mycubacash.com/es',
+    url: 'https://www.mycubacash.com/es',
     siteName: 'MY CUBA CASH',
     locale: 'es_US',
-    type: 'website'
+    type: 'website',
+    images: [{
+      url: '/social/my-cuba-cash-cuba-20260913.jpg',
+      width: 1200,
+      height: 630,
+      type: 'image/jpeg',
+      alt: 'Familia cubana y emprendedor privado conectados en el Malecón de La Habana.'
+    }]
   },
   twitter: {
     card: 'summary_large_image',
     title: 'MY CUBA CASH',
-    description: 'Familias, negocios, servicios y marketplace privado en una sola plataforma.'
+    description: 'Familias, negocios, servicios y marketplace privado en una sola plataforma.',
+    images: ['/social/my-cuba-cash-cuba-20260913.jpg']
   }
 };
 

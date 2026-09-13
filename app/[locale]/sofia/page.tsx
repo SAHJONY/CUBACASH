@@ -29,11 +29,11 @@ export default async function SofiaHub({params}:{params:Promise<{locale:string}>
     recent=data??[];
   }
 
-  const wa=whatsappUrl(channels.whatsappPrimary.e164,es?'Hola Sofia. Necesito ayuda con mycubacash.':'Hi Sofia. I need help with mycubacash.');
+  const wa=whatsappUrl(channels.whatsappPrimary.e164,es?'Hola Sofia. Necesito ayuda con MY CUBA CASH.':'Hi Sofia. I need help with MY CUBA CASH.');
 
   return <main className="shell premiumAppShell">
     <nav className="nav premiumNav appNav">
-      <a href={`/${locale}`} className="brandwrap"><div className="brand">mycubacash</div><small>Sofia</small></a>
+      <a href={`/${locale}`} className="brandwrap"><div className="brand">MY CUBA CASH</div><small>Sofia</small></a>
       <div className="navlinks"><a href={`/${locale}/start`}>{es?'Enviar':'Send'}</a><a href={`/${locale}/transactions`}>{es?'Rastrear':'Track'}</a><a href={`/${locale}/local-services`}>{es?'Servicios locales':'Local Services'}</a><a href={`/${locale}/marketplace`}>Marketplace</a></div>
       <a className="miniCta premiumCta" href={wa}>{es?'Abrir Sofia':'Open Sofia'}</a>
     </nav>
@@ -42,7 +42,7 @@ export default async function SofiaHub({params}:{params:Promise<{locale:string}>
       <img className="homeHeroMedia" src={SOFIA_IMAGE} alt={es?'Asistente profesional ayudando a un cliente.':'Professional assistant helping a customer.'}/>
       <div className="homeHeroOverlay"/>
       <div className="homeHeroContent">
-        <div className="eyebrow">SOFIA · {es?'COPILOTO MYCUBACASH':'MYCUBACASH COPILOT'}</div>
+        <div className="eyebrow">SOFIA · {es?'COPILOTO MY CUBA CASH':'MY CUBA CASH COPILOT'}</div>
         <h1>{es?'Dime qué necesitas. Sofia organiza el camino.':'Tell Sofia what you need. She organizes the path.'}</h1>
         <p className="heroLead">{es?'Remesas, Xpress 1 hora, entregas, recargas, servicios locales, marketplace y seguimiento desde una sola experiencia. Sofia recoge el contexto, te muestra la acción correcta y escala cuando hace falta criterio humano.':'Remittances, Xpress 1 hour, delivery, top-ups, local services, marketplace and tracking from one experience. Sofia gathers context, shows the right action and escalates when human judgment is required.'}</p>
         <div className="actions"><a className="cta premiumCta" href={wa}>{es?'Hablar con Sofia en WhatsApp Business':'Talk to Sofia on WhatsApp Business'}</a><a className="glassCta" href={`/${locale}/start`}>{es?'Publicar un envío':'Post a request'}</a></div>
@@ -51,7 +51,7 @@ export default async function SofiaHub({params}:{params:Promise<{locale:string}>
     </section>
 
     <section className="section">
-      <div className="sectionHead"><div><span className="eyebrow">{es?'¿QUÉ QUIERES HACER?':'WHAT DO YOU NEED?'}</span><h2>{es?'Una entrada. Varias soluciones.':'One entry point. Multiple solutions.'}</h2></div><p>{es?'Sofia no obliga al cliente a conocer proveedores, rails o procesos internos. Empieza por la necesidad y mycubacash organiza las opciones disponibles.':'Sofia does not make customers understand providers, rails or internal processes. Start with the need and mycubacash organizes the available options.'}</p></div>
+      <div className="sectionHead"><div><span className="eyebrow">{es?'¿QUÉ QUIERES HACER?':'WHAT DO YOU NEED?'}</span><h2>{es?'Una entrada. Varias soluciones.':'One entry point. Multiple solutions.'}</h2></div><p>{es?'Sofia no obliga al cliente a conocer proveedores, rails o procesos internos. Empieza por la necesidad y MY CUBA CASH organiza las opciones disponibles.':'Sofia does not make customers understand providers, rails or internal processes. Start with the need and MY CUBA CASH organizes the available options.'}</p></div>
       <div className="luxuryGrid">
         <article className="luxuryCard"><span>01</span><h3>{es?'Enviar apoyo':'Send support'}</h3><p>{es?'Crea una remesa familiar y compara opciones de entrega cuando corresponda.':'Create a family remittance and compare delivery options when applicable.'}</p><a className="textLink" href={`/${locale}/start`}>{es?'Comenzar':'Start'} →</a></article>
         <article className="luxuryCard"><span>02</span><h3>{es?'Entrega rápida':'Fast delivery'}</h3><p>{es?'Compara Xpress 1 hora, 1–3 horas, mismo día y flexible según disponibilidad real del proveedor.':'Compare Xpress 1 hour, 1–3 hour, same-day and flexible service based on actual provider availability.'}</p><a className="textLink" href={`/${locale}/start`}>{es?'Comparar':'Compare'} →</a></article>

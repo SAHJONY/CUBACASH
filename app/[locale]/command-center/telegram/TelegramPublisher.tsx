@@ -5,8 +5,8 @@ import {useEffect,useState} from 'react';
 type Status={configured?:boolean;reachable?:boolean;botUsername?:string;chatTitle?:string;chatUsername?:string;chatType?:string;error?:string};
 
 const presets={
-  bienvenida:'Bienvenido al canal oficial de mycubacash. Aquí compartimos novedades de la plataforma, marketplace, servicios locales, entregas y recursos para familias y negocios del sector privado cubano. Visita https://mycubacash.com',
-  familia:'¿Tienes familia en Cuba? mycubacash te ayuda a coordinar solicitudes, servicios locales, entregas y seguimiento con más claridad. Empieza en https://mycubacash.com',
+  bienvenida:'Bienvenido al canal oficial de MY CUBA CASH. Aquí compartimos novedades de la plataforma, marketplace, servicios locales, entregas y recursos para familias y negocios del sector privado cubano. Visita https://mycubacash.com',
+  familia:'¿Tienes familia en Cuba? MY CUBA CASH te ayuda a coordinar solicitudes, servicios locales, entregas y seguimiento con más claridad. Empieza en https://mycubacash.com',
   negocios:'Impulsa tu negocio en Cuba. Compra, vende y ofrece servicios dentro de una red privada con más orden, visibilidad y confianza. Descubre https://mycubacash.com',
   servicios:'Servicios y entregas con confianza. Compara opciones, elige proveedores y da seguimiento a cada operación desde https://mycubacash.com',
   sofia:'Sofia te guía en cada paso. Inicia tu solicitud, compara opciones y recibe seguimiento desde un solo lugar: https://mycubacash.com'
@@ -30,7 +30,7 @@ export default function TelegramPublisher({es}:{es:boolean}){
   async function publish(){
     setBusy(true);setResult('');
     try{
-      const res=await fetch('/api/telegram',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text,imageUrl:imageUrl||undefined,buttonUrl:'https://mycubacash.com',buttonText:es?'Abrir mycubacash':'Open mycubacash'})});
+      const res=await fetch('/api/telegram',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text,imageUrl:imageUrl||undefined,buttonUrl:'https://mycubacash.com',buttonText:es?'Abrir MY CUBA CASH':'Open MY CUBA CASH'})});
       const data=await res.json();
       if(!res.ok||!data.ok) setResult(`${es?'Error':'Error'}: ${data.error||res.status}`);
       else setResult(es?`Publicado correctamente · mensaje ${data.messageId??''}`:`Published successfully · message ${data.messageId??''}`);

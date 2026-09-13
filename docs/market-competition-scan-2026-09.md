@@ -1,8 +1,8 @@
-# mycubacash.com — Market & Competition Scan (September 2026)
+# MY CUBA CASH — Market & Competition Scan (September 2026)
 
 ## Executive conclusion
 
-mycubacash.com should not compete as a generic international money-transfer clone. The strongest differentiated position is a three-sided private-economy network:
+MY CUBA CASH should not compete as a generic international money-transfer clone. The strongest differentiated position is a three-sided private-economy network:
 
 1. **Family Remittance** — simple recurring family support, trusted beneficiaries, transparent status, evidence and partner routing.
 2. **Business Remittance** — commercial-purpose payment intents for private businesses and entrepreneurs, with KYB/UBO, invoices/evidence, reconciliation and partner settlement.
@@ -21,7 +21,7 @@ The defensible moat is the combination of **community trust + transaction histor
 ### Western Union / MoneyGram / Ria / Intermex / Xoom
 - Large global payout networks, cash access and brand trust remain major advantages.
 - Dallas Fed analysis of Latin America/Caribbean remittance shares shows digital-native providers gaining share while traditional MTOs remain important.
-- Strategic lesson: mycubacash should partner with authorized providers rather than attempt to recreate global settlement rails early.
+- Strategic lesson: MY CUBA CASH should partner with authorized providers rather than attempt to recreate global settlement rails early.
 - Source: https://www.dallasfed.org/banking/pubs/dfb/2025/2504-dunbar-remit
 
 ### Wise Business
@@ -36,7 +36,7 @@ The defensible moat is the combination of **community trust + transaction histor
 
 ### AI sales-agent competition
 - The 2026 AI-sales category includes autonomous prospecting, inbound qualification, CRM-native execution, research, sequencing and meeting booking. Major names include Salesforce Agentforce, HubSpot Breeze, 11x, Artisan, Apollo, Qualified, Mutiny, Regie.ai and others.
-- Strategic lesson: mycubacash does not need a generic SDR clone. Its sales engine should sell from first-party marketplace/remittance intent signals, community reputation, corridor demand and verified business profiles.
+- Strategic lesson: MY CUBA CASH does not need a generic SDR clone. Its sales engine should sell from first-party marketplace/remittance intent signals, community reputation, corridor demand and verified business profiles.
 - Sources: https://www.mutinyhq.com/blog/ai-sales-agents-the-2026-category-guide and https://technologyadvice.com/blog/sales/ai-sales-agents/
 
 ## Product gaps competitors leave open
@@ -45,7 +45,7 @@ The defensible moat is the combination of **community trust + transaction histor
 2. **Private-sector marketplace tied directly to payment orchestration.** Discovery and cross-border settlement are usually separate products.
 3. **Community-verifiable transaction reputation.** Public status history, disputes and transaction-earned gold stars can lower trust friction without replacing compliance.
 4. **All-party confirmation for direct cash records.** Useful in cash-heavy private economies where the platform records but does not custody cash.
-5. **AI operations specialized to corridor, trust and commercial evidence.** Competitors use AI broadly; mycubacash can use it around high-context remittance/marketplace workflows.
+5. **AI operations specialized to corridor, trust and commercial evidence.** Competitors use AI broadly; MY CUBA CASH can use it around high-context remittance/marketplace workflows.
 
 ## Competitive operating doctrine
 

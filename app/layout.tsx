@@ -6,17 +6,17 @@ import './responsive.css';
 export const metadata: Metadata = {
   metadataBase: new URL('https://mycubacash.com'),
   title: {
-    default: 'mycubacash.com | Remesas familiares, pagos comerciales y marketplace privado',
-    template: '%s | mycubacash.com'
+    default: 'MY CUBA CASH | Remesas familiares, pagos comerciales y marketplace privado',
+    template: '%s | MY CUBA CASH'
   },
   description: 'Remesas familiares, pagos a negocios privados, servicios locales verificados y marketplace del sector privado con seguimiento de transacciones y Sofia como copiloto principal.',
-  applicationName: 'mycubacash.com',
+  applicationName: 'MY CUBA CASH',
   alternates: { canonical: '/es', languages: { es: '/es', en: '/en', fr: '/fr', pt: '/pt', ar: '/ar' } },
   openGraph: {
-    title: 'mycubacash.com',
+    title: 'MY CUBA CASH',
     description: 'Apoya a tu familia, compara servicios y sigue tus transacciones con Sofia dentro de una red más transparente.',
     url: 'https://mycubacash.com/es',
-    siteName: 'mycubacash.com',
+    siteName: 'MY CUBA CASH',
     locale: 'es_US',
     type: 'website'
   }

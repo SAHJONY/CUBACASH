@@ -23,7 +23,7 @@ export async function POST(request:Request){
   return Response.json({
     ...result,
     advisory:true,
-    policyLayer:'mycubacash.com',
+    policyLayer:'MY CUBA CASH',
     liveSanctionsScreeningPerformed:false,
     authoritativeSourceDataRequired:true,
     authorizedHumanReviewMayBeRequired:true

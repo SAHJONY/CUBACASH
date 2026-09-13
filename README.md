@@ -1,14 +1,14 @@
-# mycubacash.com
+# MY CUBA CASH
 
-**mycubacash.com** is the standalone, multilingual full-stack platform for the private-sector economy: private businesses, entrepreneurs, cooperatives, buyers, suppliers, service providers and approved international counterparties.
+**MY CUBA CASH** is the standalone, multilingual full-stack platform for the private-sector economy: private businesses, entrepreneurs, cooperatives, buyers, suppliers, service providers and approved international counterparties.
 
-**Application name:** `mycubacash.com`  
-**Primary domain:** `https://mycubacash.com`  
+**Application name:** `MY CUBA CASH`
+**Primary domain:** `https://mycubacash.com`
 **Technical repository:** `SAHJONY/CUBACASH`
 
 ## Product scope
 
-mycubacash.com is a private-sector business operating platform. The initial platform includes:
+MY CUBA CASH is a private-sector business operating platform. The initial platform includes:
 
 - Private-sector business profiles and KYB status
 - Buyer / supplier marketplace
@@ -31,7 +31,7 @@ mycubacash.com is a private-sector business operating platform. The initial plat
 
 ## Policy and orchestration model
 
-mycubacash.com uses this framework as its private-sector policy and orchestration layer:
+MY CUBA CASH uses this framework as its private-sector policy and orchestration layer:
 
 - `SANCTIONS_BLOCKED` -> `BLOCK`
 - `SANCTIONS_PENDING | REVIEW | ERROR` -> `HOLD`
@@ -73,7 +73,7 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 Browser / Mobile / Messaging Channels
               |
               v
-      mycubacash.com
+      MY CUBA CASH
               |
        Next.js Application
               |

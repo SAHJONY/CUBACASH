@@ -25,7 +25,7 @@ export default async function AgentsPage({params}:{params:Promise<{locale:string
   const es=locale==='es';
   return <main className="shell premiumAppShell" dir={rtl?'rtl':'ltr'}>
     <nav className="nav premiumNav">
-      <a href={`/${locale}`} className="brandwrap"><div className="brand">mycubacash.com</div><small>{es?'Red de Comando Agéntica':'Agentic Command Network'}</small></a>
+      <a href={`/${locale}`} className="brandwrap"><div className="brand">MY CUBA CASH</div><small>{es?'Red de Comando Agéntica':'Agentic Command Network'}</small></a>
       <div className="navlinks"><a href={`/${locale}/dashboard`}>Command Center</a><a href={`/${locale}/remittances`}>{es?'Remesas':'Remittances'}</a></div>
       <a className="miniCta" href="/api/health">{es?'Salud del sistema':'System Health'}</a>
     </nav>
@@ -59,6 +59,6 @@ export default async function AgentsPage({params}:{params:Promise<{locale:string
       <p>{es?'Los agentes pueden investigar, planificar, priorizar, conciliar y preparar trabajo dentro de sus permisos. Escrituras materiales, acciones financieras reguladas, decisiones sensibles a sanciones y acciones prohibidas no pueden autoaprobarse silenciosamente.':'Agents may autonomously research, plan, rank, reconcile and prepare work inside their permissions. Material writes, regulated financial actions, sanctions-sensitive decisions and prohibited actions cannot be silently self-approved.'}</p>
     </section>
 
-    <footer className="footer"><strong>mycubacash.com</strong><span>{es?'Red de Comando Agéntica':'Agentic Command Network'}</span></footer>
+    <footer className="footer"><strong>MY CUBA CASH</strong><span>{es?'Red de Comando Agéntica':'Agentic Command Network'}</span></footer>
   </main>;
 }

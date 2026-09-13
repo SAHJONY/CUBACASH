@@ -27,7 +27,7 @@ export default function FeeCalculator(){
   const percent=(rule.rate*100).toFixed(2).replace(/\.00$/,'');
 
   return <article className="feature" style={{display:'grid',gap:16}}>
-    <div><div className="eyebrow">FEE CALCULATOR</div><h2 style={{marginBottom:6}}>Estimate the mycubacash platform fee</h2><p>See the platform fee before starting a request. Third-party payment, FX, settlement or delivery charges are separate and are not included here unless explicitly shown.</p></div>
+    <div><div className="eyebrow">FEE CALCULATOR</div><h2 style={{marginBottom:6}}>Estimate the MY CUBA CASH platform fee</h2><p>See the platform fee before starting a request. Third-party payment, FX, settlement or delivery charges are separate and are not included here unless explicitly shown.</p></div>
     <div className="featureGrid">
       <label>Transaction type<select value={type} onChange={e=>setType(e.target.value as FeeKey)} style={{width:'100%',padding:12,marginTop:6}}>
         <option value="family">Family remittance</option><option value="business">Business remittance</option><option value="marketplace">Marketplace</option><option value="cash">Cash transaction record</option>

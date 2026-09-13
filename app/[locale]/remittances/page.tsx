@@ -35,7 +35,7 @@ export default async function Remittances({params}:{params:Promise<{locale:strin
   const rtl=locale==='ar';
   return <main className="shell" dir={rtl?'rtl':'ltr'}>
     <nav className="nav">
-      <a href={`/${locale}`} className="brandwrap"><div className="brand">mycubacash.com</div><small>{t.tag}</small></a>
+      <a href={`/${locale}`} className="brandwrap"><div className="brand">MY CUBA CASH</div><small>{t.tag}</small></a>
       <div className="navlinks"><a href={`/${locale}/dashboard`}>{t.dashboard}</a><a href={`/${locale}/cash`}>Cash Ledger</a><a href={`/${locale}/agents`}>AI Agents</a><span>{t.compliance}</span></div>
       <a className="miniCta" href="/api/auth/status">Account status</a>
     </nav>
@@ -44,7 +44,7 @@ export default async function Remittances({params}:{params:Promise<{locale:strin
       <div className="heroCopy">
         <div className="eyebrow">FAMILY + BUSINESS + DELIVERY NETWORK</div>
         <h1>Send support. Pay businesses. Deliver to family. Keep every role traceable.</h1>
-        <p className="heroLead">mycubacash separates family remittances, private-business payments and delivery-provider activity so one person can hold multiple legitimate roles without those permissions bleeding into one another.</p>
+        <p className="heroLead">MY CUBA CASH separates family remittances, private-business payments and delivery-provider activity so one person can hold multiple legitimate roles without those permissions bleeding into one another.</p>
         <p className="heroSub">Fiat and approved crypto can be offered as funding or settlement preferences where an appropriately authorized provider supports the corridor. Delivery-provider status never authorizes a person or business to transmit remittance funds for others.</p>
         <div className="actions"><a className="cta" href="#family">Family remittance</a><a className="ghost" href="#delivery">Delivery providers</a></div>
       </div>
@@ -80,6 +80,6 @@ export default async function Remittances({params}:{params:Promise<{locale:strin
     </section>
 
     <section className="policyBlock"><div><span className="eyebrow">CORE RULE</span><h2>One account can have many roles, but authority never transfers between roles</h2></div><p>A delivery provider may receive their own family remittance as a beneficiary. That does not authorize them to receive or transmit remittance funds on behalf of unrelated customers. Family/business classification, identity/KYB, sanctions state, corridor controls and authorized-provider eligibility remain separate gates.</p></section>
-    <footer className="footer"><strong>mycubacash.com</strong><span>Family + Business Remittance · Private-Sector Delivery Network</span><span>v0.9</span></footer>
+    <footer className="footer"><strong>MY CUBA CASH</strong><span>Family + Business Remittance · Private-Sector Delivery Network</span><span>v0.9</span></footer>
   </main>;
 }

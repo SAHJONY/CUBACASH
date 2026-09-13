@@ -61,7 +61,7 @@ export default async function DeliveryProviders({params}:{params:Promise<{locale
 
   return <main className="shell premiumAppShell" dir={locale==='ar'?'rtl':'ltr'}>
     <nav className="nav premiumNav">
-      <a href={`/${locale}`} className="brandwrap"><div className="brand">mycubacash.com</div><small>{es?'Red de entrega':'Delivery Network'}</small></a>
+      <a href={`/${locale}`} className="brandwrap"><div className="brand">MY CUBA CASH</div><small>{es?'Red de entrega':'Delivery Network'}</small></a>
       <div className="navlinks"><a href={`/${locale}/remittances`}>{es?'Remesas':'Remittances'}</a><a href={`/${locale}/marketplace`}>Marketplace</a><a href={`/${locale}/delivery-providers/manage`}>{es?'Consola del proveedor':'Provider Console'}</a></div>
       <a className="miniCta" href={whatsappUrl(channels.whatsappPrimary.e164)}>WhatsApp Business Sofia</a>
     </nav>
@@ -87,7 +87,7 @@ export default async function DeliveryProviders({params}:{params:Promise<{locale
     {!unavailable&&<section className="section"><GeoOperationsMap providers={geoProviders} title={es?'Cobertura mundial de proveedores':'Worldwide provider coverage'}/></section>}
 
     <section className="section">
-      <div className="sectionHead"><div><span className="eyebrow">{es?'PROVEEDORES DE ENTREGA':'DELIVERY PROVIDERS'}</span><h2>{es?'Compara proveedores verificados':'Compare verified providers'}</h2></div><p>{es?'Las tarifas las publica cada proveedor y son independientes de las tarifas de plataforma de mycubacash. La disponibilidad y el ETA siguen siendo estimados hasta que el proveedor acepte el trabajo.':'Rates are posted by each provider and are separate from mycubacash platform fees. Availability and arrival times are provider estimates until a specific job is accepted.'}</p></div>
+      <div className="sectionHead"><div><span className="eyebrow">{es?'PROVEEDORES DE ENTREGA':'DELIVERY PROVIDERS'}</span><h2>{es?'Compara proveedores verificados':'Compare verified providers'}</h2></div><p>{es?'Las tarifas las publica cada proveedor y son independientes de las tarifas de plataforma de MY CUBA CASH. La disponibilidad y el ETA siguen siendo estimados hasta que el proveedor acepte el trabajo.':'Rates are posted by each provider and are separate from MY CUBA CASH platform fees. Availability and arrival times are provider estimates until a specific job is accepted.'}</p></div>
       {unavailable?<p>{es?'El directorio está temporalmente no disponible. Contacta a Sofia por WhatsApp Business.':'The delivery directory is temporarily unavailable. Contact Sofia on WhatsApp Business for assistance.'}</p>:
       !providers.length?<div><p>{es?'Todavía no hay proveedores verificados publicados.':'No verified public delivery providers are listed yet.'}</p><div className="actions"><a className="cta" href={whatsappUrl(channels.whatsappPrimary.e164)}>{es?'Conviértete en el primer proveedor verificado de tu zona':'Become the first verified provider in your area'}</a></div></div>:
       <div className="featureGrid">{providers.map((provider)=>{
@@ -124,6 +124,6 @@ export default async function DeliveryProviders({params}:{params:Promise<{locale
       })}</div>}
     </section>
 
-    <section className="policyBlock"><div><span className="eyebrow">{es?'ELECCIÓN JUSTA':'FAIR CHOICE'}</span><h2>{es?'Competencia transparente sin exponer información privada.':'Transparent provider competition without exposing private contact details'}</h2></div><p>{es?'Los clientes pueden comparar proveedores verificados usando ID público, ubicación aproximada, zonas, horario, disponibilidad, ETA y tarifas publicadas. Una tarifa o ETA sigue siendo informativa hasta que el proveedor acepte el trabajo. mycubacash mantiene privados los teléfonos, direcciones exactas y credenciales de pago.':'Customers can compare verified providers using provider ID, approximate location, service zones, schedule, availability, estimated arrival and posted delivery charges. A posted rate or ETA is informational until the provider accepts the specific job. mycubacash keeps private contact details, exact addresses and payment credentials off the public directory.'}</p></section>
+    <section className="policyBlock"><div><span className="eyebrow">{es?'ELECCIÓN JUSTA':'FAIR CHOICE'}</span><h2>{es?'Competencia transparente sin exponer información privada.':'Transparent provider competition without exposing private contact details'}</h2></div><p>{es?'Los clientes pueden comparar proveedores verificados usando ID público, ubicación aproximada, zonas, horario, disponibilidad, ETA y tarifas publicadas. Una tarifa o ETA sigue siendo informativa hasta que el proveedor acepte el trabajo. MY CUBA CASH mantiene privados los teléfonos, direcciones exactas y credenciales de pago.':'Customers can compare verified providers using provider ID, approximate location, service zones, schedule, availability, estimated arrival and posted delivery charges. A posted rate or ETA is informational until the provider accepts the specific job. MY CUBA CASH keeps private contact details, exact addresses and payment credentials off the public directory.'}</p></section>
   </main>;
 }

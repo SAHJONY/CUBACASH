@@ -6,7 +6,7 @@ import ShareAppButton from '@/components/ShareAppButton';
 const MEDIA={
   hero:'https://images.unsplash.com/photo-1609676678267-950d4856294a?auto=format&fit=crop&fm=jpg&q=88&w=2600',
   family:'https://images.unsplash.com/photo-1509240320968-c84e69a2ffc1?auto=format&fit=crop&fm=jpg&q=86&w=2200',
-  business:'https://images.unsplash.com/photo-1722745604035-b00591ddc896?auto=format&fit=crop&fm=jpg&q=86&w=2200',
+  business:'/social/my-cuba-cash-cuba-20260913.jpg',
   service:'https://images.unsplash.com/photo-1583691791840-3b3235d5b9f3?auto=format&fit=crop&fm=jpg&q=86&w=2200'
 } as const;
 

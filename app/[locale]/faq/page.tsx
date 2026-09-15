@@ -2,6 +2,7 @@ import {localeOf} from '@/lib/i18n';
 
 const items=[
   ['¿MY CUBA CASH es un banco?','No. Es una plataforma tecnológica operada por SAHJONY LLC para organizar solicitudes, comparación, referencias y coordinación.'],
+  ['¿SAHJONY LLC aparece aquí como transmisor de dinero con licencia?','No. Este sitio no publica ni afirma una licencia de transmisor de dinero para SAHJONY LLC. Cuando una actividad regulada requiera transmisión, custodia, cambio de moneda o liquidación, debe ejecutarse mediante un proveedor debidamente autorizado y el flujo aplicable.'],
   ['¿Crear una solicitud mueve dinero?','No. Crear o guardar una solicitud no completa una transferencia ni autoriza un débito.'],
   ['¿Puedo enviar USD o stablecoins ahora?','No envíes USD, USDC ni otro activo hasta que exista una cotización completa, un proveedor verificado y un método autorizado dentro del flujo seguro de MY CUBA CASH.'],
   ['¿Cuánto cuesta una solicitud familiar?','La tarifa publicada de MY CUBA CASH es 1.25% del importe, con mínimo de $1 y máximo de $12. Otros costos se muestran por separado cuando exista una cotización real.'],
@@ -21,6 +22,7 @@ export default async function FaqPage({params}:{params:Promise<{locale:string}>}
     <section className="hero"><div className="heroCopy"><div className="eyebrow">{es?'PREGUNTAS FRECUENTES':'FREQUENTLY ASKED QUESTIONS'}</div><h1>{es?'Respuestas directas antes de registrarte.':'Direct answers before you sign up.'}</h1><p className="heroLead">{es?'Si una respuesta depende de un proveedor, precio o autorización todavía no confirmados, lo decimos claramente.':'When an answer depends on a provider, price or authorization that is not yet confirmed, we say so clearly.'}</p></div></section>
     <section className="section"><div className="featureGrid">{items.map(([question,answer])=><article className="feature premiumCard" key={question}><h3>{es?question:({
       '¿MY CUBA CASH es un banco?':'Is MY CUBA CASH a bank?',
+      '¿SAHJONY LLC aparece aquí como transmisor de dinero con licencia?':'Does this site present SAHJONY LLC as a licensed money transmitter?',
       '¿Crear una solicitud mueve dinero?':'Does creating a request move money?',
       '¿Puedo enviar USD o stablecoins ahora?':'Can I send USD or stablecoins now?',
       '¿Cuánto cuesta una solicitud familiar?':'What does a family-support request cost?',
@@ -31,6 +33,7 @@ export default async function FaqPage({params}:{params:Promise<{locale:string}>}
       '¿Qué nunca debo compartir por WhatsApp?':'What should I never share over WhatsApp?'
     } as Record<string,string>)[question]}</h3><p>{es?answer:({
       'No. Es una plataforma tecnológica operada por SAHJONY LLC para organizar solicitudes, comparación, referencias y coordinación.':'No. It is a technology platform operated by SAHJONY LLC to organize requests, comparison, references and coordination.',
+      'No. Este sitio no publica ni afirma una licencia de transmisor de dinero para SAHJONY LLC. Cuando una actividad regulada requiera transmisión, custodia, cambio de moneda o liquidación, debe ejecutarse mediante un proveedor debidamente autorizado y el flujo aplicable.':'No. This site does not publish or claim a money-transmitter license for SAHJONY LLC. When regulated activity requires money transmission, custody, currency exchange or settlement, it must be performed through an appropriately authorized provider and the applicable flow.',
       'No. Crear o guardar una solicitud no completa una transferencia ni autoriza un débito.':'No. Creating or saving a request does not complete a transfer or authorize a debit.',
       'No envíes USD, USDC ni otro activo hasta que exista una cotización completa, un proveedor verificado y un método autorizado dentro del flujo seguro de MY CUBA CASH.':'Do not send USD, USDC or another asset until a complete quote, a verified provider and an authorized method are available inside the secure MY CUBA CASH flow.',
       'La tarifa publicada de MY CUBA CASH es 1.25% del importe, con mínimo de $1 y máximo de $12. Otros costos se muestran por separado cuando exista una cotización real.':'The published MY CUBA CASH fee is 1.25% of the amount, with a $1 minimum and $12 cap. Other costs are shown separately when a real quote exists.',

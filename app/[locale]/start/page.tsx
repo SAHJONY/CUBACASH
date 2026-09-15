@@ -19,6 +19,7 @@ export default function StartTransaction(){
   const es=locale==='es';
   const [beneficiaries,setBeneficiaries]=useState<Beneficiary[]>([]);
   const [loading,setLoading]=useState(true);
+  const [authRequired,setAuthRequired]=useState(false);
   const [message,setMessage]=useState('');
   const [reference,setReference]=useState('');
   const [createdId,setCreatedId]=useState('');
@@ -38,7 +39,7 @@ export default function StartTransaction(){
 
   useEffect(()=>{(async()=>{
     const res=await fetch('/api/beneficiaries',{cache:'no-store'});
-    if(res.status===401){window.location.href=`/${locale}/auth`;return;}
+    if(res.status===401){setAuthRequired(true);setLoading(false);return;}
     const body=await res.json().catch(()=>({}));
     if(res.ok){setBeneficiaries(body.beneficiaries??[]);setBeneficiaryId(body.beneficiaries?.[0]?.id??'');}
     else setMessage(es?'No pudimos cargar tus receptores.':'Unable to load your recipients.');
@@ -121,9 +122,20 @@ export default function StartTransaction(){
 
   return <main className="shell premiumAppShell">
     <nav className="nav premiumNav"><a href={`/${locale}`} className="brandwrap"><div className="brand">MY CUBA CASH</div><small>{es?'Publicar un envío':'Post a delivery'}</small></a><div className="navlinks"><a href={`/${locale}/transactions`}>{es?'Mis transacciones':'My Transactions'}</a><a href={`/${locale}/fees`}>{es?'Tarifas':'Fees'}</a><a href={`/${locale}/privacy`}>{es?'Privacidad':'Privacy'}</a></div></nav>
-    <section className="hero"><div className="heroCopy"><div className="eyebrow">{es?'ENVÍO FAMILIAR':'FAMILY REMITTANCE'}</div><h1>{es?'Publica tu envío. Compara opciones. Tú decides.':'Post your request. Compare options. You decide.'}</h1><p className="heroLead">{es?'Elige entrega estimada de 1–3 horas, mismo día o flexible. MY CUBA CASH compara proveedores verificados por precio, tiempo, cobertura y transporte antes de que tú elijas.':'Choose estimated 1–3 hour, same-day or flexible delivery. MY CUBA CASH compares verified providers by price, time, coverage and transport before you choose.'}</p></div></section>
+    <section className="hero"><div className="heroCopy"><div className="eyebrow">{es?'REVISA PRIMERO · REGÍSTRATE DESPUÉS':'REVIEW FIRST · SIGN UP LATER'}</div><h1>{es?'Consulta el costo y el proceso antes de crear una cuenta.':'See the cost and process before creating an account.'}</h1><p className="heroLead">{es?'Para $100 de apoyo familiar, la tarifa estimada de MY CUBA CASH es $1.25. El proveedor, la entrega y el cambio de moneda se cotizan por separado cuando exista una opción real.':'For $100 of family support, the estimated MY CUBA CASH fee is $1.25. Provider, delivery and foreign-exchange costs are quoted separately when a real option exists.'}</p><div className="actions"><a className="cta premiumCta" href={`/${locale}/fees`}>{es?'Calcular otro importe':'Calculate another amount'}</a><a className="ghost" href={`/${locale}/how-it-works`}>{es?'Cómo funciona':'How it works'}</a></div></div></section>
     <section className="section" style={{maxWidth:980,margin:'0 auto'}}>
-      {loading?<p>{es?'Cargando tu cuenta…':'Loading your account…'}</p>:<>
+      <article className="feature premiumCard" style={{display:'grid',gap:12,marginBottom:24}}>
+        <span className="eyebrow">{es?'ANTES DE REGISTRARTE':'BEFORE YOU SIGN UP'}</span>
+        <h2>{es?'Esto es lo que puedes verificar ahora.':'Here is what you can verify now.'}</h2>
+        <div className="featureGrid"><div><strong>$100.00</strong><p>{es?'Importe de ejemplo':'Example amount'}</p></div><div><strong>$1.25</strong><p>{es?'Nuestra tarifa estimada':'Our estimated fee'}</p></div><div><strong>{es?'Pendiente':'Pending'}</strong><p>{es?'Proveedor, entrega y FX':'Provider, delivery and FX'}</p></div></div>
+        <p>{es?'Crear una cuenta o una solicitud no mueve fondos. No envíes dinero hasta ver una cotización completa y un proveedor confirmado.':'Creating an account or request does not move funds. Do not send money until you see a complete quote and confirmed provider.'}</p>
+      </article>
+      {loading?<p role="status">{es?'Comprobando si ya tienes una sesión…':'Checking whether you already have a session…'}</p>:authRequired?<article className="feature premiumCard" style={{display:'grid',gap:14}}>
+        <span className="eyebrow">{es?'CUENTA REQUERIDA SOLO PARA PUBLICAR':'ACCOUNT REQUIRED ONLY TO POST'}</span>
+        <h2>{es?'Ya viste la tarifa. Entra solo cuando quieras guardar una solicitud.':'You have seen the fee. Sign in only when you want to save a request.'}</h2>
+        <p>{es?'La cuenta protege los datos del remitente y del receptor. No se necesita para consultar tarifas, disponibilidad pública, preguntas frecuentes ni soporte.':'An account protects sender and receiver data. It is not required to review fees, public availability, FAQs or support.'}</p>
+        <div className="actions"><a className="cta premiumCta" href={`/${locale}/auth?next=/${locale}/start`}>{es?'Entrar o crear cuenta':'Sign in or create account'}</a><a className="ghost" href={`/${locale}/delivery-providers`}>{es?'Ver disponibilidad pública':'View public availability'}</a></div>
+      </article>:<>
       <article className="feature" style={{display:'grid',gap:12,marginBottom:24}}><h2>{es?'1. Receptor':'1. Receiver'}</h2>
         {beneficiaries.length>0&&<label>{es?'Elige el receptor':'Choose receiver'}<select value={beneficiaryId} onChange={e=>setBeneficiaryId(e.target.value)} style={{width:'100%',padding:12,marginTop:6}}>{beneficiaries.filter(b=>b.beneficiary_type==='PERSON').map(b=><option key={b.id} value={b.id}>{b.full_name} · {b.country_code}</option>)}</select></label>}
         <div className="featureGrid"><label>{es?'Nuevo receptor':'New receiver'}<input value={newName} onChange={e=>setNewName(e.target.value)} style={{width:'100%',padding:12,marginTop:6}}/></label><label>{es?'País':'Country'}<input maxLength={2} value={newCountry} onChange={e=>setNewCountry(e.target.value.toUpperCase())} style={{width:'100%',padding:12,marginTop:6}}/></label></div>

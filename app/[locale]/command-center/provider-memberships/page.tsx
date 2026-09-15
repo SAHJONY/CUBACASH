@@ -66,6 +66,7 @@ export default function MembershipReview(){
           <p><strong>ID:</strong> {provider.public_provider_id||'—'}</p>
           <p><strong>{es?'Registro':'Registration'}:</strong> {business.registration_number||'—'}</p>
           <p><strong>{es?'Perfil':'Profile'}:</strong> {provider.profile_status||'—'}</p>
+          {membership.founding_slot&&<p><strong>{es?'Cupo fundador':'Founding slot'}:</strong> #{membership.founding_slot} · <strong>{es?'Gratis hasta':'Free until'}:</strong> {membership.free_until?new Date(membership.free_until).toLocaleDateString(es?'es-US':'en-US'):'—'} · <strong>{es?'Descuento permanente':'Lifetime discount'}:</strong> 25%</p>}
           <div className="actions">
             <button className="cta" onClick={()=>decide(membership.user_id,'APPROVE')}>{es?'Verificar + activar':'Verify + activate'}</button>
             <button className="ghost" onClick={()=>decide(membership.user_id,'REJECT')}>{es?'Rechazar':'Reject'}</button>

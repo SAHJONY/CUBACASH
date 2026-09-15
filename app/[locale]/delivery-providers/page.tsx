@@ -43,8 +43,9 @@ export default async function DeliveryProviders({params}:{params:Promise<{locale
     const supabase=await supabaseServer();
     const {data,error}=await supabase
       .from('delivery_provider_public_directory')
-      .select('public_provider_id,provider_kind,display_name,city,region,country_code,service_zones,service_area,work_days,work_start,work_end,transport_mode,verified,pricing_model,fee_currency,base_fee,per_km_fee,minimum_fee,maximum_fee,pricing_notes,pricing_updated_at,public_latitude,public_longitude,location_precision,estimated_eta_min_minutes,estimated_eta_max_minutes,accepting_jobs')
+      .select('public_provider_id,provider_kind,display_name,city,region,country_code,service_zones,service_area,work_days,work_start,work_end,transport_mode,verified,founding_supplier,founding_slot,featured_until,pricing_model,fee_currency,base_fee,per_km_fee,minimum_fee,maximum_fee,pricing_notes,pricing_updated_at,public_latitude,public_longitude,location_precision,estimated_eta_min_minutes,estimated_eta_max_minutes,accepting_jobs')
       .eq('verified',true)
+      .order('featured_until',{ascending:false,nullsFirst:false})
       .order('accepting_jobs',{ascending:false})
       .order('city',{ascending:true})
       .order('base_fee',{ascending:true,nullsFirst:false})
@@ -62,7 +63,7 @@ export default async function DeliveryProviders({params}:{params:Promise<{locale
   return <main className="shell premiumAppShell" dir={locale==='ar'?'rtl':'ltr'}>
     <nav className="nav premiumNav">
       <a href={`/${locale}`} className="brandwrap"><div className="brand">MY CUBA CASH</div><small>{es?'Red privada verificada':'Verified Private Network'}</small></a>
-      <div className="navlinks"><a href={`/${locale}`}>{es?'Inicio':'Home'}</a><a href={`/${locale}/fees`}>{es?'Tarifas':'Fees'}</a><a href={`/${locale}/how-it-works`}>{es?'Cómo funciona':'How it works'}</a><a href={`/${locale}/delivery-providers/manage`}>{es?'Solicitud de proveedor':'Provider application'}</a></div>
+      <div className="navlinks"><a href={`/${locale}`}>{es?'Inicio':'Home'}</a><a href={`/${locale}/fees`}>{es?'Tarifas':'Fees'}</a><a href={`/${locale}/how-it-works`}>{es?'Cómo funciona':'How it works'}</a><a href={`/${locale}/providers/join`}>Founding 100</a></div>
       <a className="miniCta" href={whatsappUrl(channels.whatsappPrimary.e164)}>WhatsApp Business Sofia</a>
     </nav>
 
@@ -100,6 +101,8 @@ export default async function DeliveryProviders({params}:{params:Promise<{locale
         const eta=etaLabel(provider.estimated_eta_min_minutes,provider.estimated_eta_max_minutes,es);
         return <article className="feature premiumCard" key={provider.public_provider_id}>
           <div className="icon">D</div>
+          {provider.featured_until&&new Date(provider.featured_until).getTime()>Date.now()&&<span className="foundingBadge">{es?'DESTACADO':'FEATURED'}</span>}
+          {provider.founding_supplier&&<span className="foundingBadge">{es?`PROVEEDOR FUNDADOR #${provider.founding_slot}`:`FOUNDING SUPPLIER #${provider.founding_slot}`}</span>}
           <h3>{provider.display_name}</h3>
           <p><strong>ID:</strong> {provider.public_provider_id}</p>
           <p><strong>{es?'Disponibilidad':'Availability'}:</strong> {provider.accepting_jobs?(es?'Aceptando solicitudes':'Accepting requests'):(es?'No acepta nuevos trabajos':'Not accepting new jobs')}</p>

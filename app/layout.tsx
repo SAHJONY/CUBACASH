@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 import './premium.css';
 import './responsive.css';
+import './founding.css';
+import './monetization.css';
 import GlobalBrandContact from '@/components/GlobalBrandContact';
 import RouteHeroVisual from '@/components/RouteHeroVisual';
 

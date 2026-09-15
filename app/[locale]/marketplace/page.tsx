@@ -47,7 +47,7 @@ export default async function Marketplace({params,searchParams}:{params:Promise<
   return <main className="shell cinematicShell" dir={locale==='ar'?'rtl':'ltr'}>
     <nav className="nav premiumNav">
       <a href={`/${locale}`} className="brandwrap"><div className="brand">MY CUBA CASH</div><small>Private Sector Marketplace</small></a>
-      <div className="navlinks"><a href={`/${locale}`}>{l.home}</a><a href={`/${locale}/remittances`}>{l.remit}</a><a href={`/${locale}/catalog`}>{locale==='es'?'Catálogo':'Catalog'}</a><a href={`/${locale}/delivery-providers`}>{l.delivery}</a><a href={`/${locale}/transactions`}>{l.account}</a></div>
+      <div className="navlinks"><a href={`/${locale}`}>{l.home}</a><a href={`/${locale}/business-pricing`}>{locale==='es'?'Planes':'Plans'}</a><a href={`/${locale}/catalog`}>{locale==='es'?'Catálogo':'Catalog'}</a><a href={`/${locale}/delivery-providers`}>{l.delivery}</a><a href={`/${locale}/transactions`}>{l.account}</a></div>
       <a className="miniCta premiumCta" href={whatsappUrl(channels.whatsappPrimary.e164,locale==='es'?'Necesito ayuda con el marketplace de MY CUBA CASH.':'I need help with the MY CUBA CASH marketplace.')}>WhatsApp Business Sofia</a>
     </nav>
 
@@ -57,6 +57,11 @@ export default async function Marketplace({params,searchParams}:{params:Promise<
         <div className="actions"><a className="cta premiumCta" href="#offers">{l.browse}</a><a className="glassCta" href={`/${locale}/marketplace/manage`}>{l.post}</a><a className="glassCta" href={whatsappUrl(channels.whatsappPrimary.e164,locale==='es'?'Quiero comprar, vender o contratar un servicio. Ayúdame a encontrar la mejor opción.':'I want to buy, sell or hire a service. Help me find the best option.')}>{l.sofia}</a></div>
         <div className="cinematicStats"><div><strong>{l.buy}</strong><span>Demand</span></div><div><strong>{l.sell}</strong><span>Supply</span></div><div><strong>{l.service}</strong><span>Providers</span></div><div><strong>{l.trust}</strong><span>History + stars</span></div></div>
       </div>
+    </section>
+
+    <section className="foundingStrip">
+      <div><span className="eyebrow">FOUNDING 100 SUPPLIERS</span><h2>{locale==='es'?'Los primeros 100 proveedores verificados reciben 12 meses sin mensualidad.':'The first 100 verified suppliers receive 12 months with no subscription fee.'}</h2><p>{locale==='es'?'Después conservan 25% de descuento permanente sobre la mensualidad elegible vigente. La solicitud no reserva una plaza: la verificación y activación determinan el orden.':'Afterward they keep 25% off the then-current eligible subscription. Applying does not reserve a spot; verified activation determines the order.'}</p></div>
+      <a className="cta premiumCta" href={`/${locale}/providers/join`}>{locale==='es'?'Solicitar plaza fundadora':'Apply for a founding spot'}</a>
     </section>
 
     <section className="section cinematicStorySection"><div className="sectionHead"><div><span className="eyebrow">{locale==='es'?'PERSONAS REALES · COMERCIO REAL':'REAL PEOPLE · REAL COMMERCE'}</span><h2>{locale==='es'?'Una experiencia visual distinta para cada parte de la red.':'A distinct visual experience for every part of the network.'}</h2></div><p>{locale==='es'?'Marketplace, impacto humano y entrega usan contextos visuales distintos para que la aplicación se sienta editorial, premium y auténtica.':'Marketplace, human impact and delivery use distinct visual contexts so the application feels editorial, premium and authentic.'}</p></div>

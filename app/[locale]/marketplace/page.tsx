@@ -3,7 +3,7 @@ import {APP_COMMUNICATIONS,whatsappUrl} from '@/lib/communications';
 import {supabaseServer} from '@/lib/supabase/server';
 
 const MEDIA={
-  marketplace:'https://images.unsplash.com/photo-1722745604035-b00591ddc896?auto=format&fit=crop&fm=jpg&q=88&w=2600',
+  marketplace:'https://images.unsplash.com/photo-1783173690584-d222f612482e?auto=format&fit=crop&fm=jpg&q=88&w=2600',
   family:'https://images.unsplash.com/photo-1609676678267-950d4856294a?auto=format&fit=crop&fm=jpg&q=86&w=2200',
   delivery:'https://images.unsplash.com/photo-1583691791840-3b3235d5b9f3?auto=format&fit=crop&fm=jpg&q=86&w=2200'
 } as const;

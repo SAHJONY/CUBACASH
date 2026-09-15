@@ -4,10 +4,10 @@ import { supabaseServer } from '@/lib/supabase/server';
 import ShareAppButton from '@/components/ShareAppButton';
 
 const MEDIA={
-  hero:'https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&fm=jpg&q=86&w=2600',
-  family:'https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&fm=jpg&q=84&w=2200',
-  business:'https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&fm=jpg&q=84&w=2200',
-  service:'https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&fm=jpg&q=84&w=2200'
+  hero:'https://images.unsplash.com/photo-1609676678267-950d4856294a?auto=format&fit=crop&fm=jpg&q=88&w=2600',
+  family:'https://images.unsplash.com/photo-1509240320968-c84e69a2ffc1?auto=format&fit=crop&fm=jpg&q=86&w=2200',
+  business:'https://images.unsplash.com/photo-1722745604035-b00591ddc896?auto=format&fit=crop&fm=jpg&q=86&w=2200',
+  service:'https://images.unsplash.com/photo-1583691791840-3b3235d5b9f3?auto=format&fit=crop&fm=jpg&q=86&w=2200'
 } as const;
 
 export const dynamic='force-dynamic';

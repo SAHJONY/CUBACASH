@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 import './premium.css';
 import './responsive.css';
+import GlobalBrandContact from '@/components/GlobalBrandContact';
+import RouteHeroVisual from '@/components/RouteHeroVisual';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.mycubacash.com'),
@@ -36,5 +38,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({children}:{children:React.ReactNode}){
-  return <html lang="es"><body>{children}<a href="/sofia" aria-label="Abrir Sofia" style={{position:'fixed',right:'max(18px, env(safe-area-inset-right))',bottom:'max(18px, env(safe-area-inset-bottom))',zIndex:80,display:'inline-flex',alignItems:'center',justifyContent:'center',minHeight:48,padding:'0 18px',borderRadius:999,border:'1px solid rgba(255,255,255,.22)',background:'rgba(8,8,10,.82)',color:'#fff',fontWeight:700,textDecoration:'none',backdropFilter:'blur(18px)',WebkitBackdropFilter:'blur(18px)',boxShadow:'0 16px 48px rgba(0,0,0,.28)'}}>Sofía</a></body></html>;
+  return <html lang="es"><body><RouteHeroVisual/>{children}<GlobalBrandContact/><a href="/sofia" aria-label="Abrir Sofia" style={{position:'fixed',right:'max(18px, env(safe-area-inset-right))',bottom:'max(18px, env(safe-area-inset-bottom))',zIndex:80,display:'inline-flex',alignItems:'center',justifyContent:'center',minHeight:48,padding:'0 18px',borderRadius:999,border:'1px solid rgba(255,255,255,.22)',background:'rgba(8,8,10,.82)',color:'#fff',fontWeight:700,textDecoration:'none',backdropFilter:'blur(18px)',WebkitBackdropFilter:'blur(18px)',boxShadow:'0 16px 48px rgba(0,0,0,.28)'}}>Sofía</a></body></html>;
 }

@@ -10,3 +10,21 @@ body{overflow-x:hidden}.shell,.premiumAppShell,.cinematicShell{background:radial
 @media(max-width:1100px){.luxuryGrid{grid-template-columns:1fr 1fr}.editorialGrid{grid-template-columns:1fr 1fr}.editorialLarge{grid-column:1/-1;grid-row:auto;min-height:620px}.experienceBandInner{grid-template-columns:1fr}.experienceBandInner p{text-align:left}.spotlightPanel{grid-template-columns:1fr}.homeHeroOverlay{background:linear-gradient(90deg,rgba(0,0,0,.86),rgba(0,0,0,.42)),linear-gradient(180deg,transparent 35%,rgba(0,0,0,.85))}}
 @media(max-width:720px){.nav,.premiumNav{padding:13px 16px!important}.homeCinematicHero{min-height:780px}.homeHeroContent{padding:120px 18px 38px}.homeHeroContent h1{font-size:58px;line-height:.88}.homeHeroContent .heroLead{font-size:22px}.homeHeroMedia{object-position:62% center}.heroTrustRail{gap:7px}.experienceBand{padding:0 18px}.experienceBandInner{padding:38px 0}.editorialGrid{grid-template-columns:1fr}.editorialLarge,.editorialCard{grid-column:auto;min-height:520px}.editorialCopy{padding:26px}.editorialCopy h3{font-size:34px}.luxuryGrid{grid-template-columns:1fr}.luxuryCard{min-height:210px}.luxuryCard h3{margin-top:40px}.spotlightPanel{padding:30px;border-radius:28px}.supportCard{align-items:flex-start;flex-direction:column}.section{padding-left:18px!important;padding-right:18px!important}.sectionHead{gap:28px!important}.cinematicHeroContent{padding-left:18px!important;padding-right:18px!important}.cinematicHero h1{font-size:56px!important}}
 @media(prefers-reduced-motion:reduce){.homeHeroMedia{animation:none}.editorialCard img,.feature,.navlinks a:after{transition:none!important}}
+
+
+/* Global MY CUBA CASH brand + contact identity */
+.globalBrandContact{border-top:1px solid rgba(255,255,255,.1);background:#08090b;color:#f7f4ee;padding:26px max(22px,env(safe-area-inset-left)) calc(26px + env(safe-area-inset-bottom));position:relative;z-index:10}
+.globalBrandContactInner{max-width:1440px;margin:0 auto;display:flex;justify-content:space-between;gap:28px;align-items:flex-start;flex-wrap:wrap}
+.globalBrandIdentity{display:grid;gap:5px;min-width:220px}.globalBrandIdentity strong{font-size:1.02rem;letter-spacing:.12em}.globalBrandIdentity span{font-size:.84rem;color:rgba(247,244,238,.68)}
+.globalBrandLinks{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}.globalBrandLinks a{color:#f7f4ee;text-decoration:none;font-size:.86rem;opacity:.82}.globalBrandLinks a:hover,.globalBrandLinks a:focus-visible{opacity:1;text-decoration:underline;text-underline-offset:4px}
+@media(max-width:720px){.globalBrandContact{padding-top:22px}.globalBrandContactInner{display:grid}.globalBrandLinks{display:grid;gap:9px}}
+
+
+/* Route-specific cinematic photography for public app pages */
+html[data-route-visual] .premiumAppShell>.hero{position:relative;isolation:isolate;overflow:hidden;max-width:none;min-height:620px;padding-left:max(28px,calc((100vw - 1240px)/2 + 28px));padding-right:max(28px,calc((100vw - 1240px)/2 + 28px));align-content:end;background:#05080b}
+html[data-route-visual] .premiumAppShell>.hero:before{content:"";position:absolute;inset:0;z-index:-2;background-image:var(--route-hero-image);background-size:cover;background-position:center 42%;filter:saturate(.88) contrast(1.06) brightness(.68);transform:scale(1.012)}
+html[data-route-visual] .premiumAppShell>.hero:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(2,8,12,.93) 0%,rgba(2,8,12,.72) 40%,rgba(2,8,12,.26) 75%,rgba(2,8,12,.2) 100%),linear-gradient(180deg,rgba(2,8,12,.08),rgba(2,8,12,.16) 52%,rgba(2,8,12,.9))}
+html[data-route-visual] .premiumAppShell>.hero .heroCopy{max-width:900px;position:relative;z-index:1}
+html[data-route-visual] .premiumAppShell>.hero h1,html[data-route-visual] .premiumAppShell>.hero .heroLead{color:#fff;text-shadow:0 12px 38px rgba(0,0,0,.38)}
+html[data-route-visual] .premiumAppShell>.hero .heroSub{color:#d4dde3}
+@media(max-width:680px){html[data-route-visual] .premiumAppShell>.hero{min-height:560px;padding:96px 18px 44px}html[data-route-visual] .premiumAppShell>.hero:after{background:linear-gradient(90deg,rgba(2,8,12,.92),rgba(2,8,12,.5)),linear-gradient(180deg,transparent 30%,rgba(2,8,12,.92))}}

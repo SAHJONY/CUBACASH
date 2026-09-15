@@ -2,46 +2,49 @@ import {localeOf} from '@/lib/i18n';
 import FeeCalculator from './FeeCalculator';
 
 const rows=[
-  {product:'Family remittance',payer:'Sender',rate:'1.25%',min:'$1.00',max:'$12.00',note:'For eligible family support transaction requests.'},
-  {product:'Business remittance',payer:'Sender',rate:'1.75%',min:'$5.00',max:'$250.00',note:'For private-business payment requests with commercial purpose.'},
-  {product:'Marketplace success fee',payer:'Seller',rate:'2.50%',min:'$2.00',max:'$500.00',note:'Applied when a marketplace transaction reaches the applicable fee-triggering stage.'},
-  {product:'Cash transaction record',payer:'Requestor',rate:'0.75%',min:'$0.50',max:'$20.00',note:'For eligible platform cash-ledger transaction records and controls.'}
+  {es:'Apoyo familiar',en:'Family support',payerEs:'Remitente',payerEn:'Sender',rate:'1.25%',min:'$1.00',max:'$12.00',noteEs:'Para solicitudes elegibles de apoyo familiar.',noteEn:'For eligible family-support requests.'},
+  {es:'Pago comercial',en:'Business payment',payerEs:'Remitente',payerEn:'Sender',rate:'1.75%',min:'$5.00',max:'$250.00',noteEs:'Para solicitudes de negocios privados con propósito comercial.',noteEn:'For private-business requests with commercial purpose.'},
+  {es:'Comisión de éxito del marketplace',en:'Marketplace success fee',payerEs:'Vendedor',payerEn:'Seller',rate:'2.50%',min:'$2.00',max:'$500.00',noteEs:'Al alcanzar la etapa aplicable que activa la comisión.',noteEn:'When a marketplace transaction reaches the applicable fee-triggering stage.'},
+  {es:'Registro de efectivo',en:'Cash transaction record',payerEs:'Solicitante',payerEn:'Requestor',rate:'0.75%',min:'$0.50',max:'$20.00',noteEs:'Para registros y controles elegibles de la plataforma.',noteEn:'For eligible platform recordkeeping and transaction controls.'}
 ] as const;
 
 export default async function FeesPage({params}:{params:Promise<{locale:string}>}){
-  const {locale:raw}=await params; const locale=localeOf(raw);
+  const {locale:raw}=await params;
+  const locale=localeOf(raw);
   const es=locale==='es';
-  return <main className="shell" dir={locale==='ar'?'rtl':'ltr'}>
-    <nav className="nav"><a href={`/${locale}`} className="brandwrap"><div className="brand">MY CUBA CASH</div><small>{es?'Tarifas y precios':'Fees & Pricing'}</small></a><div className="navlinks"><a href={`/${locale}/start`}>{es?'Iniciar transacción':'Start Transaction'}</a><a href={`/${locale}/payments`}>{es?'Cómo pagarnos':'How to Pay Us'}</a><a href={`/${locale}/transactions`}>{es?'Rastrear':'Track'}</a><a href={`/${locale}/privacy`}>{es?'Privacidad':'Privacy'}</a><a href={`/${locale}/terms`}>{es?'Términos':'Terms'}</a></div></nav>
+  return <main className="shell premiumAppShell" dir={locale==='ar'?'rtl':'ltr'}>
+    <nav className="nav premiumNav">
+      <a href={`/${locale}`} className="brandwrap"><div className="brand">MY CUBA CASH</div><small>{es?'Tarifas públicas':'Public pricing'}</small></a>
+      <div className="navlinks"><a href={`/${locale}/how-it-works`}>{es?'Cómo funciona':'How it works'}</a><a href={`/${locale}/delivery-providers`}>{es?'Disponibilidad':'Availability'}</a><a href={`/${locale}/faq`}>FAQ</a><a href={`/${locale}/contact`}>{es?'Contacto':'Contact'}</a></div>
+    </nav>
 
-    <section className="hero"><div className="heroCopy"><div className="eyebrow">{es?'PRECIOS TRANSPARENTES':'TRANSPARENT PRICING'}</div><h1>{es?'Conoce la tarifa de MY CUBA CASH antes de confirmar.':'Know the MY CUBA CASH platform fee before you commit.'}</h1><p className="heroLead">{es?'Sin tarifas ocultas de MY CUBA CASH. El porcentaje, mínimo y máximo aplicables se muestran antes de continuar.':'No hidden MY CUBA CASH platform fee. The applicable percentage, minimum and maximum are disclosed before the transaction proceeds.'}</p><p className="heroSub">{es?'Cargos separados de pago, liquidación, cambio de divisas, entrega o proveedor autorizado pueden aplicar según el corredor y servicio seleccionado. Cuando se conocen, se muestran por separado antes del compromiso.':'Separate third-party payment, settlement, foreign-exchange, delivery or authorized-provider charges may apply depending on the corridor and service selected. When known, those charges are shown separately before commitment.'}</p><div className="actions"><a className="cta" href={`/${locale}/start`}>{es?'Iniciar una transacción':'Start a Transaction'}</a><a className="ghost" href={`/${locale}/payments`}>{es?'Cómo pagar la tarifa':'How to pay the fee'}</a></div></div></section>
+    <section className="hero"><div className="heroCopy">
+      <div className="eyebrow">{es?'PRECIOS ANTES DEL REGISTRO':'PRICING BEFORE SIGN-UP'}</div>
+      <h1>{es?'Calcula nuestra tarifa sin crear una cuenta.':'Calculate our fee without creating an account.'}</h1>
+      <p className="heroLead">{es?'El porcentaje, el mínimo y el máximo de MY CUBA CASH son públicos. Nunca confundimos nuestra tarifa con el importe que recibirá la persona en Cuba.':'The MY CUBA CASH percentage, minimum and maximum are public. We never confuse our fee with what a receiver in Cuba will obtain.'}</p>
+      <p className="heroSub">{es?'Los costos de proveedor, entrega, método de pago y cambio de moneda no se conocen hasta que exista una opción real. Se muestran por separado antes de cualquier compromiso.':'Provider, delivery, payment-method and foreign-exchange costs are unknown until a real option exists. They are shown separately before any commitment.'}</p>
+      <div className="actions"><a className="cta premiumCta" href="#calculator">{es?'Calcular ahora':'Calculate now'}</a><a className="ghost" href={`/${locale}/how-it-works`}>{es?'Entender el proceso':'Understand the process'}</a></div>
+    </div></section>
+
+    <section className="section" id="calculator"><FeeCalculator es={es}/></section>
 
     <section className="section">
-      <div className="sectionHead"><div><span className="eyebrow">{es?'TARIFARIO PUBLICADO':'PUBLISHED FEE SCHEDULE'}</span><h2>{es?'Precios simples por porcentaje con límites.':'Simple percentage pricing with caps'}</h2></div><p>{es?'La tarifa se calcula sobre el importe de la transacción y luego se limita por el mínimo y máximo publicados para ese producto.':'The fee is calculated from the transaction amount, then bounded by the published minimum and maximum for that product.'}</p></div>
-      <div className="featureGrid">{rows.map(row=><article className="feature" key={row.product}><div className="eyebrow">{row.product.toUpperCase()}</div><h3 style={{fontSize:'2rem',margin:'8px 0'}}>{row.rate}</h3><p><strong>{es?'Pagador':'Payer'}:</strong> {row.payer}</p><p><strong>{es?'Mínimo':'Minimum'}:</strong> {row.min} · <strong>{es?'Máximo':'Maximum'}:</strong> {row.max}</p><p>{row.note}</p></article>)}</div>
+      <div className="sectionHead"><div><span className="eyebrow">{es?'TARIFARIO PUBLICADO':'PUBLISHED FEE SCHEDULE'}</span><h2>{es?'Porcentaje simple con mínimo y máximo.':'Simple percentages with minimums and caps.'}</h2></div><p>{es?'La tarifa se calcula sobre el importe de la solicitud y se limita por los valores publicados.':'The fee is calculated from the request amount and bounded by the published values.'}</p></div>
+      <div className="featureGrid">{rows.map(row=><article className="feature premiumCard" key={row.en}><div className="eyebrow">{es?row.es.toUpperCase():row.en.toUpperCase()}</div><h3 style={{fontSize:'2rem',margin:'8px 0'}}>{row.rate}</h3><p><strong>{es?'Pagador':'Payer'}:</strong> {es?row.payerEs:row.payerEn}</p><p><strong>{es?'Mínimo':'Minimum'}:</strong> {row.min} · <strong>{es?'Máximo':'Maximum'}:</strong> {row.max}</p><p>{es?row.noteEs:row.noteEn}</p></article>)}</div>
     </section>
 
-    <section className="section"><FeeCalculator/></section>
-
     <section className="section">
-      <div className="sectionHead"><div><span className="eyebrow">{es?'CÓMO FUNCIONA':'HOW IT WORKS'}</span><h2>{es?'Qué debe esperar el cliente.':'What customers should expect'}</h2></div><p>{es?'La tarifa se muestra antes de que el cliente confirme el paso correspondiente.':'Pricing is disclosed before the customer commits to the applicable transaction step.'}</p></div>
-      <div className="featureGrid">
-        <article className="feature"><div className="icon">1</div><h3>{es?'Ingresa el importe':'Enter the amount'}</h3><p>{es?'Elige el tipo de transacción, corredor, importe, preferencia de pago y necesidades de entrega.':'Choose the transaction type, corridor, amount, payment preference and delivery needs.'}</p></article>
-        <article className="feature"><div className="icon">2</div><h3>{es?'Revisa la tarifa':'Review the fee'}</h3><p>{es?'MY CUBA CASH muestra la tarifa de plataforma y cualquier costo conocido revelado por separado antes de confirmar.':'MY CUBA CASH shows the platform fee and any separately disclosed known costs before commitment.'}</p></article>
-        <article className="feature"><div className="icon">3</div><h3>{es?'Paga la tarifa con su referencia':'Pay the fee with its reference'}</h3><p>{es?'El principal puede pagarse entre participantes cuando corresponda. La tarifa de MY CUBA CASH se cobra y reconcilia por separado usando la referencia de la operación.':'Principal may be paid between participants when applicable. The MY CUBA CASH fee is collected and reconciled separately using the transaction reference.'}</p></article>
+      <div className="sectionHead"><div><span className="eyebrow">{es?'EJEMPLO DE $100':'$100 EXAMPLE'}</span><h2>{es?'Lo que sabemos y lo que falta.':'What is known and what is still pending.'}</h2></div></div>
+      <div className="luxuryGrid">
+        <article className="luxuryCard"><span>1</span><h3>$100.00</h3><p>{es?'Importe solicitado':'Requested amount'}</p></article>
+        <article className="luxuryCard"><span>2</span><h3>$1.25</h3><p>{es?'Tarifa familiar estimada de MY CUBA CASH':'Estimated MY CUBA CASH family fee'}</p></article>
+        <article className="luxuryCard"><span>3</span><h3>{es?'Pendiente':'Pending'}</h3><p>{es?'Tipo de cambio, entrega y proveedor':'Exchange rate, delivery and provider'}</p></article>
+        <article className="luxuryCard"><span>4</span><h3>{es?'No cotizado':'Not quoted'}</h3><p>{es?'Importe final que recibe la familia':'Final amount the family receives'}</p></article>
       </div>
     </section>
 
-    <section className="policyBlock"><div><span className="eyebrow">{es?'IMPORTANTE':'IMPORTANT'}</span><h2>{es?'La tarifa de plataforma no es lo mismo que el dinero principal de la operación.':'Platform fee is not the same as transaction principal.'}</h2></div><p>{es?'En operaciones directas, MY CUBA CASH puede registrar y coordinar la transacción sin tomar custodia del principal. La tarifa de MY CUBA CASH es un cobro separado. Un procesador de pagos, socio de liquidación, proveedor FX, proveedor de entrega u otro proveedor autorizado también puede cobrar por separado cuando aplique.':'In direct transactions, MY CUBA CASH may record and coordinate the transaction without taking custody of principal. The MY CUBA CASH fee is a separate charge. A payment processor, settlement partner, FX provider, delivery provider or other authorized service provider may also charge separately when applicable.'}</p></section>
+    <section className="policyBlock premiumPolicy"><div><span className="eyebrow">{es?'IMPORTANTE':'IMPORTANT'}</span><h2>{es?'Calcular o crear una solicitud no mueve dinero.':'Calculating or creating a request does not move money.'}</h2></div><p>{es?'MY CUBA CASH es una plataforma tecnológica operada por SAHJONY LLC. No envíes fondos hasta recibir una cotización completa, la confirmación del proveedor y las instrucciones del flujo autorizado aplicable.':'MY CUBA CASH is a technology platform operated by SAHJONY LLC. Do not send funds until you receive a complete quote, provider confirmation and instructions for the applicable authorized flow.'}</p></section>
 
-    <section className="section"><div className="sectionHead"><div><span className="eyebrow">{es?'PAGOS A MY CUBA CASH':'PAYMENTS TO MY CUBA CASH'}</span><h2>{es?'Una referencia separada para nuestra tarifa.':'A separate reference for our fee.'}</h2></div><p>{es?'Consulta la página de pagos para ver cómo se identifica, paga, revisa y confirma la tarifa de plataforma.':'See the payments page for how the platform fee is identified, paid, reviewed and confirmed.'}</p></div><div className="actions"><a className="cta" href={`/${locale}/payments`}>{es?'Ver cómo pagarnos':'See how to pay us'}</a></div></section>
-
-    <section className="section"><div className="sectionHead"><div><span className="eyebrow">FAQ</span><h2>{es?'Preguntas de precios':'Pricing questions'}</h2></div></div><div className="featureGrid">
-      <article className="feature"><h3>{es?'¿Puede la tarifa superar el máximo?':'Can the platform fee exceed the maximum?'}</h3><p>{es?'No. Bajo el tarifario publicado, la tarifa de MY CUBA CASH queda limitada al máximo indicado para ese producto.':'No. Under the published default schedule, the MY CUBA CASH platform fee is capped at the maximum shown for that product.'}</p></article>
-      <article className="feature"><h3>{es?'¿Puede otro proveedor cobrar aparte?':'Can another provider charge separately?'}</h3><p>{es?'Sí. Proveedores de pago, FX, liquidación o entrega pueden tener cargos separados cuando correspondan y sean revelados.':'Yes. Payment, FX, settlement or delivery providers may have separate disclosed charges when applicable.'}</p></article>
-      <article className="feature"><h3>{es?'¿Crear una solicitud mueve dinero?':'Does creating a request move money?'}</h3><p>{es?'No. Una solicitud crea un registro para revisión. Cualquier movimiento de fondos ocurre solo mediante el flujo autorizado aplicable después de satisfacer los controles requeridos.':'No. A request creates a transaction record for review. Funds movement occurs only through the applicable authorized workflow after required controls are satisfied.'}</p></article>
-    </div></section>
-
-    <footer className="footer"><strong>MY CUBA CASH</strong><span>{es?'Precios transparentes · Tarifas de plataforma en USD':'Transparent platform pricing · USD fee schedule'}</span><span><a href={`/${locale}/payments`}>{es?'Pagos':'Payments'}</a> · <a href={`/${locale}/terms`}>{es?'Términos':'Terms'}</a> · <a href={`/${locale}/privacy`}>{es?'Privacidad':'Privacy'}</a></span></footer>
+    <footer className="footer premiumFooter"><strong>MY CUBA CASH</strong><span><a href={`/${locale}/about`}>{es?'Quiénes somos':'About'}</a> · <a href={`/${locale}/contact`}>{es?'Contacto':'Contact'}</a> · <a href={`/${locale}/terms`}>{es?'Términos':'Terms'}</a> · <a href={`/${locale}/privacy`}>{es?'Privacidad':'Privacy'}</a></span><span>{es?'Tarifas de plataforma en USD':'Platform fees in USD'}</span></footer>
   </main>;
 }

@@ -18,7 +18,7 @@ export default async function Autonomy({params}:{params:Promise<{locale:string}>
   return <main className="shell premiumAppShell" dir={rtl?'rtl':'ltr'}>
     <nav className="nav premiumNav">
       <a href={`/${locale}`} className="brandwrap"><div className="brand">MY CUBA CASH</div><small>{es?'Cerebro de la aplicación':'Application Brain'}</small></a>
-      <div className="navlinks"><a href={`/${locale}/dashboard`}>Command Center</a><a href={`/${locale}/remittances`}>{es?'Remesas':'Remittances'}</a><a href={`/${locale}/marketplace`}>Marketplace</a><a href={`/${locale}/agents`}>{es?'Agentes':'Agents'}</a></div>
+      <div className="navlinks"><a href={`/${locale}/dashboard`}>{es?'Centro de Comando':'Command Center'}</a><a href={`/${locale}/remittances`}>{es?'Remesas':'Remittances'}</a><a href={`/${locale}/marketplace`}>Marketplace</a><a href={`/${locale}/agents`}>{es?'Agentes':'Agents'}</a></div>
       <a className="miniCta" href="/api/autonomy">{es?'API de autonomía':'Autonomy API'}</a>
     </nav>
     <section className="section">

@@ -26,7 +26,7 @@ export default async function AgentsPage({params}:{params:Promise<{locale:string
   return <main className="shell premiumAppShell" dir={rtl?'rtl':'ltr'}>
     <nav className="nav premiumNav">
       <a href={`/${locale}`} className="brandwrap"><div className="brand">MY CUBA CASH</div><small>{es?'Red de Comando Agéntica':'Agentic Command Network'}</small></a>
-      <div className="navlinks"><a href={`/${locale}/dashboard`}>Command Center</a><a href={`/${locale}/remittances`}>{es?'Remesas':'Remittances'}</a></div>
+      <div className="navlinks"><a href={`/${locale}/dashboard`}>{es?'Centro de Comando':'Command Center'}</a><a href={`/${locale}/remittances`}>{es?'Remesas':'Remittances'}</a></div>
       <a className="miniCta" href="/api/health">{es?'Salud del sistema':'System Health'}</a>
     </nav>
 

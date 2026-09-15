@@ -51,7 +51,7 @@ export default async function LocaleHome({params}:{params:Promise<{locale:string
           :(es?'Pre-lanzamiento controlado: todavía no hay proveedores verificados publicados. Puedes consultar costos, entender el proceso y hablar con soporte, pero no presentamos una entrega como disponible hasta que exista una opción real y confirmada.':'Controlled pre-launch: no verified providers are publicly listed yet. You can review costs, understand the process and contact support, but we do not present delivery as available until a real option is confirmed.')}</p>
         <div className="actions">
           <a className="cta premiumCta heroPrimary" href={`/${locale}/start`}>{es?'Enviar dinero':'Send money'}</a>
-          <a className="glassCta" href={`/${locale}/local-services`}>{es?'Comprar productos y servicios':'Buy products & services'}</a>
+          <a className="glassCta" href={`/${locale}/catalog`}>{es?'Explorar catálogo':'Browse catalog'}</a><a className="glassCta" href={`/${locale}/local-services`}>{es?'Comprar productos y servicios':'Buy products & services'}</a>
           <a className="glassCta" href={`/${locale}/delivery-providers`}>{es?'Explorar proveedores':'Browse providers'}</a>
           <a className="glassCta" href={whatsappUrl(channels.whatsappPrimary.e164,es?'Hola, quiero información sobre MY CUBA CASH. Aún no deseo enviar dinero.':'Hello, I want information about MY CUBA CASH. I am not ready to send money yet.')}>{es?'Hablar con soporte':'Talk to support'}</a>
           <ShareAppButton locale={locale} es={es}/>

@@ -47,7 +47,7 @@ export default async function Marketplace({params,searchParams}:{params:Promise<
   return <main className="shell cinematicShell" dir={locale==='ar'?'rtl':'ltr'}>
     <nav className="nav premiumNav">
       <a href={`/${locale}`} className="brandwrap"><div className="brand">MY CUBA CASH</div><small>Private Sector Marketplace</small></a>
-      <div className="navlinks"><a href={`/${locale}`}>{l.home}</a><a href={`/${locale}/remittances`}>{l.remit}</a><a href={`/${locale}/delivery-providers`}>{l.delivery}</a><a href={`/${locale}/transactions`}>{l.account}</a></div>
+      <div className="navlinks"><a href={`/${locale}`}>{l.home}</a><a href={`/${locale}/remittances`}>{l.remit}</a><a href={`/${locale}/catalog`}>{locale==='es'?'Catálogo':'Catalog'}</a><a href={`/${locale}/delivery-providers`}>{l.delivery}</a><a href={`/${locale}/transactions`}>{l.account}</a></div>
       <a className="miniCta premiumCta" href={whatsappUrl(channels.whatsappPrimary.e164,locale==='es'?'Necesito ayuda con el marketplace de MY CUBA CASH.':'I need help with the MY CUBA CASH marketplace.')}>WhatsApp Business Sofia</a>
     </nav>
 

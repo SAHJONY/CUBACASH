@@ -62,15 +62,15 @@ export default async function DeliveryProviders({params}:{params:Promise<{locale
   return <main className="shell premiumAppShell" dir={locale==='ar'?'rtl':'ltr'}>
     <nav className="nav premiumNav">
       <a href={`/${locale}`} className="brandwrap"><div className="brand">MY CUBA CASH</div><small>{es?'Red de entrega':'Delivery Network'}</small></a>
-      <div className="navlinks"><a href={`/${locale}/remittances`}>{es?'Remesas':'Remittances'}</a><a href={`/${locale}/marketplace`}>Marketplace</a><a href={`/${locale}/delivery-providers/manage`}>{es?'Consola del proveedor':'Provider Console'}</a></div>
+      <div className="navlinks"><a href={`/${locale}`}>{es?'Inicio':'Home'}</a><a href={`/${locale}/fees`}>{es?'Tarifas':'Fees'}</a><a href={`/${locale}/how-it-works`}>{es?'Cómo funciona':'How it works'}</a><a href={`/${locale}/delivery-providers/manage`}>{es?'Solicitud de proveedor':'Provider application'}</a></div>
       <a className="miniCta" href={whatsappUrl(channels.whatsappPrimary.e164)}>WhatsApp Business Sofia</a>
     </nav>
 
     <section className="hero">
       <div className="heroCopy">
-        <div className="eyebrow">{es?'RED VERIFICADA DE ENTREGA DEL SECTOR PRIVADO':'VERIFIED PRIVATE-SECTOR DELIVERY NETWORK'}</div>
-        <h1>{es?'Compara proveedores verificados por precio, cobertura, disponibilidad y tiempo estimado.':'Compare verified delivery providers by price, coverage, availability and expected arrival.'}</h1>
-        <p className="heroLead">{es?'Los proveedores verificados publican sus propias tarifas, disponibilidad y ubicación aproximada de servicio para que compares antes de solicitar. Teléfonos, direcciones exactas y credenciales de pago permanecen privadas.':'Verified providers can publish their own delivery charges, availability and approximate service location so customers can compare real options before requesting service. Phone numbers, exact addresses and payment credentials remain private.'}</p>
+        <div className="eyebrow">{providers.length?(es?'RED PÚBLICA VERIFICADA':'VERIFIED PUBLIC NETWORK'):(es?'ESTADO DE LA RED · PRE-LANZAMIENTO':'NETWORK STATUS · PRE-LAUNCH')}</div>
+        <h1>{providers.length?(es?'Compara opciones reales antes de solicitar.':'Compare real options before requesting.'):(es?'Todavía no hay proveedores verificados publicados.':'No verified providers are publicly listed yet.')}</h1>
+        <p className="heroLead">{providers.length?(es?'Cada proveedor listado publica su disponibilidad, cobertura y costos visibles sin exponer direcciones o credenciales privadas.':'Each listed provider publishes availability, coverage and visible costs without exposing private addresses or credentials.'):(es?'No mostramos proveedores, precios de entrega ni tiempos que no podamos verificar. Puedes revisar nuestra tarifa de plataforma y el proceso, o contactar soporte, pero la entrega no está disponible hasta que una opción real sea aprobada y publicada.':'We do not show providers, delivery prices or times we cannot verify. You can review our platform fee and process or contact support, but delivery is unavailable until a real option is approved and published.')}</p>
         <div className="actions"><a className="cta premiumCta" href={`/${locale}/delivery-providers/manage`}>{es?'Gestionar mi oferta':'Manage My Provider Offer'}</a><a className="ghost" href={whatsappUrl(channels.whatsappPrimary.e164)}>{es?'Pedir entrega con Sofia':'Request Delivery with Sofia'}</a></div>
       </div>
       <aside className="commandPreview" aria-label={es?'Comparación del directorio de entrega':'Delivery directory comparison'}>
@@ -89,7 +89,13 @@ export default async function DeliveryProviders({params}:{params:Promise<{locale
     <section className="section">
       <div className="sectionHead"><div><span className="eyebrow">{es?'PROVEEDORES DE ENTREGA':'DELIVERY PROVIDERS'}</span><h2>{es?'Compara proveedores verificados':'Compare verified providers'}</h2></div><p>{es?'Las tarifas las publica cada proveedor y son independientes de las tarifas de plataforma de MY CUBA CASH. La disponibilidad y el ETA siguen siendo estimados hasta que el proveedor acepte el trabajo.':'Rates are posted by each provider and are separate from MY CUBA CASH platform fees. Availability and arrival times are provider estimates until a specific job is accepted.'}</p></div>
       {unavailable?<p>{es?'El directorio está temporalmente no disponible. Contacta a Sofia por WhatsApp Business.':'The delivery directory is temporarily unavailable. Contact Sofia on WhatsApp Business for assistance.'}</p>:
-      !providers.length?<div><p>{es?'Todavía no hay proveedores verificados publicados.':'No verified public delivery providers are listed yet.'}</p><div className="actions"><a className="cta" href={whatsappUrl(channels.whatsappPrimary.e164)}>{es?'Conviértete en el primer proveedor verificado de tu zona':'Become the first verified provider in your area'}</a></div></div>:
+      !providers.length?<article className="feature premiumCard" style={{display:'grid',gap:14}}>
+        <span className="eyebrow">{es?'0 PROVEEDORES PUBLICADOS':'0 PROVIDERS LISTED'}</span>
+        <h3>{es?'Marketplace de entrega en pre-lanzamiento controlado.':'Delivery marketplace in controlled pre-launch.'}</h3>
+        <p>{es?'La ausencia de resultados es real, no un error de diseño. MY CUBA CASH no permite comparar ni elegir un proveedor hasta que complete la revisión y publique disponibilidad y costos verificables.':'The empty result is real, not a design error. MY CUBA CASH does not allow comparison or selection until a provider completes review and publishes verifiable availability and costs.'}</p>
+        <p>{es?'No envíes dinero a una persona que diga representar esta red si no aparece aquí con un ID público y una cotización confirmada dentro de la plataforma.':'Do not send money to anyone claiming to represent this network unless they appear here with a public ID and a confirmed quote inside the platform.'}</p>
+        <div className="actions"><a className="cta premiumCta" href={`/${locale}/fees`}>{es?'Ver nuestra tarifa':'View our fee'}</a><a className="ghost" href={`/${locale}/delivery-providers/manage`}>{es?'Solicitar verificación como proveedor':'Apply for provider verification'}</a><a className="ghost" href={whatsappUrl(channels.whatsappPrimary.e164,es?'Hola, quiero confirmar el estado actual de la red de proveedores de MY CUBA CASH. No deseo enviar dinero todavía.':'Hello, I want to confirm the current MY CUBA CASH provider-network status. I do not want to send money yet.')}>{es?'Confirmar estado con soporte':'Confirm status with support'}</a></div>
+      </article>:
       <div className="featureGrid">{providers.map((provider)=>{
         const currency=provider.fee_currency||'USD';
         const base=money(provider.base_fee,currency);

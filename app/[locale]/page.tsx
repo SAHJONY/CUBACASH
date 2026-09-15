@@ -32,7 +32,7 @@ export default async function LocaleHome({params}:{params:Promise<{locale:string
       <div className="navlinks">
         <a href={`/${locale}/fees`}>{es?'Calcular costo':'Calculate cost'}</a>
         <a href={`/${locale}/how-it-works`}>{es?'Cómo funciona':'How it works'}</a>
-        <a href={`/${locale}/delivery-providers`}>{es?'Red de entrega':'Delivery network'}</a>
+        <a href={`/${locale}/delivery-providers`}>{es?'Proveedores':'Providers'}</a><a href={`/${locale}/local-services`}>{es?'Productos y servicios':'Products & services'}</a>
         <a href={`/${locale}/faq`}>FAQ</a>
         <a href={`/${locale}/contact`}>{es?'Contacto':'Contact'}</a>
       </div>
@@ -43,19 +43,30 @@ export default async function LocaleHome({params}:{params:Promise<{locale:string
       <img className="homeHeroMedia" src={MEDIA.hero} alt={es?'Familia reunida y conectada.':'Family together and connected.'}/>
       <div className="homeHeroOverlay"/>
       <div className="homeHeroContent">
-        <div className="eyebrow">{es?'APOYO FAMILIAR A CUBA · COSTOS ANTES DEL REGISTRO':'FAMILY SUPPORT TO CUBA · COSTS BEFORE SIGN-UP'}</div>
-        <h1>{es?'Envía apoyo a Cuba con claridad desde el primer paso.':'Support family in Cuba with clarity from the first step.'}</h1>
-        <p className="heroLead">{es?'Consulta la tarifa de MY CUBA CASH, entiende qué costos faltan por cotizar y verifica el estado de la red antes de crear una cuenta.':'See the MY CUBA CASH fee, understand which costs still require a quote and verify the network status before creating an account.'}</p>
+        <div className="eyebrow">{es?'DINERO · PRODUCTOS · SERVICIOS · SECTOR PRIVADO CUBANO':'MONEY · PRODUCTS · SERVICES · CUBAN PRIVATE SECTOR'}</div>
+        <h1>{es?'Envía dinero. Compra productos. Contrata servicios para tu familia en Cuba.':'Send money. Buy products. Hire services for your family in Cuba.'}</h1>
+        <p className="heroLead">{es?'MY CUBA CASH conecta a la diáspora con MIPYMEs, emprendedores y actores privados verificados en Cuba. Compara costo total, disponibilidad, proveedor y condiciones antes de decidir.':'MY CUBA CASH connects the diaspora with verified private businesses, entrepreneurs and providers in Cuba. Compare total cost, availability, provider and conditions before deciding.'}</p>
         <p className="heroSub">{networkLive
           ?(es?`La red publica ${providerCount} proveedor${providerCount===1?'':'es'} verificado${providerCount===1?'':'s'}. Cada solicitud requiere confirmación final del proveedor y de los controles aplicables.`:`The directory currently lists ${providerCount} verified provider${providerCount===1?'':'s'}. Every request still requires final provider and control confirmation.`)
           :(es?'Pre-lanzamiento controlado: todavía no hay proveedores verificados publicados. Puedes consultar costos, entender el proceso y hablar con soporte, pero no presentamos una entrega como disponible hasta que exista una opción real y confirmada.':'Controlled pre-launch: no verified providers are publicly listed yet. You can review costs, understand the process and contact support, but we do not present delivery as available until a real option is confirmed.')}</p>
         <div className="actions">
-          <a className="cta premiumCta heroPrimary" href={`/${locale}/fees`}>{es?'Calcular mi costo':'Calculate my cost'}</a>
-          <a className="glassCta" href={`/${locale}/how-it-works`}>{es?'Ver cómo funciona':'See how it works'}</a>
+          <a className="cta premiumCta heroPrimary" href={`/${locale}/start`}>{es?'Enviar dinero':'Send money'}</a>
+          <a className="glassCta" href={`/${locale}/local-services`}>{es?'Comprar productos y servicios':'Buy products & services'}</a>
+          <a className="glassCta" href={`/${locale}/delivery-providers`}>{es?'Explorar proveedores':'Browse providers'}</a>
           <a className="glassCta" href={whatsappUrl(channels.whatsappPrimary.e164,es?'Hola, quiero información sobre MY CUBA CASH. Aún no deseo enviar dinero.':'Hello, I want information about MY CUBA CASH. I am not ready to send money yet.')}>{es?'Hablar con soporte':'Talk to support'}</a>
           <ShareAppButton locale={locale} es={es}/>
         </div>
         <div className="heroTrustRail"><span>{es?'Tarifa familiar: 1.25%':'Family fee: 1.25%'}</span><span>{es?'$1 mínimo · $12 máximo':'$1 minimum · $12 maximum'}</span><span>{es?'Sin mover dinero al solicitar':'No money moves when requesting'}</span><span>{es?'Soporte humano disponible':'Human support available'}</span></div>
+      </div>
+    </section>
+
+    <section className="section">
+      <div className="sectionHead"><div><span className="eyebrow">{es?'¿QUÉ NECESITAS RESOLVER HOY?':'WHAT DO YOU NEED TO SOLVE TODAY?'}</span><h2>{es?'Una sola plataforma para apoyar a tu familia y comprar dentro del sector privado cubano.':'One platform to support family and buy from Cuba’s private sector.'}</h2></div><p>{es?'La misma red privada puede ofrecer entrega, productos y servicios. La entrega de dinero solo se habilita para proveedores que hayan pasado la verificación y autorización específica aplicable.':'The same private network can provide delivery, products and services. Cash remittance delivery is enabled only for providers that pass the applicable specific verification and authorization.'}</p></div>
+      <div className="luxuryGrid">
+        <article className="luxuryCard"><span>01</span><h3>{es?'Enviar dinero':'Send money'}</h3><p>{es?'Apoyo familiar mediante una ruta real y un proveedor autorizado para esa función.':'Family support through a real route and a provider authorized for that function.'}</p><a className="textLink" href={`/${locale}/start`}>{es?'Comenzar':'Start'} →</a></article>
+        <article className="luxuryCard"><span>02</span><h3>{es?'Comprar para mi familia':'Buy for my family'}</h3><p>{es?'Alimentos, artículos del hogar, recargas y otras ofertas reales de negocios privados verificados.':'Food, household goods, top-ups and other real offers from verified private businesses.'}</p><a className="textLink" href={`/${locale}/local-services`}>{es?'Explorar':'Browse'} →</a></article>
+        <article className="luxuryCard"><span>03</span><h3>{es?'Contratar servicios':'Hire services'}</h3><p>{es?'Transporte, delivery, reparaciones, mensajería, servicios profesionales y más.':'Transport, delivery, repairs, messenger, professional services and more.'}</p><a className="textLink" href={`/${locale}/local-services`}>{es?'Ver servicios':'View services'} →</a></article>
+        <article className="luxuryCard"><span>04</span><h3>{es?'Explorar MIPYMEs':'Browse private businesses'}</h3><p>{es?'Compara proveedores verificados, precios, zona, disponibilidad y reputación cuando exista historial real.':'Compare verified providers, prices, area, availability and reputation when real history exists.'}</p><a className="textLink" href={`/${locale}/delivery-providers`}>{es?'Ver red':'View network'} →</a></article>
       </div>
     </section>
 

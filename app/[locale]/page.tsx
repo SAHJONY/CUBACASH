@@ -110,7 +110,7 @@ export default async function LocaleHome({params}:{params:Promise<{locale:string
 
     <footer className="footer premiumFooter">
       <strong>MY CUBA CASH</strong>
-      <span><a href={`/${locale}/about`}>{es?'Quiénes somos':'About'}</a> · <a href={`/${locale}/contact`}>{es?'Contacto':'Contact'}</a> · <a href={`/${locale}/faq`}>FAQ</a> · <a href={`/${locale}/fees`}>{es?'Tarifas':'Fees'}</a> · <a href={`/${locale}/privacy`}>{es?'Privacidad':'Privacy'}</a> · <a href={`/${locale}/terms`}>{es?'Términos':'Terms'}</a></span>
+      <span><a href={`/${locale}/about`}>{es?'Quiénes somos':'About'}</a> · <a href={`/${locale}/community`}>{es?'Comunidad':'Community'}</a> · <a href={`/${locale}/contact`}>{es?'Contacto':'Contact'}</a> · <a href={`/${locale}/faq`}>FAQ</a> · <a href={`/${locale}/fees`}>{es?'Tarifas':'Fees'}</a> · <a href={`/${locale}/privacy`}>{es?'Privacidad':'Privacy'}</a> · <a href={`/${locale}/terms`}>{es?'Términos':'Terms'}</a></span>
       <span>{es?'v0.9 · Pre-lanzamiento controlado · Precios visibles · Estado de red verificable · Sin promesas inventadas.':'v0.9 · Controlled pre-launch · Visible pricing · Verifiable network status · No invented promises.'}</span>
     </footer>
   </main>;

@@ -41,6 +41,21 @@ const deliveryEs=[
   ['Derechos del beneficiario','Un proveedor de entrega que recibe apoyo familiar personalmente puede recibir su propia remesa FAMILIAR como cualquier otro beneficiario elegible.']
 ] as const;
 
+const remitProvidersEn=[
+  ['Western Union','US → Cuba: bank accounts, debit cards and MLC (USD), same day. Up to $2,000 per send; fees quote-based. US senders only — close-relatives rule and remittance affidavit apply.'],
+  ['Cubamax','US (Florida) → Cuba: cash home delivery in western Cuba plus bank and card deposits. Published rate: $12 per $100. Note: accumulated regulatory scrutiny on record.'],
+  ['Sendvalu','US / Canada / EU → Cuba: USD cash home delivery in all provinces (3–5 business days) plus MLC top-ups. 2026 reference: about $107.65 to deliver $100. Note: historic 2021 Malta AML fine on record.'],
+  ['Fonmoney','EU / UK / Chile → Cuba: MLC top-ups from €5.50, bank transfers and USD cash home delivery. Not available to US senders.'],
+  ['Correos (Spain)','Spain → Cuba: CUP cash pickup at post offices in about 20 minutes, plus MLC deposits. Flat €5.32 fee for sends up to €500. Spain/EU only.']
+] as const;
+const remitProvidersEs=[
+  ['Western Union','EE.UU. → Cuba: cuentas bancarias, tarjetas de débito y MLC (USD), el mismo día. Hasta $2,000 por envío; tarifas según cotización. Solo remitentes en EE.UU. — aplica la regla de familiares cercanos y la declaración jurada de remesa.'],
+  ['Cubamax','EE.UU. (Florida) → Cuba: entrega de efectivo a domicilio en el occidente de Cuba más depósitos bancarios y a tarjetas. Tarifa publicada: $12 por cada $100. Nota: escrutinio regulatorio acumulado en su historial.'],
+  ['Sendvalu','EE.UU. / Canadá / UE → Cuba: entrega de efectivo USD a domicilio en todas las provincias (3–5 días hábiles) más recargas MLC. Referencia 2026: unos $107.65 para entregar $100. Nota: multa histórica de 2021 por AML en Malta en su historial.'],
+  ['Fonmoney','UE / Reino Unido / Chile → Cuba: recargas MLC desde €5.50, transferencias bancarias y entrega de efectivo USD a domicilio. No disponible para remitentes en EE.UU.'],
+  ['Correos (España)','España → Cuba: recogida de efectivo CUP en oficinas en unos 20 minutos, más depósitos MLC. Tarifa plana de €5.32 hasta €500. Solo España/UE.']
+] as const;
+
 const crypto=[
   ['USDC','Ethereum · Solana'],
   ['USDT','Ethereum · Solana'],
@@ -57,6 +72,7 @@ export default async function Remittances({params}:{params:Promise<{locale:strin
   const family=es?familyEs:familyEn;
   const business=es?businessEs:businessEn;
   const delivery=es?deliveryEs:deliveryEn;
+  const remitProviders=es?remitProvidersEs:remitProvidersEn;
   return <main className="shell" dir={rtl?'rtl':'ltr'}>
     <nav className="nav">
       <a href={`/${locale}`} className="brandwrap"><div className="brand">MY CUBA CASH</div><small>{t.tag}</small></a>
@@ -86,6 +102,11 @@ export default async function Remittances({params}:{params:Promise<{locale:strin
     <section className="section" id="family">
       <div className="sectionHead"><div><span className="eyebrow">{es?'REMESA FAMILIAR':'FAMILY REMITTANCE'}</span><h2>{es?'Apoyo familiar de persona a persona':'Person-to-person family support'}</h2></div><p>{es?'Diseñado para apoyo familiar legítimo a una persona beneficiaria. El beneficiario puede tener otro rol en la plataforma sin cambiar las reglas de la remesa FAMILIAR.':'Designed for legitimate family support to a person beneficiary. A beneficiary may also hold another platform role, including independent delivery provider, without changing the rules that apply to the FAMILY remittance.'}</p></div>
       <div className="featureGrid">{family.map(([title,description],i)=><article className="feature" key={title}><div className="icon">F{String(i+1).padStart(2,'0')}</div><h3>{title}</h3><p>{description}</p><div className="featureMeta">FAMILY FLOW</div></article>)}</div>
+    </section>
+
+    <section className="section" id="remittance-providers">
+      <div className="sectionHead"><div><span className="eyebrow">{es?'PROVEEDORES DE REMESAS VERIFICADOS':'VERIFIED REMITTANCE PROVIDERS'}</span><h2>{es?'Compara opciones reales antes de decidir.':'Compare real options before deciding.'}</h2></div><p>{es?'Empresas reales con tarifas publicadas en 2026. MY CUBA CASH es una capa independiente de comparación y coordinación: no estamos afiliados a estos proveedores, no recibimos comisión de ellos y las tarifas mostradas son las que cada proveedor publica — verifícalas antes de enviar. Tú pagas al proveedor directamente; nosotros nunca tocamos tu dinero.':'Real companies with rates published in 2026. MY CUBA CASH is an independent comparison and coordination layer: we are not affiliated with these providers, we take no commission from them, and the rates shown are each provider\u2019s published rates — verify them before sending. You pay the provider directly; we never touch your money.'}</p></div>
+      <div className="featureGrid">{remitProviders.map(([title,description],i)=><article className="feature" key={title}><div className="icon">P{String(i+1).padStart(2,'0')}</div><h3>{title}</h3><p>{description}</p><div className="featureMeta">{es?'TASA PUBLICADA 2026':'PUBLISHED 2026 RATE'}</div></article>)}</div>
     </section>
 
     <section className="section" id="delivery">

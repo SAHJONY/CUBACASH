@@ -3,7 +3,7 @@ import {APP_COMMUNICATIONS,whatsappUrl} from '@/lib/communications';
 import {supabaseServer} from '@/lib/supabase/server';
 
 const MEDIA={
-  marketplace:'https://images.unsplash.com/photo-1783173690584-d222f612482e?auto=format&fit=crop&fm=jpg&q=88&w=2600',
+  marketplace:'https://images.unsplash.com/photo-1687293233211-6b0cc3beba70?auto=format&fit=crop&fm=jpg&q=88&w=2600',
   family:'https://images.unsplash.com/photo-1609676678267-950d4856294a?auto=format&fit=crop&fm=jpg&q=86&w=2200',
   delivery:'https://images.unsplash.com/photo-1583691791840-3b3235d5b9f3?auto=format&fit=crop&fm=jpg&q=86&w=2200'
 } as const;
@@ -34,12 +34,12 @@ export default async function Marketplace({params,searchParams}:{params:Promise<
 
   const stories=locale==='es'?
     [
-      {kicker:'COMERCIO REAL',title:'Negocios privados presentados con una experiencia de clase mundial',text:'Oportunidades con contexto, precio, ruta y verificación, sin publicar información privada innecesaria.',image:MEDIA.marketplace,alt:'Equipo de emprendedores privados trabajando.'},
+      {kicker:'COMERCIO REAL',title:'Negocios privados presentados con una experiencia de clase mundial',text:'Oportunidades con contexto, precio, ruta y verificación, sin publicar información privada innecesaria.',image:MEDIA.marketplace,alt:'Propietaria de un pequeño negocio privado atendiendo su comercio.'},
       {kicker:'IMPACTO HUMANO',title:'La tecnología conecta la operación con la persona que importa',text:'El sistema conserva el contexto humano mientras protege privacidad, evidencia y controles.',image:MEDIA.family,alt:'Familia reunida en casa.'},
       {kicker:'ÚLTIMA MILLA',title:'Entrega competitiva con mejores opciones para el cliente',text:'Compara cobertura, disponibilidad, ETA y tarifas antes de coordinar el servicio.',image:MEDIA.delivery,alt:'Profesional coordinando una entrega.'}
     ]:
     [
-      {kicker:'REAL COMMERCE',title:'Private businesses presented through a world-class experience',text:'Opportunities include context, price, route and verification without publishing unnecessary private information.',image:MEDIA.marketplace,alt:'Entrepreneurial team working together.'},
+      {kicker:'REAL COMMERCE',title:'Private businesses presented through a world-class experience',text:'Opportunities include context, price, route and verification without publishing unnecessary private information.',image:MEDIA.marketplace,alt:'Small private-business owner at her shop.'},
       {kicker:'HUMAN IMPACT',title:'Technology connects the transaction to the person who matters',text:'The system keeps the human context while protecting privacy, evidence and controls.',image:MEDIA.family,alt:'Family together at home.'},
       {kicker:'LAST MILE',title:'Competitive delivery gives customers better choices',text:'Compare coverage, availability, ETA and posted pricing before coordinating service.',image:MEDIA.delivery,alt:'Professional coordinating delivery.'}
     ];
@@ -52,7 +52,7 @@ export default async function Marketplace({params,searchParams}:{params:Promise<
     </nav>
 
     <section className="cinematicHero">
-      <img className="cinematicHeroMedia" src={MEDIA.marketplace} alt={locale==='es'?'Emprendedores privados trabajando.':'Private entrepreneurs working together.'}/><div className="cinematicHeroShade"/>
+      <img className="cinematicHeroMedia" src={MEDIA.marketplace} alt={locale==='es'?'Propietaria de un pequeño negocio privado atendiendo su comercio.':'Small private-business owner at her shop.'}/><div className="cinematicHeroShade"/>
       <div className="cinematicHeroContent"><div className="eyebrow">{l.badge}</div><h1>{l.title}</h1><p className="heroLead">{l.lead}</p><p className="heroSub">{l.sub}</p>
         <div className="actions"><a className="cta premiumCta" href="#offers">{l.browse}</a><a className="glassCta" href={`/${locale}/marketplace/manage`}>{l.post}</a><a className="glassCta" href={whatsappUrl(channels.whatsappPrimary.e164,locale==='es'?'Quiero comprar, vender o contratar un servicio. Ayúdame a encontrar la mejor opción.':'I want to buy, sell or hire a service. Help me find the best option.')}>{l.sofia}</a></div>
         <div className="cinematicStats"><div><strong>{l.buy}</strong><span>Demand</span></div><div><strong>{l.sell}</strong><span>Supply</span></div><div><strong>{l.service}</strong><span>Providers</span></div><div><strong>{l.trust}</strong><span>History + stars</span></div></div>

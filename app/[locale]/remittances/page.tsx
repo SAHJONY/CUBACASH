@@ -43,17 +43,19 @@ const deliveryEs=[
 
 const remitProvidersEn=[
   ['Western Union','US → Cuba: bank accounts, debit cards and MLC (USD), same day. Up to $2,000 per send; fees quote-based. US senders only — close-relatives rule and remittance affidavit apply.'],
-  ['Cubamax','US (Florida) → Cuba: cash home delivery in western Cuba plus bank and card deposits. Published rate: $12 per $100. Note: accumulated regulatory scrutiny on record.'],
+  ['Cubamax','US (Florida) → Cuba: cash home delivery in western Cuba plus bank and card deposits. Reported rate: $12 per $100 (press report citing company staff). Note: accumulated regulatory scrutiny on record.'],
   ['Sendvalu','US / Canada / EU → Cuba: USD cash home delivery in all provinces (3–5 business days) plus MLC top-ups. 2026 reference: about $107.65 to deliver $100. Note: historic 2021 Malta AML fine on record.'],
   ['Fonmoney','EU / UK / Chile → Cuba: MLC top-ups from €5.50, bank transfers and USD cash home delivery. Not available to US senders.'],
-  ['Correos (Spain)','Spain → Cuba: CUP cash pickup at post offices in about 20 minutes, plus MLC deposits. Flat €5.32 fee for sends up to €500. Spain/EU only.']
+  ['Correos (Spain)','Spain → Cuba: CUP cash pickup at post offices in about 20 minutes, plus MLC deposits. Flat €5.32 fee for sends up to €500. Spain/EU only.'],
+  ['Íkualo Rem','Spain (EU) → Cuba: 100% digital transfers, fee and FX shown before confirmation, delivery in 5 business days. Executed by RevoluPAY EP, S.L.U. (Banco de España reg. 6900). Fees quote-based.']
 ] as const;
 const remitProvidersEs=[
   ['Western Union','EE.UU. → Cuba: cuentas bancarias, tarjetas de débito y MLC (USD), el mismo día. Hasta $2,000 por envío; tarifas según cotización. Solo remitentes en EE.UU. — aplica la regla de familiares cercanos y la declaración jurada de remesa.'],
-  ['Cubamax','EE.UU. (Florida) → Cuba: entrega de efectivo a domicilio en el occidente de Cuba más depósitos bancarios y a tarjetas. Tarifa publicada: $12 por cada $100. Nota: escrutinio regulatorio acumulado en su historial.'],
+  ['Cubamax','EE.UU. (Florida) → Cuba: entrega de efectivo a domicilio en el occidente de Cuba más depósitos bancarios y a tarjetas. Tarifa reportada: $12 por cada $100 (reporte de prensa citando personal de la empresa). Nota: escrutinio regulatorio acumulado en su historial.'],
   ['Sendvalu','EE.UU. / Canadá / UE → Cuba: entrega de efectivo USD a domicilio en todas las provincias (3–5 días hábiles) más recargas MLC. Referencia 2026: unos $107.65 para entregar $100. Nota: multa histórica de 2021 por AML en Malta en su historial.'],
   ['Fonmoney','UE / Reino Unido / Chile → Cuba: recargas MLC desde €5.50, transferencias bancarias y entrega de efectivo USD a domicilio. No disponible para remitentes en EE.UU.'],
-  ['Correos (España)','España → Cuba: recogida de efectivo CUP en oficinas en unos 20 minutos, más depósitos MLC. Tarifa plana de €5.32 hasta €500. Solo España/UE.']
+  ['Correos (España)','España → Cuba: recogida de efectivo CUP en oficinas en unos 20 minutos, más depósitos MLC. Tarifa plana de €5.32 hasta €500. Solo España/UE.'],
+  ['Íkualo Rem','España (UE) → Cuba: transferencias 100% digitales, tarifa y tipo de cambio visibles antes de confirmar, entrega en 5 días hábiles. Operado por RevoluPAY EP, S.L.U. (Banco de España reg. 6900). Tarifas según cotización.']
 ] as const;
 
 const crypto=[
@@ -107,6 +109,7 @@ export default async function Remittances({params}:{params:Promise<{locale:strin
     <section className="section" id="remittance-providers">
       <div className="sectionHead"><div><span className="eyebrow">{es?'PROVEEDORES DE REMESAS VERIFICADOS':'VERIFIED REMITTANCE PROVIDERS'}</span><h2>{es?'Compara opciones reales antes de decidir.':'Compare real options before deciding.'}</h2></div><p>{es?'Empresas reales con tarifas publicadas en 2026. MY CUBA CASH es una capa independiente de comparación y coordinación: no estamos afiliados a estos proveedores, no recibimos comisión de ellos y las tarifas mostradas son las que cada proveedor publica — verifícalas antes de enviar. Tú pagas al proveedor directamente; nosotros nunca tocamos tu dinero.':'Real companies with rates published in 2026. MY CUBA CASH is an independent comparison and coordination layer: we are not affiliated with these providers, we take no commission from them, and the rates shown are each provider\u2019s published rates — verify them before sending. You pay the provider directly; we never touch your money.'}</p></div>
       <div className="featureGrid">{remitProviders.map(([title,description],i)=><article className="feature" key={title}><div className="icon">P{String(i+1).padStart(2,'0')}</div><h3>{title}</h3><p>{description}</p><div className="featureMeta">{es?'TASA PUBLICADA 2026':'PUBLISHED 2026 RATE'}</div></article>)}</div>
+      <p className="fineprint">{es?'Cómo verificamos: un proveedor solo aparece aquí con identidad legal real (nombre, registro o licencia), tarifa o tipo de cambio publicado por el propio proveedor en 2026 (o cotización visible antes de confirmar), cobertura de pago en Cuba confirmada y un canal de contacto funcional. Si falta uno de los cuatro, queda como candidato en revisión — nunca publicado.':'How we verify: a provider appears here only with real legal identity (name, registration or license), a fee or FX rate published by the provider itself in 2026 (or a quote shown before confirmation), confirmed Cuba payout coverage, and a working contact channel. If any one of the four is missing, it stays as a candidate under review — never published.'}</p>
     </section>
 
     <section className="section" id="delivery">

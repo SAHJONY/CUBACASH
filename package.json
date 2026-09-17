@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "test": "node --import ./tests/hooks-register.mjs --test tests/sofia-intakes.test.mjs"
+    "test": "node --import ./tests/hooks-register.mjs --test tests/sofia-intakes.test.mjs tests/envios-quote.test.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.0",

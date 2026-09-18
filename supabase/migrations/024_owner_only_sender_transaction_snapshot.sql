@@ -144,8 +144,8 @@ $$;
 -- Remove direct customer access to the previous overload so every new customer
 -- remittance must use the sender-snapshot version.
 revoke execute on function public.create_customer_remittance_intent(text,uuid,text,uuid,text,text,text,text,text,numeric,text,text,text) from authenticated;
-revoke all on function public.create_customer_remittance_intent(text,uuid,text,uuid,text,text,text,text,text,numeric,text,text,text,text,text,text,text,text,text,text,text) from public, anon;
-grant execute on function public.create_customer_remittance_intent(text,uuid,text,uuid,text,text,text,text,text,numeric,text,text,text,text,text,text,text,text,text,text,text) to authenticated;
+revoke all on function public.create_customer_remittance_intent(text,uuid,text,uuid,text,text,text,text,text,numeric,text,text,text,text,text,text,text,text,text,text,text,text) from public, anon;
+grant execute on function public.create_customer_remittance_intent(text,uuid,text,uuid,text,text,text,text,text,numeric,text,text,text,text,text,text,text,text,text,text,text,text) to authenticated;
 
 comment on table public.remittance_sender_private is
   'Private per-transaction sender identity/contact snapshot. Readable only by platform_owner through owner command-center surfaces.';

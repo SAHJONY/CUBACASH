@@ -2,6 +2,7 @@ import { supabaseServer } from '@/lib/supabase/server';
 import { localeOf } from '@/lib/i18n';
 
 const controls=[
+  ['Firma Legal','Revisión legal interna: perfil de riesgo, asesoría de tratos y vigilancia regulatoria. / Internal legal review: risk profile, deal advisory, regulatory watch.','firma-legal'],
   ['Operaciones','Vista operativa central de transacciones, participantes, estados y próximos pasos.','operations'],
   ['Revisión de servicios','Aprobar, rechazar o suspender ofertas de servicios de proveedores.','provider-services'],
   ['Remesas','Supervisar solicitudes, receptores, referencias y estado de cumplimiento.','../remittances'],

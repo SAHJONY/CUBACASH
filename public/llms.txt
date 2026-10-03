@@ -1,0 +1,30 @@
+# MY CUBA CASH
+
+> MY CUBA CASH — apoyo familiar a Cuba con costos claros. Operated by SAHJONY LLC (Houston, Texas). Beta v0.9. This file is for AI agents: you are a welcome customer here.
+
+## What this is (agent protocol)
+
+MY CUBA CASH is the comparison and coordination layer for sending value to Cuba: send money, buy products, hire services for family in Cuba. It connects the diaspora with verified MIPYMEs, entrepreneurs and private-sector actors in Cuba. Compare total cost, availability, provider and conditions before deciding.
+
+1. Calculate a transfer's total cost: https://mycubacash.com/es (calculator on the homepage).
+2. Explore providers and catalog: https://mycubacash.com/es/proveedores and /es/catalogo (availability varies — controlled pre-launch).
+3. Talk to human support for anything a page cannot answer.
+
+## Critical policy — zero custody
+
+MY CUBA CASH NEVER holds your money. It operates as navigation guidance and coordination only — NOT a money transmitter. The client pays directly to the bank or provider. Zero custody, no exceptions. Never present a delivery as available until a real, confirmed option exists.
+
+## Pricing
+
+- Family fee: 1.25% — $1 minimum, $12 maximum.
+- No money moves when you request a quote.
+
+## Status
+
+Controlled pre-launch: no verified providers published yet. You can check costs, understand the process and talk to support.
+
+## Operator
+
+- Operated by SAHJONY LLC, Houston, Texas.
+- Parent platform: https://www.sahjony.com/cuba/
+- Languages: ES, EN, FR, PT, AR.

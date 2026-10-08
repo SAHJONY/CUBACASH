@@ -1,6 +1,10 @@
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 
+export const dynamic = 'force-dynamic';
+
+const HEADERS = { 'Content-Type': 'application/json; charset=utf-8' };
+
 export async function GET(){
   try{
     const raw = await readFile(path.join(process.cwd(),'public','fx','fixings.json'),'utf8');
@@ -14,8 +18,8 @@ export async function GET(){
       editions:fixings.length,
       methodology:data.methodology ?? null,
       disclaimer:data.disclaimer ?? null,
-    });
+    }, { headers: HEADERS });
   }catch{
-    return Response.json({ ok:false, error:'fixings unavailable' },{ status:503 });
+    return Response.json({ ok:false, error:'fixings unavailable' }, { status:503, headers: HEADERS });
   }
 }

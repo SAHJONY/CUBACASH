@@ -1,4 +1,5 @@
 import { localeOf } from '@/lib/i18n';
+import { APP_COMMUNICATIONS, whatsappUrl } from '@/lib/communications';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import './tasa.css';
@@ -100,6 +101,30 @@ export default async function TasaPage({params}:{params:Promise<{locale:string}>
     </section> : null}
 
     {latest ? <section className="tasaSection"><Converter rates={latest.rates} currencies={data?.currencies ?? []} es={es}/></section> : null}
+
+    <section className="tasaSection">
+      <div className="tasaSectionHead"><span className="tasaEyebrow">{es?'DE LA TASA A TU CUENTA':'FROM RATE TO ACCOUNT'}</span><h2>{es?'La tasa es gratis. La cuenta te da más.':'The rate is free. The account gives you more.'}</h2><p>{es?'Tres pasos para no volver a buscar la tasa en otro lado.':'Three steps to never look up the rate anywhere else.'}</p></div>
+      <div className="tasaCtaGrid">
+        <a className="tasaCta" style={{'--accent':'linear-gradient(90deg,#25d366,#128c7e)'} as React.CSSProperties} href={whatsappUrl(APP_COMMUNICATIONS.whatsappPrimary.e164, es?'Hola, quiero recibir la tasa de referencia diaria de MY CUBA CASH.':'Hi, I want to receive the MY CUBA CASH daily reference rate.')} target="_blank" rel="noopener">
+          <div className="tasaCtaNum">1</div>
+          <h3>{es?'Recíbela cada mañana':'Get it every morning'}</h3>
+          <p>{es?'Te la mandamos por WhatsApp a las 9 AM, antes de que se mueva el día.':'We send it to your WhatsApp at 9 AM, before the day moves.'}</p>
+          <span className="tasaCtaGo">{es?'Activar alerta →':'Enable alert →'}</span>
+        </a>
+        <a className="tasaCta" style={{'--accent':'linear-gradient(90deg,#d4af37,#f5d67b)'} as React.CSSProperties} href={`/${locale}/start`}>
+          <div className="tasaCtaNum">2</div>
+          <h3>{es?'Crea tu cuenta gratis':'Create your free account'}</h3>
+          <p>{es?'Cotiza envíos, compara proveedores verificados y sigue tus operaciones.':'Quote sends, compare verified providers and track your operations.'}</p>
+          <span className="tasaCtaGo">{es?'Registrarme →':'Sign up →'}</span>
+        </a>
+        <a className="tasaCta" style={{'--accent':'linear-gradient(90deg,#38bdf8,#818cf8)'} as React.CSSProperties} href={`/${locale}/envios`}>
+          <div className="tasaCtaNum">3</div>
+          <h3>{es?'Cotiza tu envío':'Quote your send'}</h3>
+          <p>{es?'Usa la tasa de hoy para estimar tu envío con un proveedor verificado.':'Use today\'s rate to estimate your send with a verified provider.'}</p>
+          <span className="tasaCtaGo">{es?'Cotizar ahora →':'Quote now →'}</span>
+        </a>
+      </div>
+    </section>
 
     {latest?.ai_brief ? <section className="tasaSection"><div className="tasaBrief">
       <span className="tasaEyebrow">{es?'ANÁLISIS DEL DÍA':'MARKET BRIEF'}</span>

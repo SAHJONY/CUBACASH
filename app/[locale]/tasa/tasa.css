@@ -1,0 +1,92 @@
+/* MY CUBA CASH — Tasa Board · ultra premium dark */
+.tasaRoot{background:#04060d;color:#eef1f7;min-height:100vh;font-family:inherit;overflow-x:hidden}
+.tasaRoot a{color:inherit}
+
+/* HERO */
+.tasaHero{position:relative;padding:72px 24px 56px;overflow:hidden;background:
+  radial-gradient(900px 480px at 12% -10%, rgba(212,175,55,.16), transparent 60%),
+  radial-gradient(760px 420px at 88% 8%, rgba(16,185,129,.12), transparent 60%),
+  radial-gradient(600px 600px at 50% 110%, rgba(56,89,199,.14), transparent 60%),
+  #04060d}
+.tasaHero::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:44px 44px;mask-image:radial-gradient(700px 420px at 50% 0%,#000 30%,transparent 75%)}
+.tasaHeroInner{position:relative;z-index:1;max-width:1120px;margin:0 auto;text-align:center}
+.tasaEyebrow{display:inline-block;font-size:.72rem;letter-spacing:.32em;color:#d8b84a;border:1px solid rgba(216,184,74,.35);border-radius:999px;padding:8px 18px;background:rgba(216,184,74,.07)}
+.tasaTitle{font-size:clamp(2rem,5vw,3.6rem);line-height:1.08;margin:22px 0 8px;font-weight:800}
+.tasaTitle .gold{background:linear-gradient(100deg,#f7e08b 10%,#d4af37 45%,#f9efc0 70%,#b8860b 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tasaSub{color:#9aa3b5;max-width:640px;margin:0 auto;font-size:1.02rem}
+.tasaHeadline{margin:34px auto 0;display:inline-flex;align-items:baseline;gap:14px;padding:26px 44px;border-radius:22px;
+  background:linear-gradient(160deg,rgba(255,255,255,.09),rgba(255,255,255,.02));
+  border:1px solid rgba(216,184,74,.35);box-shadow:0 0 60px rgba(212,175,55,.14), inset 0 1px 0 rgba(255,255,255,.12);
+  backdrop-filter:blur(14px)}
+.tasaHeadlineNum{font-size:clamp(3rem,8vw,4.6rem);font-weight:800;background:linear-gradient(100deg,#fff6d8,#e9c860 60%,#fff2c4);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+.tasaHeadlineUnit{font-size:1.2rem;color:#c8cfdb}
+.tasaDelta{font-size:1rem;font-weight:700;padding:6px 14px;border-radius:999px}
+.tasaDelta.down{color:#34d399;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.35)}
+.tasaDelta.up{color:#f87171;background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.35)}
+.tasaDelta.flat{color:#9aa3b5;background:rgba(154,163,181,.12);border:1px solid rgba(154,163,181,.3)}
+.tasaMeta{margin-top:14px;color:#8b93a7;font-size:.85rem;letter-spacing:.06em}
+
+/* BOARD */
+.tasaSection{max-width:1120px;margin:0 auto;padding:40px 24px}
+.tasaSectionHead{margin-bottom:22px}
+.tasaSectionHead .tasaEyebrow{margin-bottom:12px}
+.tasaSectionHead h2{font-size:clamp(1.5rem,3.4vw,2.2rem);margin:0 0 6px}
+.tasaSectionHead p{color:#9aa3b5;margin:0}
+.tasaGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.tasaCard{position:relative;border-radius:20px;padding:22px;overflow:hidden;
+  background:linear-gradient(165deg,rgba(255,255,255,.08),rgba(255,255,255,.015));
+  border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(12px);
+  transition:transform .25s ease, box-shadow .25s ease}
+.tasaCard:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(0,0,0,.5),0 0 0 1px rgba(216,184,74,.25)}
+.tasaCard::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent,linear-gradient(90deg,#d4af37,#f5d67b))}
+.tasaCard .code{font-size:.72rem;letter-spacing:.24em;color:#8b93a7}
+.tasaCard .val{font-size:2.1rem;font-weight:800;margin:8px 0 2px}
+.tasaCard .val small{font-size:.95rem;font-weight:400;color:#8b93a7}
+.tasaCard .cname{color:#aab2c5;font-size:.92rem;margin:0 0 10px}
+.tasaCardRow{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.tasaSpark{opacity:.9}
+
+/* CONVERTER */
+.tasaConverter{border-radius:24px;padding:30px;position:relative;overflow:hidden;
+  background:linear-gradient(150deg,rgba(212,175,55,.1),rgba(16,185,129,.06) 55%,rgba(56,89,199,.08));
+  border:1px solid rgba(216,184,74,.3);box-shadow:0 0 80px rgba(212,175,55,.08)}
+.tasaConvRow{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+.tasaField{flex:1;min-width:160px;display:flex;flex-direction:column;gap:6px}
+.tasaField label{font-size:.72rem;letter-spacing:.2em;color:#9aa3b5}
+.tasaField input,.tasaField select{background:rgba(4,6,13,.65);border:1px solid rgba(255,255,255,.14);color:#fff;border-radius:12px;padding:13px 14px;font-size:1.05rem;outline:none}
+.tasaField input:focus,.tasaField select:focus{border-color:rgba(216,184,74,.6)}
+.tasaConvResult{margin-top:18px;font-size:1.6rem;font-weight:800}
+.tasaConvResult .gold{background:linear-gradient(100deg,#f7e08b,#d4af37);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tasaConvNote{color:#8b93a7;font-size:.85rem;margin-top:8px}
+
+/* AI BRIEF */
+.tasaBrief{border-radius:24px;padding:30px;position:relative;overflow:hidden;
+  background:linear-gradient(150deg,rgba(56,89,199,.14),rgba(4,6,13,.4));
+  border:1px solid rgba(120,150,255,.28)}
+.tasaBrief::before{content:"✦";position:absolute;top:18px;right:24px;font-size:2rem;color:rgba(216,184,74,.5)}
+.tasaBrief p{font-size:1.08rem;line-height:1.75;color:#dfe4ee;margin:12px 0 0;max-width:820px}
+.tasaBrief .tasaEyebrow{border-color:rgba(120,150,255,.4);color:#aebfff;background:rgba(120,150,255,.08)}
+
+/* RULES */
+.tasaRules{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:18px}
+.tasaRule{border-radius:18px;padding:22px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09)}
+.tasaRule .n{font-size:.72rem;letter-spacing:.24em;color:#d8b84a}
+.tasaRule p{color:#c3cad8;line-height:1.65;margin:10px 0 0}
+
+/* HISTORY */
+.tasaHist{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.tasaHistCard{border-radius:16px;padding:18px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08)}
+.tasaHistCard .e{font-size:.7rem;letter-spacing:.22em;color:#8b93a7}
+.tasaHistCard .v{font-size:1.7rem;font-weight:800;margin:6px 0}
+.tasaHistCard p{color:#9aa3b5;font-size:.85rem;margin:0}
+
+/* API + DISCLAIMER */
+.tasaApi{border-radius:18px;padding:22px;background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.25)}
+.tasaApi code{background:#04060d;border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:4px 10px;color:#7df0c0}
+.tasaDisclaimer{border-radius:18px;padding:22px;background:rgba(248,113,113,.05);border:1px solid rgba(248,113,113,.22);color:#c3cad8}
+.tasaDisclaimer h3{margin:0 0 8px;color:#f3f4f6}
+.tasaFooter{max-width:1120px;margin:0 auto;padding:26px 24px 60px;color:#6b7280;font-size:.85rem;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.tasaFooter a{color:#9aa3b5;text-decoration:none;margin-right:14px}
+@media(max-width:640px){.tasaHero{padding:52px 18px 40px}.tasaHeadline{padding:20px 26px}.tasaSection{padding:30px 18px}}

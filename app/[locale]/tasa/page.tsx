@@ -126,7 +126,7 @@ export default async function TasaPage({params}:{params:Promise<{locale:string}>
 
     <section className="tasaSection"><div className="tasaApi">
       <span className="tasaEyebrow">{es?'PARA MEDIOS Y SITIOS':'FOR MEDIA & SITES'}</span>
-      <p style={{margin:'12px 0 0'}}>{es?'Cada sitio que cite esta pizarra nos convierte en el estándar. Datos abiertos:':'Every site quoting this board makes us the standard. Open data:'} <code>https://mycubacash.com/api/fx</code></p>
+      <p style={{margin:'12px 0 0'}}>{es?'Cada sitio que cite esta pizarra nos convierte en el estándar. Datos abiertos:':'Every site quoting this board makes us the standard. Open data:'} <a href={`/${locale}/tasa/api`} style={{color:'#7df0c0'}}><code>https://mycubacash.com/api/fx</code></a> {es?'— tócalo para verlo con colores.':'— tap for the colorized view.'}</p>
     </div></section>
 
     <section className="tasaSection"><div className="tasaDisclaimer">

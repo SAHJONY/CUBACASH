@@ -279,6 +279,88 @@
       ],
       "ai_brief": "El dólar retoma el alza y sube 5 pesos hasta 775 CUP, acercándose otra vez a la barrera de los 800, mientras el euro se mantiene quieto en 870. La MLC corrige a la baja 14 pesos hasta 514,45 tras el salto del jueves; el canadiense, Zelle y el peso mexicano apenas se mueven. La gran historia del día es la tarjeta Clásica: tras su desplome de ayer, rebota con fuerza hasta 646,70 CUP y recupera la zona de inicios de semana — un instrumento extremadamente volátil que sigue castigando a quien lo transa en la calle.",
       "notes": "Edición No. 3: el dólar vuelve a subir; la MLC corrige a la baja; la Clásica rebota con fuerza tras el desplome del 9-oct (movimiento confirmado por segunda fuente independiente). Sin tasas ejecutadas de proveedores ni reportes callejeros de agentes — fixing sobre la actualización matutina de elTOQUE."
+    },
+    {
+      "edition": 4,
+      "date": "2026-10-11",
+      "published_at": "2026-10-11T13:12:22Z",
+      "rates": [
+        {
+          "code": "USD",
+          "value": 780
+        },
+        {
+          "code": "EUR",
+          "value": 880
+        },
+        {
+          "code": "MLC",
+          "value": 517.22
+        },
+        {
+          "code": "CAD",
+          "value": 499.27
+        },
+        {
+          "code": "MXN",
+          "value": 51.71
+        },
+        {
+          "code": "ZELLE",
+          "value": 756.05
+        },
+        {
+          "code": "CLA",
+          "value": 574.19
+        }
+      ],
+      "previous": {
+        "date": "2026-10-10",
+        "rates": [
+          {
+            "code": "USD",
+            "value": 775
+          },
+          {
+            "code": "EUR",
+            "value": 870
+          },
+          {
+            "code": "MLC",
+            "value": 514.45
+          },
+          {
+            "code": "CAD",
+            "value": 492.37
+          },
+          {
+            "code": "MXN",
+            "value": 51.75
+          },
+          {
+            "code": "ZELLE",
+            "value": 755.04
+          },
+          {
+            "code": "CLA",
+            "value": 646.7
+          }
+        ]
+      },
+      "inputs": [
+        {
+          "source": "elTOQUE — actualización matutina del mercado informal (11-oct-2026), vía crónica de directoriocubano.info",
+          "as_of": "2026-10-11",
+          "role": "primary"
+        },
+        {
+          "source": "cubadivisas.com — monitor del mercado informal, actualización 11-oct-2026 6:30 a.m. (hora de Cuba)",
+          "as_of": "2026-10-11",
+          "role": "secondary"
+        }
+      ],
+      "ai_brief": "El dólar sube 5 pesos hasta 780 CUP y el euro avanza 10 hasta 880, con el peso cubano perdiendo terreno frente a las principales divisas este domingo. La MLC, el dólar canadiense y Zelle acompañan el alza con movimientos moderados, mientras el peso mexicano apenas retrocede. La historia del día vuelve a ser la tarjeta Clásica: se desploma 72,51 pesos hasta 574,19 CUP, un instrumento que sigue mostrando una volatilidad extrema de un día para otro. Con el dólar a solo 20 pesos de los 800, la presión sobre el CUP se mantiene intacta.",
+      "notes": "Edición No. 4: el dólar sube a 780, el euro a 880; la Clásica cae -11,2 % hasta 574,19 (movimiento confirmado por segunda fuente independiente, cubadivisas.com). Sin tasas ejecutadas de proveedores ni reportes callejeros de agentes — fixing sobre la actualización matutina de elTOQUE."
     }
   ],
   "methodology": "La tasa de referencia MY CUBA CASH se construye cada mañana a partir de múltiples fuentes verificadas del mercado cambiario cubano. El modelo de cálculo es propietario; lo que publicamos —el número, sus fuentes y el archivo histórico completo— es auditable por cualquiera.",

@@ -361,6 +361,93 @@
       ],
       "ai_brief": "El dólar sube 5 pesos hasta 780 CUP y el euro avanza 10 hasta 880, con el peso cubano perdiendo terreno frente a las principales divisas este domingo. La MLC, el dólar canadiense y Zelle acompañan el alza con movimientos moderados, mientras el peso mexicano apenas retrocede. La historia del día vuelve a ser la tarjeta Clásica: se desploma 72,51 pesos hasta 574,19 CUP, un instrumento que sigue mostrando una volatilidad extrema de un día para otro. Con el dólar a solo 20 pesos de los 800, la presión sobre el CUP se mantiene intacta.",
       "notes": "Edición No. 4: el dólar sube a 780, el euro a 880; la Clásica cae -11,2 % hasta 574,19 (movimiento confirmado por segunda fuente independiente, cubadivisas.com). Sin tasas ejecutadas de proveedores ni reportes callejeros de agentes — fixing sobre la actualización matutina de elTOQUE."
+    },
+    {
+      "edition": 5,
+      "date": "2026-10-12",
+      "published_at": "2026-10-12T13:18:19Z",
+      "rates": [
+        {
+          "code": "USD",
+          "value": 785
+        },
+        {
+          "code": "EUR",
+          "value": 885
+        },
+        {
+          "code": "MLC",
+          "value": 508.61
+        },
+        {
+          "code": "CAD",
+          "value": 504.45
+        },
+        {
+          "code": "MXN",
+          "value": 51.68
+        },
+        {
+          "code": "ZELLE",
+          "value": 758.14
+        },
+        {
+          "code": "CLA",
+          "value": 589.59
+        }
+      ],
+      "previous": {
+        "date": "2026-10-11",
+        "rates": [
+          {
+            "code": "USD",
+            "value": 780
+          },
+          {
+            "code": "EUR",
+            "value": 880
+          },
+          {
+            "code": "MLC",
+            "value": 517.22
+          },
+          {
+            "code": "CAD",
+            "value": 499.27
+          },
+          {
+            "code": "MXN",
+            "value": 51.71
+          },
+          {
+            "code": "ZELLE",
+            "value": 756.05
+          },
+          {
+            "code": "CLA",
+            "value": 574.19
+          }
+        ]
+      },
+      "inputs": [
+        {
+          "source": "elTOQUE — actualización matutina del mercado informal (12-oct-2026), vía crónica de directoriocubano.info",
+          "as_of": "2026-10-12",
+          "role": "primary"
+        },
+        {
+          "source": "elTOQUE — valores en tiempo real del monitor informal (12-oct-2026, 06:46 y 07:56 a. m.)",
+          "as_of": "2026-10-12",
+          "role": "secondary"
+        },
+        {
+          "source": "cubadivisas.com — monitor del mercado informal, actualización 12-oct-2026 7:00 a.m. (hora de Cuba)",
+          "as_of": "2026-10-12",
+          "role": "secondary"
+        }
+      ],
+      "ai_brief": "El dólar y el euro avanzan cinco pesos cada uno hasta 785 y 885 CUP: el dólar queda a solo 15 pesos de la barrera de los 800 y el euro, a 15 de los 900. La MLC retrocede 8,61 pesos hasta 508,61, mientras el dólar canadiense y Zelle suben con moderación y el peso mexicano apenas se mueve. La tarjeta Clásica se recupera 15,40 pesos hasta 589,59 CUP, aunque su volatilidad diaria sigue siendo la historia más ruidosa de la pizarra.",
+      "notes": "Edición No. 5: el dólar sube a 785, el euro a 880 → 885; la MLC corrige a 508,61. La crónica matutina mostró una lectura atípica para la Clásica (333,05 CUP), descartada como valor atípico: el dato en tiempo real de elTOQUE (589,62–624,44) y cubadivisas.com (589,56) convergieron en la zona de 589–590; fixing por mediana de entradas. Sin tasas ejecutadas de proveedores ni reportes callejeros de agentes — fixing sobre la actualización matutina de elTOQUE."
     }
   ],
   "methodology": "La tasa de referencia MY CUBA CASH se construye cada mañana a partir de múltiples fuentes verificadas del mercado cambiario cubano. El modelo de cálculo es propietario; lo que publicamos —el número, sus fuentes y el archivo histórico completo— es auditable por cualquiera.",

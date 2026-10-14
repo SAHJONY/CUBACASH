@@ -448,6 +448,93 @@
       ],
       "ai_brief": "El dólar y el euro avanzan cinco pesos cada uno hasta 785 y 885 CUP: el dólar queda a solo 15 pesos de la barrera de los 800 y el euro, a 15 de los 900. La MLC retrocede 8,61 pesos hasta 508,61, mientras el dólar canadiense y Zelle suben con moderación y el peso mexicano apenas se mueve. La tarjeta Clásica se recupera 15,40 pesos hasta 589,59 CUP, aunque su volatilidad diaria sigue siendo la historia más ruidosa de la pizarra.",
       "notes": "Edición No. 5: el dólar sube a 785, el euro a 880 → 885; la MLC corrige a 508,61. La crónica matutina mostró una lectura atípica para la Clásica (333,05 CUP), descartada como valor atípico: el dato en tiempo real de elTOQUE (589,62–624,44) y cubadivisas.com (589,56) convergieron en la zona de 589–590; fixing por mediana de entradas. Sin tasas ejecutadas de proveedores ni reportes callejeros de agentes — fixing sobre la actualización matutina de elTOQUE."
+    },
+    {
+      "edition": 6,
+      "date": "2026-10-13",
+      "published_at": "2026-10-14T05:47:00Z",
+      "rates": [
+        {
+          "code": "USD",
+          "value": 785
+        },
+        {
+          "code": "EUR",
+          "value": 885
+        },
+        {
+          "code": "MLC",
+          "value": 509.31
+        },
+        {
+          "code": "CAD",
+          "value": 510.72
+        },
+        {
+          "code": "MXN",
+          "value": 51.74
+        },
+        {
+          "code": "ZELLE",
+          "value": 760.64
+        },
+        {
+          "code": "CLA",
+          "value": 583.11
+        }
+      ],
+      "previous": {
+        "date": "2026-10-12",
+        "rates": [
+          {
+            "code": "USD",
+            "value": 785
+          },
+          {
+            "code": "EUR",
+            "value": 885
+          },
+          {
+            "code": "MLC",
+            "value": 508.61
+          },
+          {
+            "code": "CAD",
+            "value": 504.45
+          },
+          {
+            "code": "MXN",
+            "value": 51.68
+          },
+          {
+            "code": "ZELLE",
+            "value": 758.14
+          },
+          {
+            "code": "CLA",
+            "value": 589.59
+          }
+        ]
+      },
+      "inputs": [
+        {
+          "source": "elTOQUE — actualización matutina del mercado informal (13-oct-2026)",
+          "as_of": "2026-10-13",
+          "role": "primary"
+        },
+        {
+          "source": "directoriocubano.com — referencia de tasas informales, última referencia 13 de octubre de 2026 (confirmación de USD, EUR y MLC)",
+          "as_of": "2026-10-13",
+          "role": "secondary"
+        },
+        {
+          "source": "cubadivisas.com — monitor del mercado informal, actualizaciones 13-oct-2026 8:00 y 9:01 a. m. (hora de Cuba)",
+          "as_of": "2026-10-13",
+          "role": "secondary"
+        }
+      ],
+      "ai_brief": "El dólar y el euro repiten en 785 y 885 CUP y el mercado respira tras la escalada de la semana pasada. El dólar canadiense avanza 6,27 pesos hasta 510,72, mientras la MLC, el peso mexicano y Zelle suben de forma leve. La tarjeta Clásica cede 6,48 pesos hasta 583,11 y sigue siendo el instrumento más inestable de la pizarra: quien la negocia sin mirar la tasa del día queda expuesto a sus saltos.",
+      "notes": "Edición No. 6: dólar y euro sin cambios; el canadiense lidera el alza. La lectura matutina de la Clásica volvió a salir atípica (333,09 CUP), el mismo valor anómalo de la edición No. 5, y se descartó como valor atípico; cubadivisas.com la mantuvo estable en 583–588 CUP. Publicada por instrucción directa de Juan tras la pausa de la válvula de seguridad. Sin tasas ejecutadas de proveedores ni reportes callejeros de agentes — fixing sobre la actualización matutina de elTOQUE."
     }
   ],
   "methodology": "La tasa de referencia MY CUBA CASH se construye cada mañana a partir de múltiples fuentes verificadas del mercado cambiario cubano. El modelo de cálculo es propietario; lo que publicamos —el número, sus fuentes y el archivo histórico completo— es auditable por cualquiera.",
